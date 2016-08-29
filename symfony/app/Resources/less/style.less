@@ -1,0 +1,69 @@
+body {
+  font-family: sans-serif;
+}
+
+nav {
+  > * {
+    display: inline-block;
+  }
+}
+
+.game-list {
+
+  clear: both;
+
+  h2 {
+    font-size: 1.2em;
+    margin: 0.2em;
+  }
+
+  h3 {
+    font-size: 1.1em;
+    margin: 0.2em;
+  }
+
+  a {
+    color: black;
+  }
+
+  a:hover h2,
+  a:hover h3 {
+    text-decoration: underline;
+  }
+
+  div.game {
+    float: left;
+    margin-right: 2em;
+    margin-bottom: 2em;
+
+    .board {
+      float: none;
+      width: 16em;
+      height: 16em;
+
+      .field {
+        font-size: 2em;
+      }
+    }
+  }
+}
+
+.vs-list {
+
+  li {
+    display: inline-block;
+    margin-right: 0.5em;
+
+    a {
+      color: black;
+    }
+
+  }
+}
+
+.pgn {
+  .info dt {
+    width: 4em;
+    float: left;
+  }
+}

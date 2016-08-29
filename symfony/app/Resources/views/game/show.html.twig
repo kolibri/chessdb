@@ -1,5 +1,13 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    {{ pgn(game) }}
+
+    <h2>
+        <a href="{{ path('app_player_show', {'id': game.white.uuid}) }}">{{ game.white.name }}</a>
+        vs.
+        <a href="{{ path('app_player_show', {'id': game.black.uuid}) }}">{{ game.black.name }}</a></h2>
+
+    {{ pgn(game, {
+        'headers': 'Event,Site,Date,Result'
+    }) }}
 {% endblock %}

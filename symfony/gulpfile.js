@@ -5,7 +5,7 @@ var concat = require('gulp-concat');
 
 var paths = {
   scripts: ['./node_modules/chessboard/*.js', './node_modules/chess.js/chess.min.js'],
-  styles: ['./app/resources/less/**/*.less', './node_modules/chessboard/*.less'],
+  styles: ['./node_modules/chessboard/*.less', './app/Resources/less/**/*.less'],
   //images: ['resources/img/*.svg', './chessboard/*.svg']
 };
 

@@ -43,9 +43,15 @@ class ChessExtension extends \Twig_Extension
         );
     }
 
-    public function renderGame(Game $game)
+    public function renderGame(Game $game, array $options = [])
     {
-        return sprintf('<div class="%s">%s</div>', $this->pgnClass, $game->getPgn());
+        $dataString = '';
+
+        foreach ($options as $option => $value) {
+            $dataString .= sprintf(' data-%s="%s"', $option, $value);
+        }
+
+        return sprintf('<div class="%s"%s>%s</div>', $this->pgnClass, $dataString, $game->getPgn());
     }
 
     public function getName()

@@ -1,27 +1,32 @@
 {% macro list(games, label) %}
-    <h3>{{ label|title }} ({{ games|length }})</h3>
-    <ul>
+    <div class="game-list">
+        <h2>{{ label|title }} ({{ games|length }})</h2>
         {% for game in games %}
-            <li>
-                <a href="{{ path('app_game_show', {'id': game.uuid}) }}">
-                    {{ game|gameTitle }}</a>
-                {#{{ pgn(game) }}#}
-            </li>
+            <a href="{{ path('app_game_show', {'id': game.uuid}) }}">
+                <div class="game">
+                    <h3>{{ game|gameTitle }}</h3>
+                    {{ pgn(game, {
+                        'show-moves': 'false',
+                        'show-header': 'false',
+                        'show-buttons': 'false'
+                    }) }}
+                </div>
+            </a>
         {% else %}
             <p>No {{ label }} games</p>
         {% endfor %}
-    </ul>
+    </div>
 {% endmacro %}
 
 
 {% macro vsList(player, players) %}
-    <ul>
-    {% for vsPlayer in players %}
-        <li>
-            <a href="{{ path('app_player_versus', {'player1Id': player.uuid, 'player2Id': vsPlayer.uuid}) }}">
-                {{ vsPlayer.name }}
-            </a>
-        </li>
-    {% endfor %}
+    <ul class="vs-list">
+        {% for vsPlayer in players %}
+            <li>
+                <a href="{{ path('app_player_versus', {'player1Id': player.uuid, 'player2Id': vsPlayer.uuid}) }}">
+                    {{ vsPlayer.name }}
+                </a>
+            </li>
+        {% endfor %}
     </ul>
 {% endmacro %}

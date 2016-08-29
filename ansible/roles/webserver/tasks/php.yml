@@ -17,6 +17,7 @@
     - php-gd
     - php-intl
     - php-xml
+    - php-zip
 
 - name: php.ini settings
   lineinfile: 
