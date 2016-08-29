@@ -29,7 +29,7 @@ import-local-fixtures:
 	./bin/console pgn:import:files app/Resources/fixtures/pgns --env=$(ENV)
 
 tarball:
-	tar -czf ../chessdb.tar.gz .
+	tar -czf ../chessdb.tar.gz . --exclude ./reports --exclude ./node_modules --exclude ./var
 
 ## Local QA targets
 
