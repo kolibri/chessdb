@@ -68,7 +68,7 @@
       vhost_template: simple
       hostname: "{{ ansible_hostname }}.foo"
       project_dir: /var/www/chessdb
-      relative_doc_root: web
+      relative_doc_root: current/web
       front_controller: app.php
       var_dir: /dev/shm/var
       mysql_user:

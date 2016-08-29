@@ -12,7 +12,7 @@
   "author": "Lukas Sadzik <entengelb@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "chessboard": "0.0.2"
+    "chessboard": "*"
   },
   "devDependencies": {
     "gulp": "^3.9.1",
