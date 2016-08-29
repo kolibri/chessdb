@@ -75,7 +75,18 @@ node {
     }
     
     dir('ansible') {
-        stage 'deploy'
+        stage 'deploy-stage'
             sh 'make BRANCH=$BRANCH_NAME deploy-branch'
+    }
+}
+
+timeout(time:30, unit:'MINUTES') {
+    input message:'Deploy to live?'
+}
+
+node {
+    dir('ansible') {
+        stage 'deploy-live'
+            sh 'make deploy'
     }
 }

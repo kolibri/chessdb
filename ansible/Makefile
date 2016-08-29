@@ -1,5 +1,5 @@
 deploy:
-	ansible-playbook deploy.yml
+	ansible-playbook deploy.yml -e project_sub_path=""
 
 deploy-branch:
 	ansible-playbook deploy.yml -e project_sub_path=$(BRANCH)
