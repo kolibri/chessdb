@@ -1,0 +1,25 @@
+---
+- name: add php ppa
+  apt_repository: 
+    repo: "ppa:ondrej/php"
+
+- name: install packages
+  apt: 
+    name: "{{ item }}"
+    state: latest
+    update_cache: yes
+  with_items:
+    - acl
+    - curl
+    - php
+    - php-cli
+    - php-curl
+    - php-gd
+    - php-intl
+    - php-xml
+
+- name: php.ini settings
+  lineinfile: 
+    dest: /etc/php/7.0/cli/php.ini
+    line: "{{ item }}"
+  with_items: "{{ webserver.php_ini }}"

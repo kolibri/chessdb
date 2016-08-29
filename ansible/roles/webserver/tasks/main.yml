@@ -1,0 +1,19 @@
+---
+- include_vars: "{{ webserver_env }}.yml"
+
+- include: php.yml
+
+- include: nginx.yml
+  when: webserver.nginx
+
+- include: nodejs.yml
+  when: webserver.nodejs
+
+- include: mysql.yml
+  when: webserver.mysql
+
+- include: app.yml
+  when: webserver.app
+
+- include: tools.yml
+  when: webserver.tools

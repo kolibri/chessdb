@@ -1,0 +1,55 @@
+# Learn more about services, parameters and containers at
+# http://symfony.com/doc/current/book/service_container.html
+parameters:
+#    parameter_name: value
+
+services:
+    app.adapter.chess_adapter:
+        class: AppBundle\Adapter\ChessAdapter
+        arguments: ['@chessphp.chess']
+
+    app.importer.pgn_string_importer:
+        class: AppBundle\Import\PgnStringToGameImporter
+        arguments:
+             - '@app.adapter.chess_adapter'
+             - '@app.repository.player'
+
+
+    app.import.pgn_files_importer:
+        class: AppBundle\Import\PgnFilesImporter
+        arguments:
+            - '@app.importer.pgn_string_importer'
+            - '@doctrine.orm.entity_manager'
+            - '@finder'
+
+    app.repository.player:
+        class: AppBundle\Entity\PlayerRepository
+        factory: ['@doctrine', getRepository]
+        arguments: [AppBundle\Entity\Player]
+
+    app.twig.chess_extension:
+        class: AppBundle\Twig\ChessExtension
+        arguments: ['pgn']
+        tags:
+            - { name: twig.extension }
+
+    app.import.drop_box_importer:
+        class: AppBundle\Import\DropBoxImporter
+        arguments:
+            - '@app.importer.pgn_string_importer'
+            - '@doctrine.orm.entity_manager'
+            - '@dropbox.client'
+            - '/imported'
+            - '/tmp/dropboxtmp'
+
+    dropbox.client:
+        class: Dropbox\Client
+        arguments:
+            - '%dropbox_api_key%'
+            - '%dropbox_app_name%'
+
+    chessphp.chess:
+        class: Ryanhs\Chess\Chess
+
+    finder:
+        class: Symfony\Component\Finder\Finder

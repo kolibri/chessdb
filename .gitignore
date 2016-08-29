@@ -1,0 +1,4 @@
+.vagrant/
+ansible/galaxy_roles/
+chessdb.tar.gz
+config.yml

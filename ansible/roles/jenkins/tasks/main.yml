@@ -1,0 +1,88 @@
+---
+- name: install php phar qa tools
+  become: true
+  get_url:
+    url: "{{ item.value }}"
+    dest: "/usr/local/bin/{{ item.key }}"
+    mode: 0755
+  with_dict:
+    #deprecation-detector: https://github.com/sensiolabs-de/deprecation-detector/releases/download/0.1.0-alpha4/deprecation-detector.phar
+    #pdepend: http://static.pdepend.org/php/latest/pdepend.phar
+    deptrac: http://get.sensiolabs.de/deptrac.phar
+    insight: http://get.insight.sensiolabs.com/insight.phar
+    phpcbf: https://squizlabs.github.io/PHP_CodeSniffer/phpcbf.phar
+    phpcpd: https://phar.phpunit.de/phpcpd.phar
+    phpcs: https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar
+    phpmd: http://static.phpmd.org/php/latest/phpmd.phar
+    security-checker: http://get.sensiolabs.org/security-checker.phar
+
+- block:
+  become: true
+  become_user: "{{ config_owner }}"
+  - name: ensure insight config dir
+    become: true
+    become_user: jenkins
+    file:
+      path: /var/lib/jenkins/.sensiolabs
+      state: directory     
+
+  - name: place insight config
+    become: true
+    become_user: jenkins
+    template:
+      dest: /var/lib/jenkins/.sensiolabs/insight.json
+      src: insight.json.j2
+    when: (insight.user_uuid is defined) and
+          (insight.api_token is defined) and 
+          (insight.api_endpoint is defined)
+
+#- name: add jenkins base template
+#  become: true
+#  become_user: jenkins
+#  copy:
+#    src: ../jenkins_template.xml
+#    dest: /var/lib/jenkins/jobs/template/config.xml
+
+#- name: add blackfire apt key
+#  become: true
+#  apt_key:
+#    url:  https://packagecloud.io/gpg.key
+#    state: present
+#- name: add blackfire dep
+#  become: true
+#  apt_repository:
+#    repo: "deb http://packages.blackfire.io/debian any main"
+#    state: present
+#- name: install blackfire packages
+#  become: true
+#  apt:
+#    name: "{{ item }}"
+#    state: latest
+#  with_items:
+#    - blackfire-agent
+#    - blackfire-php
+#- name: blackfire cli tool config for jenkins
+#  become: true
+#  ini_file:
+#    dest: /etc/blackfire/agent
+#    section: blackfire
+#    option: "{{ item.key }}"
+#    value: "{{ item.value }}"
+#  with_dict: "{{ blackfire.agent }}"
+#  notify:
+#    - restart blackfire-agent
+#- name: blackfire cli tool config for jenkins
+#  become: true
+#  become_user: jenkins
+#  ini_file:
+#    dest: /var/lib/jenkins/.blackfire.ini
+#    section: blackfire
+#    option: "{{ item.key }}"
+#    value: "{{ item.value }}"
+#  with_dict: "{{ blackfire.cli }}"
+#- name: ensure blackfire running and loaded
+#  become: true
+#  service:
+#    name: blackfire-agent
+#    state: started
+#    enabled: true

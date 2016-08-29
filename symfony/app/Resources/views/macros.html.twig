@@ -1,0 +1,27 @@
+{% macro list(games, label) %}
+    <h3>{{ label|title }} ({{ games|length }})</h3>
+    <ul>
+        {% for game in games %}
+            <li>
+                <a href="{{ path('app_game_show', {'id': game.uuid}) }}">
+                    {{ game|gameTitle }}</a>
+                {#{{ pgn(game) }}#}
+            </li>
+        {% else %}
+            <p>No {{ label }} games</p>
+        {% endfor %}
+    </ul>
+{% endmacro %}
+
+
+{% macro vsList(player, players) %}
+    <ul>
+    {% for vsPlayer in players %}
+        <li>
+            <a href="{{ path('app_player_versus', {'player1Id': player.uuid, 'player2Id': vsPlayer.uuid}) }}">
+                {{ vsPlayer.name }}
+            </a>
+        </li>
+    {% endfor %}
+    </ul>
+{% endmacro %}

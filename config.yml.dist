@@ -1,0 +1,4 @@
+insight:
+  user_uuid: <your insight uuid here>
+  api_token: <your insight token here>
+  api_endpoint: "https://insight.sensiolabs.com"

@@ -1,0 +1,15 @@
+---
+- name: install mysql packages
+  apt: name={{ item }}
+  with_items:
+    - php-mysql
+    - mysql-server
+    - mysql-client
+    - python-mysqldb
+
+
+- name: add mysql user
+  mysql_user:
+    name: "{{ webserver.mysql_user.name }}"
+    password: "{{ webserver.mysql_user.pass }}"
+    priv: "{{ webserver.mysql_user.priv }}"

@@ -1,0 +1,10 @@
+[Event "AI Factory's Chess"]
+[Site "Android Device"]
+[Date "2016.08.22"]
+[Round "1"]
+[White "Spieler 1"]
+[Black "Spieler 2"]
+[PlyCount "5"]
+[Result "1-0"]
+
+1. e4 g5 2. Ba6 f5 3. Qh5#  1-0

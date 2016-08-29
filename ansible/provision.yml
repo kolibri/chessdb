@@ -1,0 +1,62 @@
+---
+- hosts: dev
+  vars_files:
+    - "../config.yml"
+  vars:
+    webserver_env: dev
+    webserver:
+      vhost_template: simple
+      hostname: "{{ ansible_hostname }}"
+      project_dir: "/srv/share"
+      relative_doc_root: "symfony/web"
+
+      front_controller: app_dev.php
+      var_dir: /dev/shm/var
+      mysql_user:
+        name: chessdb
+        pass: chessdb
+        priv: "*.*:ALL"
+
+  roles:
+    - role: webserver
+      become: true
+
+- hosts: jenkins
+  vars_files:
+    - "../config.yml"
+  vars:
+    webserver_env: ci
+    jenkins_plugins:
+      - checkstyle 
+      - clover
+      - dry 
+      - git
+      - greenballs
+      - htmlpublisher 
+      - pmd
+      - workflow-aggregator 
+
+  roles:
+    - role: geerlingguy.jenkins
+      become: true
+    - role: webserver
+      become: true
+#    - role: jenkins
+
+- hosts: stage
+  vars:
+    webserver_env: stage
+    webserver:
+      vhost_template: multibranch
+      hostname: "{{ ansible_hostname }}.foo"
+      project_dir: /var/www/chessdb
+      relative_doc_root: current/web
+      front_controller: app.php
+      var_dir: /dev/shm/var
+      mysql_user:
+        name: chessdb
+        pass: chessdb
+        priv: "*.*:ALL"
+  roles:
+    - role: webserver
+      become: true

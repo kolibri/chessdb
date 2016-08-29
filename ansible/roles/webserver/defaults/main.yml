@@ -1,0 +1,13 @@
+---
+webserver_env: dev
+webserver:
+  vhost_template: simple
+  hostname: "{{ ansible_hostname }}"
+  project_dir: /var/www/project
+  relative_doc_root: web
+  front_controller: app_dev.php
+  var_dir: /dev/shm/var
+  mysql_user:
+    name: symfony
+    pass: symfony
+    priv: "*.*:ALL"

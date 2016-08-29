@@ -1,0 +1,12 @@
+---
+- name: install node packages
+  apt: name={{ item }}
+  with_items:
+    - nodejs
+    - npm
+
+- name: link nodejs to node
+  file:
+    src: /usr/bin/nodejs
+    dest: /usr/bin/node
+    state: link

@@ -1,0 +1,27 @@
+---
+- name: disable apache service, because it comes with the ppa from Ondrej o_O. 
+  service: 
+    name: apache2
+    state: stopped
+    enabled: false
+
+- name: install nginx
+  apt: name={{ item }} 
+  with_items:
+    - nginx
+    - php-fpm
+
+- name: install vhost template
+  template: 
+    src: "nginx_vhost_{{ webserver.vhost_template }}.j2"
+    dest: /etc/nginx/sites-available/default
+  notify:
+    - restart nginx
+
+- name: php.ini settings
+  lineinfile: 
+    dest: /etc/php/7.0/fpm/php.ini
+    line: "{{ item }}"
+  with_items: "{{ webserver.php_ini }}"
+  notify:
+    - restart nginx

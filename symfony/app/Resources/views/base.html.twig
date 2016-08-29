@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}chessdb{% endblock %}</title>
+        {% block stylesheets %}
+            <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+        {% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    </head>
+    <body>
+        <h1>Chess Database</h1>
+
+        <nav>
+            <a href="{{ path('app_game_list') }}">Gamelist</a>
+            <a href="{{ path('app_player_list') }}">Players</a>
+            {{ render(controller('AppBundle:Player:versusFormFragment')) }}
+        </nav>
+
+        {% block body %}{% endblock %}
+        {% block javascripts %}
+            <script src=" {{ asset('js/chess.min.js') }}" type="text/javascript"></script>
+            <script src=" {{ asset('js/chessboard.js') }}" type="text/javascript"></script>
+        {% endblock %}
+    </body>
+</html>
