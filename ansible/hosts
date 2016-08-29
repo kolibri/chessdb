@@ -1,3 +1,4 @@
 dev      ansible_ssh_host=192.168.31.95 ansible_ssh_pass=vagrant
 jenkins  ansible_ssh_host=192.168.31.96 ansible_ssh_pass=vagrant
 stage    ansible_ssh_host=192.168.31.97 ansible_ssh_pass=vagrant
+live     ansible_ssh_host=192.168.31.98 ansible_ssh_pass=vagrant
