@@ -60,3 +60,21 @@
   roles:
     - role: webserver
       become: true
+
+- hosts: live
+  vars:
+    webserver_env: stage
+    webserver:
+      vhost_template: simple
+      hostname: "{{ ansible_hostname }}.foo"
+      project_dir: /var/www/chessdb
+      relative_doc_root: web
+      front_controller: app.php
+      var_dir: /dev/shm/var
+      mysql_user:
+        name: chessdb
+        pass: chessdb
+        priv: "*.*:ALL"
+  roles:
+    - role: webserver
+      become: true

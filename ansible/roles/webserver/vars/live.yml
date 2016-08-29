@@ -1,4 +1,4 @@
-# stage env
+# live env
 ---
 webserver:
   config_user: vagrant
