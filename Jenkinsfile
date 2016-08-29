@@ -80,13 +80,15 @@ node {
     }
 }
 
-timeout(time:30, unit:'MINUTES') {
-    input message:'Deploy to live?'
-}
+if ('master' == env.BRANCH_NAME) {
+    timeout(time:30, unit:'MINUTES') {
+        input message:'Deploy to live?'
+    }
 
-node {
-    dir('ansible') {
-        stage 'deploy-live'
-            sh 'make deploy'
+    node {
+        dir('ansible') {
+            stage 'deploy-live'
+                sh 'make deploy'
+        }
     }
 }
