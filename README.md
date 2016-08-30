@@ -10,7 +10,7 @@ in your shell:
 
 ```bash
 # start dev box (this only starts the dev vm)
-vagrant up
+vagrant up dev
 
 # go into dev box
 vagrant ssh dev
