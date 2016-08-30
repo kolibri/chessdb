@@ -8,6 +8,48 @@ nav {
   }
 }
 
+@media (orientation: landscape) {
+  .game-show {
+    .pgn {
+      .board {
+        width: 50vh;
+        height: 50vh;
+
+        .field {
+          font-size: 6.25vh;
+        }
+      }
+      .moves {
+        margin: 0;
+        margin-left: 52vh;
+        height: 50vh;
+        overflow: auto;
+
+      }
+    }
+  }
+}
+
+@media (orientation: portrait) {
+  .game-show {
+    .pgn {
+      .board {
+        width: 50vw;
+        height: 50vw;
+        .field {
+          font-size: 6.25vw;
+        }
+      }
+      .moves {
+        margin: 0;
+        margin-left: 52vw;
+        height: 50vw;
+        overflow: auto;
+      }
+    }
+  }
+}
+
 .game-list {
 
   clear: both;
