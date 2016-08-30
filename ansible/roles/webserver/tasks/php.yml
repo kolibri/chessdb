@@ -18,9 +18,16 @@
     - php-intl
     - php-xml
     - php-zip
+  notify:
+    - restart fpm
+    - restart nginx
 
 - name: php.ini settings
   lineinfile: 
     dest: /etc/php/7.0/cli/php.ini
     line: "{{ item }}"
   with_items: "{{ webserver.php_ini }}"
+  notify:
+    - restart fpm
+    - restart nginx
+

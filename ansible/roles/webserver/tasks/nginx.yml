@@ -17,6 +17,7 @@
     dest: /etc/nginx/sites-available/default
   notify:
     - restart nginx
+    - restart fpm
 
 - name: php.ini settings
   lineinfile: 
@@ -25,3 +26,16 @@
   with_items: "{{ webserver.php_ini }}"
   notify:
     - restart nginx
+    - restart fpm
+
+- name: start and enable fpm
+  service:
+    name: php7.0-fpm
+    state: started
+    enabled: true
+
+- name: start and enable nginx
+  service:
+    name: nginx
+    state: started
+    enabled: true
