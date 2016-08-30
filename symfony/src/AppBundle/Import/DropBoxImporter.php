@@ -61,7 +61,7 @@ class DropBoxImporter
                     ->persist(
                         $this
                             ->importer
-                            ->createChessGame(file_get_contents($this->tmpFilePath))
+                            ->createGame(file_get_contents($this->tmpFilePath))
                     );
 
                 $fileCount++;

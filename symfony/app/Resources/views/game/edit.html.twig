@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="game-edit">
+        {{ form_start(form) }}
+        {{ form_errors(form.pgn) }}
+        {{ form_widget(form.pgn) }}
+        <input type="submit">
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

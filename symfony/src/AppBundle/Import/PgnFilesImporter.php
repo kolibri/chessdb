@@ -54,7 +54,7 @@ class PgnFilesImporter
         foreach ($files as $file) {
             $game = $this
                 ->importer
-                ->createChessGame(
+                ->createGame(
                     $file->getContents()
                 );
 

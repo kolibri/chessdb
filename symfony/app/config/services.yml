@@ -53,3 +53,9 @@ services:
 
     finder:
         class: Symfony\Component\Finder\Finder
+
+    app.form.game_type_handler:
+        class: AppBundle\Form\GameTypeHandler
+        arguments:
+            - '@app.importer.pgn_string_importer'
+            - '@doctrine.orm.entity_manager'

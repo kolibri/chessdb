@@ -10,5 +10,7 @@
         {{ pgn(game, {
             'headers': 'Event,Site,Date,Result'
         }) }}
+
+        <a href="{{ path('app_game_edit', {'id': game.uuid}) }}">Edit</a>
     </div>
 {% endblock %}

@@ -195,4 +195,68 @@ class Game
     {
         return $this->pgn;
     }
+
+    /**
+     * @param string $event
+     */
+    public function setEvent($event)
+    {
+        $this->event = $event;
+    }
+
+    /**
+     * @param string $site
+     */
+    public function setSite($site)
+    {
+        $this->site = $site;
+    }
+
+    /**
+     * @param \DateTime $date
+     */
+    public function setDate($date)
+    {
+        $this->date = $date;
+    }
+
+    /**
+     * @param string $round
+     */
+    public function setRound($round)
+    {
+        $this->round = $round;
+    }
+
+    /**
+     * @param Player $white
+     */
+    public function setWhite(Player $white)
+    {
+        $this->white = $white;
+    }
+
+    /**
+     * @param Player $black
+     */
+    public function setBlack(Player $black)
+    {
+        $this->black = $black;
+    }
+
+    /**
+     * @param string $result
+     */
+    public function setResult($result)
+    {
+        $this->result = $result;
+    }
+
+    /**
+     * @param string $pgn
+     */
+    public function setPgn($pgn)
+    {
+        $this->pgn = $pgn;
+    }
 }

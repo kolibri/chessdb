@@ -52,7 +52,7 @@ class PgnToChessGameImporterTest extends \PHPUnit_Framework_TestCase
 
         $importer = new PgnStringToGameImporter($adapterMock, $playerRepoMock);
 
-        $importedGame = $importer->createChessGame($samplePgn);
+        $importedGame = $importer->createGame($samplePgn);
 
         $this->assertEquals($event, $importedGame->getEvent());
         $this->assertEquals($site, $importedGame->getSite());
