@@ -33,19 +33,30 @@ nav {
 @media (orientation: portrait) {
   .game-show {
     .pgn {
+      display: flex;
+      flex-direction: column;
       .board {
         width: 50vw;
         height: 50vw;
+        float: none;
         .field {
           font-size: 6.25vw;
         }
       }
       .moves {
-        margin: 0;
-        margin-left: 52vw;
-        height: 50vw;
+        margin: 2em 0 0 0;
+        height: auto;
+        max-height: 50vw;
         overflow: auto;
+        order: 2;
+        padding-left: 2em;
+
       }
+      .buttons {
+        display: block;
+      }
+
+
     }
   }
 }
@@ -90,8 +101,12 @@ nav {
   }
 }
 
-.vs-list {
+.vs {
+  float: none;
+  clear: both;
+}
 
+.vs-list {
   li {
     display: inline-block;
     margin-right: 0.5em;
@@ -99,7 +114,6 @@ nav {
     a {
       color: black;
     }
-
   }
 }
 

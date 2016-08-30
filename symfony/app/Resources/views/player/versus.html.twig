@@ -4,7 +4,8 @@
 
 {% block body %}
     <h2>
-        <a href="{{ path('app_player_show', {'id': player1.uuid}) }}">{{ player1.name }}</a> vs. <a href="{{ path('app_player_show', {'id': player2.uuid}) }}">{{ player2.name }}</a>
+        <a href="{{ path('app_player_show', {'id': player1.uuid}) }}">{{ player1.name }}</a> vs.
+        <a href="{{ path('app_player_show', {'id': player2.uuid}) }}">{{ player2.name }}</a>
     </h2>
 
     {{ game.list(wonGames, 'won') }}
@@ -12,10 +13,11 @@
     {{ game.list(drawGames, 'draw') }}
     {{ game.list(unfinishedGames, 'unfinished') }}
 
-    <h3><a href="{{ path('app_player_show', {'id': player1.uuid}) }}">{{ player1.name }}</a> vs</h3>
-    {{ game.vsList(player1, otherPlayers1) }}
+    <div class="vs">
+        <h3><a href="{{ path('app_player_show', {'id': player1.uuid}) }}">{{ player1.name }}</a> vs</h3>
+        {{ game.vsList(player1, otherPlayers1) }}
 
-    <h3><a href="{{ path('app_player_show', {'id': player2.uuid}) }}">{{ player2.name }}</a> vs</h3>
-    {{ game.vsList(player2, otherPlayers2) }}
-
+        <h3><a href="{{ path('app_player_show', {'id': player2.uuid}) }}">{{ player2.name }}</a> vs</h3>
+        {{ game.vsList(player2, otherPlayers2) }}
+    </div>
 {% endblock %}
