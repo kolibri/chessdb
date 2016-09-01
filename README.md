@@ -16,7 +16,7 @@ vagrant up dev
 vagrant ssh dev
 
 # in box, cd to project
-cd /srv/chessdb/symfony
+cd /srv/share/chessdb/symfony
 
 # initialize project
 make init
