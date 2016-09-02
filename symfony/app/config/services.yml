@@ -27,6 +27,11 @@ services:
         factory: ['@doctrine', getRepository]
         arguments: [AppBundle\Entity\Player]
 
+    app.repository.user:
+        class: AppBundle\Entity\UserRepository
+        factory: ['@doctrine', getRepository]
+        arguments: [AppBundle\Entity\User]
+
     app.twig.chess_extension:
         class: AppBundle\Twig\ChessExtension
         arguments: ['pgn']
@@ -59,3 +64,17 @@ services:
         arguments:
             - '@app.importer.pgn_string_importer'
             - '@doctrine.orm.entity_manager'
+
+    app.mailer.user_mailer:
+        class: AppBundle\Mailer\UserMailer
+        arguments:
+          - '@mailer'
+          - '%admin_mail_address%'
+          - '%sender_mail_address%'
+
+    app.form.user_registration_handler:
+        class: AppBundle\Form\UserRegistrationHandler
+        arguments:
+          - '@security.encoder_factory'
+          - '@app.repository.user'
+          - '@app.mailer.user_mailer'

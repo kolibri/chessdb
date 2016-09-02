@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass="PlayerRepository")
+ * @ORM\Entity(repositoryClass="UserRepository")
  */
 class User implements UserInterface
 {
@@ -34,12 +34,11 @@ class User implements UserInterface
      * @var string
      *
      * @ORM\Column
-     * @Assert\NotBlank
      */
     private $password;
 
     /**
-     * @var string
+     * @var array
      *
      * @ORM\Column(type="simple_array")
      * @Assert\NotBlank
@@ -59,6 +58,24 @@ class User implements UserInterface
      * @var Player[]
      */
     private $players;
+
+    /**
+     * @var string
+     * @Assert\NotBlank
+     */
+    private $rawPassword;
+
+
+    public static function register($username, $emailAddress, $rawPassword)
+    {
+        $user = new self();
+        $user->setUsername($username);
+        $user->setEmailAddress($emailAddress);
+        $user->setRawPassword($rawPassword);
+        $user->setRoles(['ROLE_PLAYER']);
+
+        return $user;
+    }
 
     public function getRoles()
     {
@@ -132,6 +149,22 @@ class User implements UserInterface
     }
 
     /**
+     * @return string
+     */
+    public function getRawPassword()
+    {
+        return $this->rawPassword;
+    }
+
+    /**
+     * @param string $rawPassword
+     */
+    public function setRawPassword($rawPassword)
+    {
+        $this->rawPassword = $rawPassword;
+    }
+
+    /**
      * @param Player[] $players
      */
     public function setPlayers($players)
@@ -148,7 +181,7 @@ class User implements UserInterface
 
     public function eraseCredentials()
     {
-        return;
+        $this->rawPassword = '';
     }
 
     public function getSalt()

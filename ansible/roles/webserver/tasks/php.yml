@@ -18,6 +18,7 @@
     - php-intl
     - php-xml
     - php-zip
+    - php-sqlite3
   notify:
     - restart fpm
     - restart nginx
