@@ -5,8 +5,8 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Game;
 use AppBundle\Entity\GameRepository;
-use AppBundle\Form\GameType;
-use AppBundle\Form\GameTypeHandler;
+use AppBundle\User\GameType;
+use AppBundle\User\GameTypeHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;

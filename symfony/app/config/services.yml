@@ -72,8 +72,8 @@ services:
           - '%admin_mail_address%'
           - '%sender_mail_address%'
 
-    app.form.user_registration_handler:
-        class: AppBundle\Form\UserRegistrationHandler
+    app.user.registration_handler:
+        class: AppBundle\User\RegistrationHandler
         arguments:
           - '@security.encoder_factory'
           - '@app.repository.user'

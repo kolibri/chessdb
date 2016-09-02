@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Form;
+namespace AppBundle\User;
 
 use AppBundle\Entity\User;
 use AppBundle\Entity\UserRepository;
@@ -8,7 +8,7 @@ use AppBundle\Mailer\UserMailer;
 use Doctrine\Common\Persistence\ObjectRepository;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 
-class UserRegistrationHandler
+class RegistrationHandler
 {
     /** @var EncoderFactoryInterface */
     private $encoderFactory;
@@ -20,7 +20,7 @@ class UserRegistrationHandler
     private $mailer;
 
     /**
-     * UserRegistrationHandler constructor.
+     * RegistrationHandler constructor.
      *
      * @param EncoderFactoryInterface $encoderFactory
      * @param UserRepository          $repository
@@ -33,7 +33,7 @@ class UserRegistrationHandler
         $this->mailer = $mailer;
     }
 
-    public function handle(User $user)
+    public function handleRegistration(User $user, $sendMail = true)
     {
         $encoder = $this->encoderFactory->getEncoder(User::class);
         $encodedPassword = $encoder->encodePassword($user->getRawPassword(), null);
@@ -41,6 +41,8 @@ class UserRegistrationHandler
 
         $this->repository->save($user);
 
-        $this->mailer->sendNewRegistrationMail($user);
+        if ($sendMail) {
+            $this->mailer->sendNewRegistrationMail($user);
+        }
     }
 }

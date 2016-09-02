@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="game-list">
+        {% for user in users %}
+            <h2>{{ user.username }}</h2>
+            <a href="{{ path('app_user_editplayers', {'id': user.uuid}) }}">
+                Edit players
+            </a>
+        {% endfor %}
+    </div>
+{% endblock %}

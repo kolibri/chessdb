@@ -6,9 +6,18 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Ramsey\Uuid\Uuid;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="UserRepository")
+ * @ORM\Table(
+ *     uniqueConstraints={
+ *         @ORM\UniqueConstraint(name="user_username_unique", columns="username"),
+ *         @ORM\UniqueConstraint(name="user_email_unique", columns="email_address"),
+ *     }
+ * )
+ * @UniqueEntity("username")
+ * @UniqueEntity("emailAddress")
  */
 class User implements UserInterface
 {
@@ -27,6 +36,8 @@ class User implements UserInterface
      *
      * @ORM\Column
      * @Assert\NotBlank
+     * @Assert\Length(min=4, max=25)
+     * @Assert\Regex(pattern="/^[a-z0-9]+$/i")
      */
     private $username;
 
@@ -43,7 +54,7 @@ class User implements UserInterface
      * @ORM\Column(type="simple_array")
      * @Assert\NotBlank
      */
-    private $roles;
+    private $roles = [];
 
     /**
      * @var string
@@ -62,6 +73,7 @@ class User implements UserInterface
     /**
      * @var string
      * @Assert\NotBlank
+     * @Assert\Length(min=6)
      */
     private $rawPassword;
 
@@ -137,7 +149,28 @@ class User implements UserInterface
      */
     public function setRoles($roles)
     {
-        $this->roles = $roles;
+        foreach ($roles as $role) {
+            $this->addRole($role);
+        }
+    }
+
+    public function addRole($role)
+    {
+        if (in_array($role, $this->roles)) {
+            return;
+        }
+        $this->roles[] = $role;
+    }
+
+    public function removeRole($role)
+    {
+        if (!in_array($role, $this->roles)) {
+            return;
+        }
+        $this->roles = array_filter($this->roles, function($current) use ($role) {
+            return $current !== $role;
+        });
+
     }
 
     /**
