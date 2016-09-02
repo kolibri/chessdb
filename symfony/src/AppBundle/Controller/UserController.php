@@ -10,7 +10,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
- * Class UserController
  * @Route("/user")
  */
 class UserController extends Controller
@@ -37,6 +36,9 @@ class UserController extends Controller
         return ['user' => $user];
     }
 
+    /**
+     * @return \AppBundle\Entity\UserRepository
+     */
     private function userRepository()
     {
         return $this->getDoctrine()->getRepository(User::class);
