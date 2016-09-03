@@ -14,6 +14,9 @@
 <nav>
     <a href="{{ path('app_game_list') }}">Gamelist</a>
     <a href="{{ path('app_player_list') }}">Players</a>
+    {% if is_granted('ROLE_PLAYER') %}
+        <a href="{{ path('app_user_list') }}">Users</a>
+    {% endif %}
     {{ render(controller('AppBundle:Player:versusFormFragment')) }}
     {% if app.user %}
         <a href="{{ path('app_logout') }}">Logout</a>

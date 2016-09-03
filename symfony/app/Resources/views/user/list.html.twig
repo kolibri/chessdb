@@ -3,10 +3,24 @@
 {% block body %}
     <div class="game-list">
         {% for user in users %}
-            <h2>{{ user.username }}</h2>
-            <a href="{{ path('app_user_editplayers', {'id': user.uuid}) }}">
-                Edit players
-            </a>
+            <h2>
+                <a href="{{ path('app_user_show', {'uuid': user.uuid}) }}">{{ user.username }}</a>
+            </h2>
+        <ul>
+            {% for player in user.players %}
+            <li>
+                <a href="{{ path('app_player_show', {'uuid': player.uuid}) }}">{{ player.name }}</a>
+            </li>
+            {% else %}
+                <li>No assiged to any players</li>
+            {% endfor %}
+        </ul>
+
+            {% if is_granted('ROLE_ADMIN') %}
+                <a href="{{ path('app_user_editplayer', {'uuid': user.uuid}) }}">
+                    Edit players
+                </a>
+            {% endif %}
         {% endfor %}
     </div>
 {% endblock %}

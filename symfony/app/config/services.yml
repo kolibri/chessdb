@@ -78,3 +78,9 @@ services:
           - '@security.encoder_factory'
           - '@app.repository.user'
           - '@app.mailer.user_mailer'
+
+    app.form.user_to_player_type:
+        class: AppBundle\Form\UserToPlayerType
+        arguments: ['@app.repository.player']
+        tags:
+            - { name: form.type, alias: AppBundle\Form\UserToPlayerType }

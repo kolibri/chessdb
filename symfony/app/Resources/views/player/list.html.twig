@@ -3,7 +3,7 @@
 {% block body %}
     <ul>
         {% for player in players %}
-            <li><a href="{{ path('app_player_show', {'id': player.uuid}) }}">{{ player.name }}</a></li>
+            <li><a href="{{ path('app_player_show', {'uuid': player.uuid}) }}">{{ player.name }}</a></li>
         {% endfor %}
     </ul>
 {% endblock %}

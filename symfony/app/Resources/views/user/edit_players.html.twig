@@ -3,12 +3,10 @@
 {% block body %}
     <div class="user">
         <h1>Edit Players</h1>
-        {{ dump(user) }}
-{#
+        {{ dump(user.players) }}
         {{ form_start(form) }}
         {{ form_rest(form) }}
-        <button type="submit">Register</button>
+        <button type="submit">Submit</button>
         {{ form_end(form) }}
-#}
     </div>
 {% endblock %}

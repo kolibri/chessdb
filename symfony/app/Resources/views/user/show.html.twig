@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% import '::macros.html.twig' as game %}
+
+{% block body %}
+    <h2>{{ user.username }} Games</h2>
+
+    <h3>Versus</h3>
+    {#{{ game.vsList(player, otherPlayers) }}#}
+
+    {#{{ game.list(wonGames, 'won') }}#}
+{#
+    {{ game.list(lostGames, 'lost') }}
+    {{ game.list(drawGames, 'draw') }}
+    {{ game.list(unfinishedGames, 'unfinished') }}
+#}
+{% endblock %}

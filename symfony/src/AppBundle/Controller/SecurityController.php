@@ -17,7 +17,7 @@ class SecurityController extends Controller
      */
     public function registerAction(Request $request)
     {
-        $form = $this->createForm(UserRegistrationType::class);
+        $form = $this->createForm(UserRegistrationType::class, null, ['validation_groups' => array('registration')]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

@@ -3,7 +3,7 @@
 {% block body %}
     <div class="game-list">
         {% for game in games %}
-            <a href="{{ path('app_game_show', {'id': game.uuid}) }}">
+            <a href="{{ path('app_game_show', {'uuid': game.uuid}) }}">
                 <div class="game">
                     <h2>{{ game|gameTitle }}</h2>
                     {{ pgn(game, {

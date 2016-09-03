@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Ramsey\Uuid\Uuid;
 use Doctrine\ORM\Mapping as ORM;
@@ -35,9 +36,9 @@ class User implements UserInterface
      * @var string
      *
      * @ORM\Column
-     * @Assert\NotBlank
-     * @Assert\Length(min=4, max=25)
-     * @Assert\Regex(pattern="/^[a-z0-9]+$/i")
+     * @Assert\NotBlank(groups={"registration"})
+     * @Assert\Length(min=4, max=25, groups={"registration"})
+     * @Assert\Regex(pattern="/^[a-z0-9]+$/i", groups={"registration"})
      */
     private $username;
 
@@ -60,22 +61,33 @@ class User implements UserInterface
      * @var string
      *
      * @ORM\Column
-     * @Assert\NotBlank
-     * @Assert\Email
+     * @Assert\NotBlank(groups={"registration"})
+     * @Assert\Email(groups={"registration"})
      */
     private $emailAddress;
 
     /**
-     * @var Player[]
+     * @var Player[]|ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="Player", mappedBy="user")
      */
-    private $players;
+    private $players = [];
 
     /**
      * @var string
-     * @Assert\NotBlank
-     * @Assert\Length(min=6)
+     *
+     * @Assert\NotBlank(groups={"registration"})
+     * @Assert\Length(min=6, groups={"registration"})
      */
     private $rawPassword;
+
+    /**
+     * User constructor.
+     */
+    public function __construct()
+    {
+        $this->players = new ArrayCollection();
+    }
 
 
     public static function register($username, $emailAddress, $rawPassword)
@@ -209,7 +221,14 @@ class User implements UserInterface
 
     public function addPlayer(Player $player)
     {
-        $this->players[] = $player;
+        $player->setUser($this);
+        $this->players->add($player);
+    }
+
+    public function removePlayer(Player $player)
+    {
+        $player->removeUser();
+        $this->players->removeElement($player);
     }
 
     public function eraseCredentials()

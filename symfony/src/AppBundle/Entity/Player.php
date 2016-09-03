@@ -32,6 +32,14 @@ class Player
     private $name;
 
     /**
+     * @var User
+     *
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="players")
+     * @ORM\JoinColumn(name="user_uuid", referencedColumnName="uuid")
+     */
+    private $user;
+
+    /**
      * Player constructor.
      * @param string $name
      */
@@ -54,5 +62,26 @@ class Player
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * @return User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param User $user
+     */
+    public function setUser(User $user)
+    {
+        $this->user = $user;
+    }
+
+    public function removeUser()
+    {
+        $this->user = null;
     }
 }

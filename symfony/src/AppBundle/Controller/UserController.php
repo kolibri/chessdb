@@ -2,7 +2,9 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Game;
 use AppBundle\Entity\User;
+use AppBundle\Form\UserToPlayerType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -25,15 +27,35 @@ class UserController extends Controller
     }
 
     /**
-     * @Route("/edit_player/{id}")
+     * @Route("/show/{uuid}")
+     * @Template("user/show.html.twig")
+     */
+    public function showAction(User $user)
+    {
+        return ['user' => $user];
+    }
+
+    /**
+     * @Route("/edit_player/{uuid}")
      * @Template("user/edit_players.html.twig")
      * @Security("has_role('ROLE_ADMIN')")
      */
-    public function editPlayersAction(Request $request, $id)
+    public function editPlayerAction(Request $request, User $user)
     {
-        $user = $this->userRepository()->find($id);
+        #$user = $this->userRepository()->find($id);
+        $form = $this->createForm(UserToPlayerType::class, $user);
+        $form->handleRequest($request);
 
-        return ['user' => $user];
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->userRepository()->save($user);
+            
+            return $this->redirectToRoute('app_user_editplayer', ['id' => $user->getUuid()]);
+        }
+
+        return [
+            'user' => $user,
+            'form' => $form->createView(),
+        ];
     }
 
     /**

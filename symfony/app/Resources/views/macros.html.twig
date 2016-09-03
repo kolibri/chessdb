@@ -2,7 +2,7 @@
     <div class="game-list">
         <h2>{{ label|title }} ({{ games|length }})</h2>
         {% for game in games %}
-            <a href="{{ path('app_game_show', {'id': game.uuid}) }}">
+            <a href="{{ path('app_game_show', {'uuid': game.uuid}) }}">
                 <div class="game">
                     <h3>{{ game|gameTitle }}</h3>
                     {{ pgn(game, {
@@ -23,7 +23,7 @@
     <ul class="vs-list">
         {% for vsPlayer in players %}
             <li>
-                <a href="{{ path('app_player_versus', {'player1Id': player.uuid, 'player2Id': vsPlayer.uuid}) }}">
+                <a href="{{ path('app_player_versus', {'player1Uuid': player.uuid, 'player2Uuid': vsPlayer.uuid}) }}">
                     {{ vsPlayer.name }}
                 </a>
             </li>

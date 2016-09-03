@@ -11,6 +11,10 @@ class UserRepository extends EntityRepository
         $entityManager = $this->getEntityManager();
         $entityManager->persist($user);
 
+        foreach ($user->getPlayers() as $player) {
+            $entityManager->persist($player);
+        }
+
         if ($flush) {
             $entityManager->flush();
         }
