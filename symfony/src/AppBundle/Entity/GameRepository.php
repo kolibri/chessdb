@@ -12,36 +12,36 @@ class GameRepository extends EntityRepository
      * @param Player $player
      * @return Game[]|null
      */
-    public function findWonGamesByPlayer(Player $player)
+    public function findWonByPlayer(Player $player)
     {
-        return $this->findWonOrLostGamesByPlayer($player, true);
+        return $this->findWonOrLostByPlayer($player, true);
     }
 
     /**
      * @param Player $player
      * @return Game[]|null
      */
-    public function findLostGamesByPlayer(Player $player)
+    public function findLostByPlayer(Player $player)
     {
-        return $this->findWonOrLostGamesByPlayer($player, false);
+        return $this->findWonOrLostByPlayer($player, false);
     }
 
     /**
      * @param Player $player
      * @return Game[]|null
      */
-    public function findDrawGamesByPlayer(Player $player)
+    public function findDrawByPlayer(Player $player)
     {
-        return $this->findGamesByPlayerIdAndResult($player, Game::RESULT_DRAW);
+        return $this->findByPlayerAndResult($player, Game::RESULT_DRAW);
     }
 
     /**
      * @param Player $player
      * @return Game[]|null
      */
-    public function findUnfinishedGamesByPlayer(Player $player)
+    public function findUnfinishedByPlayer(Player $player)
     {
-        return $this->findGamesByPlayerIdAndResult($player, Game::RESULT_UNFINISHED);
+        return $this->findByPlayerAndResult($player, Game::RESULT_UNFINISHED);
     }
 
     /**
@@ -49,9 +49,9 @@ class GameRepository extends EntityRepository
      * @param Player $player2
      * @return Game[]|null
      */
-    public function findWonGamesPlayerVsPlayer(Player $player1, Player $player2)
+    public function findWonPlayerVsPlayer(Player $player1, Player $player2)
     {
-        return $this->findWonOrLostGamesPlayerVsPlayer($player1, $player2, true);
+        return $this->findWonOrLostByPlayerVsPlayer($player1, $player2, true);
     }
 
     /**
@@ -59,9 +59,9 @@ class GameRepository extends EntityRepository
      * @param Player $player2
      * @return Game[]|null
      */
-    public function findLostGamesPlayerVsPlayer(Player $player1, Player $player2)
+    public function findLostPlayerVsPlayer(Player $player1, Player $player2)
     {
-        return $this->findWonOrLostGamesPlayerVsPlayer($player1, $player2, false);
+        return $this->findWonOrLostByPlayerVsPlayer($player1, $player2, false);
     }
 
     /**
@@ -69,9 +69,9 @@ class GameRepository extends EntityRepository
      * @param Player $player2
      * @return Game[]|null
      */
-    public function findDrawGamesPlayerVsPlayer(Player $player1, Player $player2)
+    public function findDrawByPlayerVsPlayer(Player $player1, Player $player2)
     {
-        return $this->findGamesPlayerVsPlayerByResult($player1, $player2, Game::RESULT_DRAW);
+        return $this->findPlayerVsPlayerByResult($player1, $player2, Game::RESULT_DRAW);
     }
 
     /**
@@ -79,9 +79,85 @@ class GameRepository extends EntityRepository
      * @param Player $player2
      * @return Game[]|null
      */
-    public function findUnfinishedGamesPlayerVsPlayer(Player $player1, Player $player2)
+    public function findUnfinishedByPlayerVsPlayer(Player $player1, Player $player2)
     {
-        return $this->findGamesPlayerVsPlayerByResult($player1, $player2, Game::RESULT_UNFINISHED);
+        return $this->findPlayerVsPlayerByResult($player1, $player2, Game::RESULT_UNFINISHED);
+    }
+
+    /**
+     * @param User $user
+     * @return Game[]|null
+     */
+    public function findWonByUser(User $user)
+    {
+        return $this->findWonOrLostByUser($user, true);
+    }
+
+    /**
+     * @param User $user
+     * @return Game[]|null
+     */
+    public function findLostByUser(User $user)
+    {
+        return $this->findWonOrLostByUser($user, false);
+    }
+
+    /**
+     * @param User $user
+     * @return Game[]|null
+     */
+    public function findDrawByUser(User $user)
+    {
+        return $this->findByUserAndResult($user, Game::RESULT_DRAW);
+    }
+
+    /**
+     * @param User $user
+     * @return Game[]|null
+     */
+    public function findUnfinishedByUser(User $user)
+    {
+        return $this->findByUserAndResult($user, Game::RESULT_UNFINISHED);
+    }
+
+    /**
+     * @param User $user1
+     * @param User $user2
+     * @return Game[]|null
+     */
+    public function findWonByUserVsUser(User $user1, User $user2)
+    {
+        return $this->findWonOrLostByUserVsUser($user1, $user2, true);
+    }
+
+    /**
+     * @param User $user1
+     * @param User $user2
+     * @return Game[]|null
+     */
+    public function findLostByUserVsUser(User $user1, User $user2)
+    {
+        return $this->findWonOrLostByUserVsUser($user1, $user2, false);
+    }
+
+    /**
+     * @param User $user1
+     * @param User $user2
+     * @return Game[]|null
+     */
+    public function findDrawByUserVsUser(User $user1, User $user2)
+    {
+        return $this->findUserVsUserByResult($user1, $user2, Game::RESULT_DRAW);
+    }
+
+    /**
+     * @param User $user1
+     * @param User $user2
+     * @return Game[]|null
+     */
+    public function findUnfinishedByUserVsUser(User $user1, User $user2)
+    {
+        return $this->findUserVsUserByResult($user1, $user2, Game::RESULT_UNFINISHED);
     }
 
     /**
@@ -90,7 +166,7 @@ class GameRepository extends EntityRepository
      * @param $result
      * @return Game[]|null
      */
-    public function findGamesPlayerVsPlayerByResult(Player $player1, Player $player2, $result)
+    public function findPlayerVsPlayerByResult(Player $player1, Player $player2, $result)
     {
         return $this
             ->createQueryBuilder('g')
@@ -109,7 +185,7 @@ class GameRepository extends EntityRepository
      * @param bool $won
      * @return Game[]|null
      */
-    public function findWonOrLostGamesPlayerVsPlayer(Player $player1, Player $player2, $won = true)
+    public function findWonOrLostByPlayerVsPlayer(Player $player1, Player $player2, $won = true)
     {
         return $this
             ->createQueryBuilder('g')
@@ -128,7 +204,7 @@ class GameRepository extends EntityRepository
      * @param string $result
      * @return Game[]|null
      */
-    public function findGamesByPlayerIdAndResult(Player $player, $result)
+    public function findByPlayerAndResult(Player $player, $result)
     {
         return $this
             ->createQueryBuilder('g')
@@ -145,17 +221,122 @@ class GameRepository extends EntityRepository
      * @param bool $won
      * @return Game[]|null
      */
-    public function findWonOrLostGamesByPlayer(Player $player, $won = true)
+    public function findWonOrLostByPlayer(Player $player, $won = true)
     {
         return $this
             ->createQueryBuilder('g')
             ->where('g.white = :player AND g.result = :whiteResult')
             ->orWhere('g.black = :player AND g.result = :blackResult')
             ->setParameter('whiteResult', ($won ? Game::RESULT_WHITE_WINS : Game::RESULT_BLACK_WINS))
-            ->setParameter('blackResult',(!$won ? Game::RESULT_WHITE_WINS : Game::RESULT_BLACK_WINS))
+            ->setParameter('blackResult', (!$won ? Game::RESULT_WHITE_WINS : Game::RESULT_BLACK_WINS))
             ->setParameter('player', $player)
             ->getQuery()
             ->execute();
     }
 
+    public function findWonOrLostByUser(User $user, $won = true)
+    {
+        $queryBuilder = $this->createQueryBuilder('g');
+
+        return $queryBuilder
+            ->add('where', $queryBuilder->expr()->orX(
+                $queryBuilder->expr()->andX(
+                    $queryBuilder->expr()->in('g.white', ':players'),
+                    $queryBuilder->expr()->eq('g.result', ':whiteResult')
+                ),
+                $queryBuilder->expr()->andX(
+                    $queryBuilder->expr()->in('g.black', ':players'),
+                    $queryBuilder->expr()->eq('g.result', ':blackResult')
+                )
+            ))
+            ->setParameter('whiteResult', ($won ? Game::RESULT_WHITE_WINS : Game::RESULT_BLACK_WINS))
+            ->setParameter('blackResult', (!$won ? Game::RESULT_WHITE_WINS : Game::RESULT_BLACK_WINS))
+            ->setParameter('players', $user->getPlayers())
+            ->getQuery()
+            ->execute();
+    }
+
+    /**
+     * @param User $user
+     * @param string $result
+     * @return Game[]|null
+     */
+    public function findByUserAndResult(User $user, $result)
+    {
+        $queryBuilder = $this->createQueryBuilder('g');
+
+        return $queryBuilder
+            ->add('where', $queryBuilder->expr()->andX(
+                $queryBuilder->expr()->orX(
+                    $queryBuilder->expr()->in('g.white', ':players'),
+                    $queryBuilder->expr()->in('g.black', ':players')
+                ),
+                $queryBuilder->expr()->eq('g.result', ':result')
+            ))
+            ->setParameter('result', $result)
+            ->setParameter('players', $user->getPlayers())
+            ->getQuery()
+            ->execute();
+    }
+
+    /**
+     * @param User $user1
+     * @param User $user2
+     * @param bool $won
+     * @return Game[]|null
+     */
+    public function findWonOrLostByUserVsUser(User $user1, User $user2, $won = true)
+    {
+        $queryBuilder = $this->createQueryBuilder('g');
+
+        return $queryBuilder
+            ->add('where', $queryBuilder->expr()->orX(
+                $queryBuilder->expr()->andX(
+                    $queryBuilder->expr()->in('g.white', ':players1'),
+                    $queryBuilder->expr()->in('g.black', ':players2'),
+                    $queryBuilder->expr()->eq('g.result', ':whiteWins')
+                ),
+                $queryBuilder->expr()->andX(
+                    $queryBuilder->expr()->in('g.white', ':players1'),
+                    $queryBuilder->expr()->in('g.black', ':players2'),
+                    $queryBuilder->expr()->eq('g.result', ':blackWins')
+                )
+            ))
+            ->setParameter('players1', $user1->getPlayers())
+            ->setParameter('players2', $user2->getPlayers())
+            ->setParameter('whiteWins', ($won ? Game::RESULT_WHITE_WINS : Game::RESULT_BLACK_WINS))
+            ->setParameter('blackWins', (!$won ? Game::RESULT_WHITE_WINS : Game::RESULT_BLACK_WINS))
+            ->getQuery()
+            ->execute();
+    }
+
+    /**
+     * @param User $user1
+     * @param User $user2
+     * @param string $result
+     * @return Game[]|null
+     */
+    public function findUserVsUserByResult(User $user1, User $user2, $result)
+    {
+        $queryBuilder = $this->createQueryBuilder('g');
+
+        return $queryBuilder
+            ->add('where', $queryBuilder->expr()->orX(
+                $queryBuilder->expr()->andX(
+                    $queryBuilder->expr()->in('g.white', ':players1'),
+                    $queryBuilder->expr()->in('g.black', ':players2'),
+                    $queryBuilder->expr()->eq('g.result', ':result')
+                ),
+                $queryBuilder->expr()->andX(
+                    $queryBuilder->expr()->in('g.white', ':players1'),
+                    $queryBuilder->expr()->in('g.black', ':players2'),
+                    $queryBuilder->expr()->eq('g.result', ':result')
+                )
+            ))
+            ->setParameter('players1', $user1->getPlayers())
+            ->setParameter('players2', $user2->getPlayers())
+            ->setParameter('result', $result)
+            ->getQuery()
+            ->execute();
+    }
 }

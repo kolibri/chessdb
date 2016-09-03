@@ -19,12 +19,24 @@
 {% endmacro %}
 
 
-{% macro vsList(player, players) %}
+{% macro vsListPlayer(player, players) %}
     <ul class="vs-list">
         {% for vsPlayer in players %}
             <li>
                 <a href="{{ path('app_player_versus', {'player1Uuid': player.uuid, 'player2Uuid': vsPlayer.uuid}) }}">
                     {{ vsPlayer.name }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endmacro %}
+
+{% macro vsListUser(user, users) %}
+    <ul class="vs-list">
+        {% for vsUser in users %}
+            <li>
+                <a href="{{ path('app_user_versus', {'user1Uuid': user.uuid, 'user2Uuid': vsUser.uuid}) }}">
+                    {{ vsUser.username }}
                 </a>
             </li>
         {% endfor %}

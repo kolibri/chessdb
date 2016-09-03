@@ -4,14 +4,15 @@
 
 {% block body %}
     <h2>{{ user.username }} Games</h2>
+    {% if is_granted('ROLE_ADMIN') %}
+        <a href="{{ path('app_user_editplayer', {'uuid': user.uuid}) }}">edit</a>
+    {% endif %}
 
     <h3>Versus</h3>
-    {#{{ game.vsList(player, otherPlayers) }}#}
+    {{ game.vsListUser(user, otherUsers) }}
 
-    {#{{ game.list(wonGames, 'won') }}#}
-{#
+    {{ game.list(wonGames, 'won') }}
     {{ game.list(lostGames, 'lost') }}
     {{ game.list(drawGames, 'draw') }}
     {{ game.list(unfinishedGames, 'unfinished') }}
-#}
 {% endblock %}

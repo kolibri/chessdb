@@ -29,15 +29,15 @@ class PlayerRepository extends EntityRepository
     }
 
     /**
-     * @param string $uuid
+     * @param Player $player
      * @return Player[]|null
      */
-    public function findOtherPlayers($uuid)
+    public function findOtherPlayers(Player $player)
     {
         return $this
             ->createQueryBuilder('p')
             ->where('p.uuid != :player')
-            ->setParameter('player', $uuid)
+            ->setParameter('player', $player)
             ->getQuery()
             ->execute();
     }

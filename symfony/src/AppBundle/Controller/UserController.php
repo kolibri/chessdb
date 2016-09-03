@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 /**
  * @Route("/user")
@@ -29,10 +30,44 @@ class UserController extends Controller
     /**
      * @Route("/show/{uuid}")
      * @Template("user/show.html.twig")
+     * @Security("has_role('ROLE_PLAYER')")
      */
     public function showAction(User $user)
     {
-        return ['user' => $user];
+        $gameRepository = $this->gameRepository();
+
+        return [
+            'user' => $user,
+            'wonGames' => $gameRepository->findWonByUser($user),
+            'lostGames' => $gameRepository->findLostByUser($user),
+            'drawGames' => $gameRepository->findDrawByUser($user),
+            'unfinishedGames' => $gameRepository->findUnfinishedByUser($user),
+            'otherUsers' => $this->userRepository()->findOtherUsers($user)
+        ];
+    }
+
+    /**
+     * @Route("/vs/{user1Uuid}/{user2Uuid}")
+     * @Template("/user/versus.html.twig")
+     * @Security("has_role('ROLE_PLAYER')")
+     * @ParamConverter("user1", class="AppBundle:User", options={"id" = "user1Uuid"})
+     * @ParamConverter("user2", class="AppBundle:User", options={"id" = "user2Uuid"})
+     */
+    public function versusAction(User $user1, User $user2)
+    {
+        $gameRepository = $this->gameRepository();
+        $userRepository = $this->userRepository();
+
+        return [
+            'user1' => $user1,
+            'user2' => $user2,
+            'wonGames' => $gameRepository->findWonByUserVsUser($user1, $user2),
+            'lostGames' => $gameRepository->findLostByUserVsUser($user1, $user2),
+            'drawGames' => $gameRepository->findDrawByUserVsUser($user1, $user2),
+            'unfinishedGames' => $gameRepository->findUnfinishedByUserVsUser($user1, $user2),
+            'otherUsers1' => $userRepository->findOtherUsers($user1),
+            'otherUsers2' => $userRepository->findOtherUsers($user2),
+        ];
     }
 
     /**
@@ -49,7 +84,7 @@ class UserController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $this->userRepository()->save($user);
             
-            return $this->redirectToRoute('app_user_editplayer', ['id' => $user->getUuid()]);
+            return $this->redirectToRoute('app_user_editplayer', ['uuid' => $user->getUuid()]);
         }
 
         return [

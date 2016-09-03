@@ -39,10 +39,10 @@ class PlayerController extends Controller
         return [
             'player' => $player,
             'otherPlayers' => $playerRepository->findOtherPlayers($player),
-            'wonGames' => $gameRepository->findWonGamesByPlayer($player),
-            'lostGames' => $gameRepository->findLostGamesByPlayer($player),
-            'drawGames' => $gameRepository->findDrawGamesByPlayer($player),
-            'unfinishedGames' => $gameRepository->findUnfinishedGamesByPlayer($player),
+            'wonGames' => $gameRepository->findWonByPlayer($player),
+            'lostGames' => $gameRepository->findLostByPlayer($player),
+            'drawGames' => $gameRepository->findDrawByPlayer($player),
+            'unfinishedGames' => $gameRepository->findUnfinishedByPlayer($player),
         ];
     }
 
@@ -60,10 +60,10 @@ class PlayerController extends Controller
         return [
             'player1' => $player1,
             'player2' => $player2,
-            'wonGames' => $gameRepository->findWonGamesPlayerVsPlayer($player1, $player2),
-            'lostGames' => $gameRepository->findLostGamesPlayerVsPlayer($player1, $player2),
-            'drawGames' => $gameRepository->findDrawGamesPlayerVsPlayer($player1, $player2),
-            'unfinishedGames' => $gameRepository->findUnfinishedGamesPlayerVsPlayer($player1, $player2),
+            'wonGames' => $gameRepository->findWonPlayerVsPlayer($player1, $player2),
+            'lostGames' => $gameRepository->findLostPlayerVsPlayer($player1, $player2),
+            'drawGames' => $gameRepository->findDrawByPlayerVsPlayer($player1, $player2),
+            'unfinishedGames' => $gameRepository->findUnfinishedByPlayerVsPlayer($player1, $player2),
             'otherPlayers1' => $playerRepository->findOtherPlayers($player1),
             'otherPlayers2' => $playerRepository->findOtherPlayers($player2),
         ];
@@ -128,7 +128,9 @@ class PlayerController extends Controller
             ->setAction($this->generateUrl('app_player_versusform'))
             ->add('player1', EntityType::class, $options)
             ->add('player2', EntityType::class, $options)
-            ->add('submit', SubmitType::class)
+            ->add('submit', SubmitType::class, [
+                'label' => 'vs'
+            ])
             ->getForm();
     }
 }
