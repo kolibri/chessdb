@@ -1,8 +1,6 @@
 <?php
 
-
 namespace AppBundle\Controller;
-
 
 use AppBundle\Entity\Game;
 use AppBundle\Entity\Player;
@@ -10,14 +8,18 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * @Route("/player")
+ */
 class PlayerController extends Controller
 {
     /**
-     * @Route("/players")
+     * @Route("/list")
      * @Template("player/list.html.twig")
      */
     public function listAction()
@@ -26,41 +28,49 @@ class PlayerController extends Controller
     }
 
     /**
-     * @Route("/players/show/{id}")
+     * @Route("/show/{uuid}")
      * @Template("player/show.html.twig")
      */
-    public function showAction($id)
+    public function showAction(Player $player)
     {
+        $gameRepository = $this->gameRepository();
+        $playerRepository = $this->playerRepository();
+
         return [
-            'player' => $this->playerRepository()->find($id),
-            'otherPlayers' => $this->playerRepository()->findOtherPlayers($id),
-            'wonGames' => $this->gameRepository()->findWonGamesByPlayerId($id),
-            'lostGames' => $this->gameRepository()->findLostGamesByPlayerId($id),
-            'drawGames' => $this->gameRepository()->findDrawGamesByPlayerId($id),
-            'unfinishedGames' => $this->gameRepository()->findUnfinishedGamesByPlayerId($id),
+            'player' => $player,
+            'otherPlayers' => $playerRepository->findOtherPlayers($player),
+            'wonGames' => $gameRepository->findWonGamesByPlayer($player),
+            'lostGames' => $gameRepository->findLostGamesByPlayer($player),
+            'drawGames' => $gameRepository->findDrawGamesByPlayer($player),
+            'unfinishedGames' => $gameRepository->findUnfinishedGamesByPlayer($player),
         ];
     }
 
     /**
-     * @Route("/players/vs/{player1Id}/{player2Id}")
+     * @Route("/vs/{player1Uuid}/{player2Uuid}")
      * @Template("player/versus.html.twig")
+     * @ParamConverter("player1", class="AppBundle:Player", options={"id" = "player1Uuid"})
+     * @ParamConverter("player2", class="AppBundle:Player", options={"id" = "player2Uuid"})
      */
-    public function versusAction($player1Id, $player2Id)
+    public function versusAction(Player $player1, Player $player2)
     {
+        $gameRepository = $this->gameRepository();
+        $playerRepository = $this->playerRepository();
+
         return [
-            'player1' => $this->playerRepository()->find($player1Id),
-            'player2' => $this->playerRepository()->find($player2Id),
-            'wonGames' => $this->gameRepository()->findWonGamesPlayerVsPlayer($player1Id, $player2Id),
-            'lostGames' => $this->gameRepository()->findLostGamesPlayerVsPlayer($player1Id, $player2Id),
-            'drawGames' => $this->gameRepository()->findDrawGamesPlayerVsPlayer($player1Id, $player2Id),
-            'unfinishedGames' => $this->gameRepository()->findUnfinishedGamesPlayerVsPlayer($player1Id, $player2Id),
-            'otherPlayers1' => $this->playerRepository()->findOtherPlayers($player1Id),
-            'otherPlayers2' => $this->playerRepository()->findOtherPlayers($player2Id),
+            'player1' => $player1,
+            'player2' => $player2,
+            'wonGames' => $gameRepository->findWonGamesPlayerVsPlayer($player1, $player2),
+            'lostGames' => $gameRepository->findLostGamesPlayerVsPlayer($player1, $player2),
+            'drawGames' => $gameRepository->findDrawGamesPlayerVsPlayer($player1, $player2),
+            'unfinishedGames' => $gameRepository->findUnfinishedGamesPlayerVsPlayer($player1, $player2),
+            'otherPlayers1' => $playerRepository->findOtherPlayers($player1),
+            'otherPlayers2' => $playerRepository->findOtherPlayers($player2),
         ];
     }
 
     /**
-     * @Route("/player/versus/form")
+     * @Route("/versus/form")
      * @Template("player/versus_form.html.twig")
      */
     public function versusFormAction(Request $request)
@@ -83,7 +93,7 @@ class PlayerController extends Controller
     /**
      * @Template("player/versus_form_fragment.html.twig")
      */
-    public function versusFormFragmentAction(Request $request)
+    public function versusFormFragmentAction()
     {
         return ['form' => $this->versusForm()->createView()];
     }
@@ -93,7 +103,7 @@ class PlayerController extends Controller
      */
     private function playerRepository()
     {
-        return $this->get('doctrine')->getRepository(Player::class);
+        return $this->getDoctrine()->getRepository(Player::class);
     }
 
     /**
@@ -101,7 +111,7 @@ class PlayerController extends Controller
      */
     private function gameRepository()
     {
-        return $this->get('doctrine')->getRepository(Game::class);
+        return $this->getDoctrine()->getRepository(Game::class);
     }
 
     /**

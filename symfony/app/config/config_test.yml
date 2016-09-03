@@ -6,7 +6,7 @@ framework:
     session:
         storage_id: session.storage.mock_file
     profiler:
-        collect: false
+        collect: true
 
 web_profiler:
     toolbar: false
@@ -14,3 +14,13 @@ web_profiler:
 
 swiftmailer:
     disable_delivery: true
+
+doctrine:
+    dbal:
+        driver:   pdo_sqlite
+        dbname:   "%database_name%"
+        #memory:   true
+        path:     "/dev/shm/var/test.db3"
+        charset:  UTF8
+        types:
+            uuid: 'Ramsey\Uuid\Doctrine\UuidType'

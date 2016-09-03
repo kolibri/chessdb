@@ -1,7 +1,7 @@
 <?php
 
 
-namespace AppBundle\Form;
+namespace AppBundle\User;
 
 
 use AppBundle\Entity\Game;

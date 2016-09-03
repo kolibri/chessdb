@@ -5,11 +5,12 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Game;
 use AppBundle\Entity\GameRepository;
-use AppBundle\Form\GameType;
-use AppBundle\Form\GameTypeHandler;
+use AppBundle\User\GameType;
+use AppBundle\User\GameTypeHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -24,55 +25,41 @@ class GameController extends Controller
     public function listAction()
     {
         return [
-            'games' => $this->gameRepository()->findAll()
+            'games' => $this
+                ->getDoctrine()
+                ->getRepository(Game::class)
+                ->findAll()
         ];
     }
 
     /**
-     * @Route("/games/show/{id}")
+     * @Route("/games/show/{uuid}")
      * @Template("game/show.html.twig")
      */
-    public function showAction($id)
+    public function showAction(Game $game)
     {
-        return ['game' => $this->gameRepository()->find($id)];
+        return ['game' => $game];
     }
 
     /**
-     * @Route("/edit/{id}")
+     * @Route("/edit/{uuid}")
      * @Template("game/edit.html.twig")
+     * @Security("has_role('ROLE_ADMIN')")
      */
-    public function editAction(Request $request, $id)
+    public function editAction(Request $request, Game $game)
     {
-        /** @var Game $game */
-        $game = $this->gameRepository()->find($id);
         $form = $this->createForm(GameType::class, $game);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->formHandler()->handle($form);
+            $this->get('app.form.game_type_handler')->handle($form);
 
-            return $this->redirectToRoute('app_game_show', ['id' => $game->getUuid()]);
+            return $this->redirectToRoute('app_game_show', ['uuid' => $game->getUuid()]);
         }
 
         return [
             'game' => $game,
             'form' => $form->createView(),
         ];
-    }
-
-    /**
-     * @return GameRepository
-     */
-    private function gameRepository()
-    {
-        return $this->getDoctrine()->getRepository(Game::class);
-    }
-
-    /**
-     * @return GameTypeHandler
-     */
-    private function formHandler()
-    {
-        return $this->get('app.form.game_type_handler');
     }
 }

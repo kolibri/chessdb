@@ -12,3 +12,5 @@ parameters:
     secret: ThisTokenIsNotSoSecretChangeIt
     dropbox_api_key: instert-dropbox-oauth-key
     dropbox_app_name: chessdb
+    admin_mail_address: {'entengelb@gmail.com': 'Lukas Sadzik'}
+    sender_mail_address: {'noreply@noreply.foo': 'chessdb'}

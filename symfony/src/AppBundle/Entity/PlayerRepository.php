@@ -41,4 +41,18 @@ class PlayerRepository extends EntityRepository
             ->getQuery()
             ->execute();
     }
+
+    public function createCanAssignedToUserQueryBuilder(User $user = null)
+    {
+        $builder = $this->createQueryBuilder('p')
+            ->where('p.user is NULL');
+
+        if (null != $user) {
+            $builder->orWhere('p.user = :user')
+                ->setParameter('user', $user);
+
+        }
+
+        return $builder;
+    }
 }
