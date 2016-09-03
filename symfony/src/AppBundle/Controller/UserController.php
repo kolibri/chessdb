@@ -65,4 +65,12 @@ class UserController extends Controller
     {
         return $this->getDoctrine()->getRepository(User::class);
     }
+
+    /**
+     * @return \AppBundle\Entity\GameRepository
+     */
+    private function gameRepository()
+    {
+        return $this->getDoctrine()->getRepository(Game::class);
+    }
 }

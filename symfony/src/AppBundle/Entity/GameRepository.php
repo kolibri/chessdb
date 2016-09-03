@@ -9,114 +9,114 @@ use Doctrine\ORM\EntityRepository;
 class GameRepository extends EntityRepository
 {
     /**
-     * @param string $playerId
+     * @param Player $player
      * @return Game[]|null
      */
-    public function findWonGamesByPlayerId($playerId)
+    public function findWonGamesByPlayer(Player $player)
     {
-        return $this->findWonOrLostGamesByPlayerId($playerId, true);
+        return $this->findWonOrLostGamesByPlayer($player, true);
     }
 
     /**
-     * @param string $playerId
+     * @param Player $player
      * @return Game[]|null
      */
-    public function findLostGamesByPlayerId($playerId)
+    public function findLostGamesByPlayer(Player $player)
     {
-        return $this->findWonOrLostGamesByPlayerId($playerId, false);
+        return $this->findWonOrLostGamesByPlayer($player, false);
     }
 
     /**
-     * @param string $playerId
+     * @param Player $player
      * @return Game[]|null
      */
-    public function findDrawGamesByPlayerId($playerId)
+    public function findDrawGamesByPlayer(Player $player)
     {
-        return $this->findGamesByPlayerIdAndResult($playerId, Game::RESULT_DRAW);
+        return $this->findGamesByPlayerIdAndResult($player, Game::RESULT_DRAW);
     }
 
     /**
-     * @param string $playerId
+     * @param Player $player
      * @return Game[]|null
      */
-    public function findUnfinishedGamesByPlayerId($playerId)
+    public function findUnfinishedGamesByPlayer(Player $player)
     {
-        return $this->findGamesByPlayerIdAndResult($playerId, Game::RESULT_UNFINISHED);
+        return $this->findGamesByPlayerIdAndResult($player, Game::RESULT_UNFINISHED);
     }
 
     /**
-     * @param string $player1Id
-     * @param string $player2Id
+     * @param Player $player1
+     * @param Player $player2
      * @return Game[]|null
      */
-    public function findWonGamesPlayerVsPlayer($player1Id, $player2Id)
+    public function findWonGamesPlayerVsPlayer(Player $player1, Player $player2)
     {
-        return $this->findWonOrLostGamesPlayerVsPlayer($player1Id, $player2Id, true);
+        return $this->findWonOrLostGamesPlayerVsPlayer($player1, $player2, true);
     }
 
     /**
-     * @param string $player1Id
-     * @param string $player2Id
+     * @param Player $player1
+     * @param Player $player2
      * @return Game[]|null
      */
-    public function findLostGamesPlayerVsPlayer($player1Id, $player2Id)
+    public function findLostGamesPlayerVsPlayer(Player $player1, Player $player2)
     {
-        return $this->findWonOrLostGamesPlayerVsPlayer($player1Id, $player2Id, false);
+        return $this->findWonOrLostGamesPlayerVsPlayer($player1, $player2, false);
     }
 
     /**
-     * @param string $player1
-     * @param string $player2
+     * @param Player $player1
+     * @param Player $player2
      * @return Game[]|null
      */
-    public function findDrawGamesPlayerVsPlayer($player1, $player2)
+    public function findDrawGamesPlayerVsPlayer(Player $player1, Player $player2)
     {
         return $this->findGamesPlayerVsPlayerByResult($player1, $player2, Game::RESULT_DRAW);
     }
 
     /**
-     * @param string $player1
-     * @param string $player2
+     * @param Player $player1
+     * @param Player $player2
      * @return Game[]|null
      */
-    public function findUnfinishedGamesPlayerVsPlayer($player1, $player2)
+    public function findUnfinishedGamesPlayerVsPlayer(Player $player1, Player $player2)
     {
         return $this->findGamesPlayerVsPlayerByResult($player1, $player2, Game::RESULT_UNFINISHED);
     }
 
     /**
-     * @param string $player1Id
-     * @param string $player2Id
-     * @param string $result
+     * @param Player $player1
+     * @param Player $player2
+     * @param $result
      * @return Game[]|null
      */
-    public function findGamesPlayerVsPlayerByResult($player1Id, $player2Id, $result)
+    public function findGamesPlayerVsPlayerByResult(Player $player1, Player $player2, $result)
     {
         return $this
             ->createQueryBuilder('g')
             ->where('g.white = :player1 AND g.black = :player2 AND g.result = :result')
             ->orWhere('g.white = :player2 AND g.black = :player1 AND g.result = :result')
-            ->setParameter('player1', $player1Id)
-            ->setParameter('player2', $player2Id)
+            ->setParameter('player1', $player1)
+            ->setParameter('player2', $player2)
             ->setParameter('result', $result)
             ->getQuery()
             ->execute();
     }
 
     /**
-     * @param string $player1Id
-     * @param string $player2Id
+     * @param Player $player1
+     * @param Player $player2
      * @param bool $won
      * @return Game[]|null
      */
-    public function findWonOrLostGamesPlayerVsPlayer($player1Id, $player2Id, $won = true)
+    public function findWonOrLostGamesPlayerVsPlayer(Player $player1, Player $player2, $won = true)
     {
         return $this
             ->createQueryBuilder('g')
             ->where('g.white = :player1 AND g.black = :player2 AND g.result = :whiteWins')
             ->orWhere('g.white = :player2 AND g.black = :player1 AND g.result = :blackWins')
-            ->setParameter('player1', $player1Id)
-            ->setParameter('player2', $player2Id)
+            ->setParameter('player1', $player1)
+            ->setParameter('player2', $player2)
             ->setParameter('whiteWins', ($won ? Game::RESULT_WHITE_WINS : Game::RESULT_BLACK_WINS))
             ->setParameter('blackWins', (!$won ? Game::RESULT_WHITE_WINS : Game::RESULT_BLACK_WINS))
             ->getQuery()
@@ -124,28 +124,28 @@ class GameRepository extends EntityRepository
     }
 
     /**
-     * @param string $playerId
+     * @param Player $player
      * @param string $result
      * @return Game[]|null
      */
-    public function findGamesByPlayerIdAndResult($playerId, $result)
+    public function findGamesByPlayerIdAndResult(Player $player, $result)
     {
         return $this
             ->createQueryBuilder('g')
             ->where('g.white = :player OR g.black = :player')
             ->andWhere('g.result = :result')
             ->setParameter('result', $result)
-            ->setParameter('player', $playerId)
+            ->setParameter('player', $player)
             ->getQuery()
             ->execute();
     }
 
     /**
-     * @param string $playerId
+     * @param Player $player
      * @param bool $won
      * @return Game[]|null
      */
-    public function findWonOrLostGamesByPlayerId($playerId, $won = true)
+    public function findWonOrLostGamesByPlayer(Player $player, $won = true)
     {
         return $this
             ->createQueryBuilder('g')
@@ -153,7 +153,7 @@ class GameRepository extends EntityRepository
             ->orWhere('g.black = :player AND g.result = :blackResult')
             ->setParameter('whiteResult', ($won ? Game::RESULT_WHITE_WINS : Game::RESULT_BLACK_WINS))
             ->setParameter('blackResult',(!$won ? Game::RESULT_WHITE_WINS : Game::RESULT_BLACK_WINS))
-            ->setParameter('player', $playerId)
+            ->setParameter('player', $player)
             ->getQuery()
             ->execute();
     }

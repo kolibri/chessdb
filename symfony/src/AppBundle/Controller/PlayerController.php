@@ -1,8 +1,6 @@
 <?php
 
-
 namespace AppBundle\Controller;
-
 
 use AppBundle\Entity\Game;
 use AppBundle\Entity\Player;
@@ -14,7 +12,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @Route("/player")
@@ -36,13 +33,16 @@ class PlayerController extends Controller
      */
     public function showAction(Player $player)
     {
+        $gameRepository = $this->gameRepository();
+        $playerRepository = $this->playerRepository();
+
         return [
             'player' => $player,
-            'otherPlayers' => $this->playerRepository()->findOtherPlayers($player),
-            'wonGames' => $this->gameRepository()->findWonGamesByPlayerId($player),
-            'lostGames' => $this->gameRepository()->findLostGamesByPlayerId($player),
-            'drawGames' => $this->gameRepository()->findDrawGamesByPlayerId($player),
-            'unfinishedGames' => $this->gameRepository()->findUnfinishedGamesByPlayerId($player),
+            'otherPlayers' => $playerRepository->findOtherPlayers($player),
+            'wonGames' => $gameRepository->findWonGamesByPlayer($player),
+            'lostGames' => $gameRepository->findLostGamesByPlayer($player),
+            'drawGames' => $gameRepository->findDrawGamesByPlayer($player),
+            'unfinishedGames' => $gameRepository->findUnfinishedGamesByPlayer($player),
         ];
     }
 
@@ -54,15 +54,18 @@ class PlayerController extends Controller
      */
     public function versusAction(Player $player1, Player $player2)
     {
+        $gameRepository = $this->gameRepository();
+        $playerRepository = $this->playerRepository();
+
         return [
             'player1' => $player1,
             'player2' => $player2,
-            'wonGames' => $this->gameRepository()->findWonGamesPlayerVsPlayer($player1, $player2),
-            'lostGames' => $this->gameRepository()->findLostGamesPlayerVsPlayer($player1, $player2),
-            'drawGames' => $this->gameRepository()->findDrawGamesPlayerVsPlayer($player1, $player2),
-            'unfinishedGames' => $this->gameRepository()->findUnfinishedGamesPlayerVsPlayer($player1, $player2),
-            'otherPlayers1' => $this->playerRepository()->findOtherPlayers($player1),
-            'otherPlayers2' => $this->playerRepository()->findOtherPlayers($player2),
+            'wonGames' => $gameRepository->findWonGamesPlayerVsPlayer($player1, $player2),
+            'lostGames' => $gameRepository->findLostGamesPlayerVsPlayer($player1, $player2),
+            'drawGames' => $gameRepository->findDrawGamesPlayerVsPlayer($player1, $player2),
+            'unfinishedGames' => $gameRepository->findUnfinishedGamesPlayerVsPlayer($player1, $player2),
+            'otherPlayers1' => $playerRepository->findOtherPlayers($player1),
+            'otherPlayers2' => $playerRepository->findOtherPlayers($player2),
         ];
     }
 
@@ -100,7 +103,7 @@ class PlayerController extends Controller
      */
     private function playerRepository()
     {
-        return $this->get('doctrine')->getRepository(Player::class);
+        return $this->getDoctrine()->getRepository(Player::class);
     }
 
     /**
@@ -108,7 +111,7 @@ class PlayerController extends Controller
      */
     private function gameRepository()
     {
-        return $this->get('doctrine')->getRepository(Game::class);
+        return $this->getDoctrine()->getRepository(Game::class);
     }
 
     /**
