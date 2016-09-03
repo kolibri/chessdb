@@ -1,3 +1,9 @@
+app_layout:
+    path: /_layout
+    defaults:
+        _controller: FrameworkBundle:Template:template
+        template:    dev/layout.html.twig
+
 _wdt:
     resource: "@WebProfilerBundle/Resources/config/routing/wdt.xml"
     prefix:   /_wdt

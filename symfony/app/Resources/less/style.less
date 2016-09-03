@@ -1,5 +1,66 @@
 body {
   font-family: sans-serif;
+
+  nav {
+    width: 13em;
+    float: left;
+
+    ul {
+      margin: 0 0 0.5em;
+      padding: 0;
+      width: 100%;
+
+      li {
+        list-style: none;
+
+        > * {
+          width: 100%;
+          display: inline-block;
+        }
+        a {
+          border: 1px solid black;
+          margin: 0.2em 0;
+          padding: 0.2em;
+          text-decoration: none;
+          color: black;
+        }
+
+        a:hover {
+          color: white;
+          background-color: black;
+        }
+
+        form {
+          margin: 0.2em;
+          border: 1px solid black;
+          padding: 0.2em 0.2em 0.2em 0;
+
+          * {
+            margin: 0;
+            padding: 0;
+          }
+
+          select {
+            font-size: 1em;
+            width: 5em;
+            background-color: white;
+            border: none;
+          }
+
+          button {
+            font-size: 1em;
+            width: 1.7em;
+            border: 1px black solid;
+          }
+        }
+      }
+    }
+  }
+
+  main {
+    margin-left: 16vw;
+  }
+
 }
 
 nav {
@@ -55,7 +116,6 @@ nav {
       .buttons {
         display: block;
       }
-
 
     }
   }
@@ -123,7 +183,6 @@ nav {
     float: left;
   }
 }
-
 
 .game-edit {
   label {
