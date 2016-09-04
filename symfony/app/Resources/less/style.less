@@ -1,6 +1,32 @@
 body {
   font-family: sans-serif;
 }
+a {
+  color: black;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+.pure-menu-link {
+  color: black;
+}
+
+.sidebar {
+  .leaderboard {
+    padding-left: 2em;
+    li {
+      .won-count:before { content: '('; }
+      .won-count:after { content: ')'; }
+      .won-count {
+        display: inline-block;
+        width: 2em;
+      }
+
+    }
+  }
+}
 
 @media (orientation: landscape) {
   .game-show {

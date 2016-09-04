@@ -1,9 +1,13 @@
 <ol class="leaderboard">
     {% for player in players %}
         <li>
-            <a href="{{ path('app_player_show', {'uuid': player.uuid}) }}">
-                {{ player.name }} ({{ player.won }})
-            </a>
+            <span class="won-count">{{ player.won }}</span>
+                <span class="player-name">
+                    <a href="{{ path('app_player_show', {'uuid': player.uuid}) }}">
+                        {{ player.name }}
+
+                    </a>
+                </span>
         </li>
     {% endfor %}
 </ol>
