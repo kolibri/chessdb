@@ -339,4 +339,5 @@ class GameRepository extends EntityRepository
             ->getQuery()
             ->execute();
     }
-}
+
+ }

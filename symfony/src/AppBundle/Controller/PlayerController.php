@@ -24,7 +24,9 @@ class PlayerController extends Controller
      */
     public function listAction()
     {
-        return ['players' => $this->playerRepository()->findAll()];
+        return [
+            'statistics' => $this->playerRepository()->getStatistics(),
+        ];
     }
 
     /**
@@ -99,6 +101,14 @@ class PlayerController extends Controller
     }
 
     /**
+     * @Template("player/leaderboard.html.twig")
+     */
+    public function leaderBoardAction()
+    {
+        return ['players' => $this->playerRepository()->getStatistics(5)];
+    }
+
+    /**
      * @return \AppBundle\Entity\PlayerRepository
      */
     private function playerRepository()
@@ -129,7 +139,7 @@ class PlayerController extends Controller
             ->add('player1', EntityType::class, $options)
             ->add('player2', EntityType::class, $options)
             ->add('submit', SubmitType::class, [
-                'label' => 'vs'
+                'label' => 'vs  '
             ])
             ->getForm();
     }
