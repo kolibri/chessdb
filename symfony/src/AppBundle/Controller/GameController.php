@@ -19,7 +19,7 @@ use Symfony\Component\HttpFoundation\Request;
 class GameController extends Controller
 {
     /**
-     * @Route("/games")
+     * @Route("/list")
      * @Template("game/list.html.twig")
      */
     public function listAction()
@@ -33,7 +33,7 @@ class GameController extends Controller
     }
 
     /**
-     * @Route("/games/show/{uuid}")
+     * @Route("/show/{uuid}")
      * @Template("game/show.html.twig")
      */
     public function showAction(Game $game)
