@@ -8,6 +8,28 @@ services:
         class: AppBundle\Adapter\ChessAdapter
         arguments: ['@chessphp.chess']
 
+    app.import.pgn_string_importer:
+        class: AppBundle\Import\PgnStringImporter
+        arguments: ['@app.adapter.chess_adapter']
+
+    app.form.moves_type:
+        class: AppBundle\Form\MovesType
+        arguments: ['@app.form_data_transformer.moves_transformer']
+        tags:
+            - { name: form.type, alias: AppBundle\Form\MovesType }
+
+    app.form_data_transformer.moves_transformer:
+        class: AppBundle\Form\DataTransformer\MovesTransformer
+        arguments: ['@app.helper.move_transform_helper']
+
+    app.helper.move_transform_helper:
+        class: AppBundle\Helper\MovesTransformHelper
+
+    app.twig.pgn_extension:
+        class: AppBundle\Twig\PgnExtension
+        arguments: ['@app.helper.move_transform_helper']
+        tags:
+            - { name: twig.extension }
 
     app.validator_constraints.pgn_validator:
         class: AppBundle\Validator\Constraints\PgnValidator
@@ -17,3 +39,4 @@ services:
 
     chessphp.chess:
         class: Ryanhs\Chess\Chess
+

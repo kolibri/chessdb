@@ -11,6 +11,6 @@ use Symfony\Component\Validator\Constraint;
  */
 class Pgn extends Constraint
 {
-    public $message = 'The given string is not a valid PGN string.';
+    public $message = 'validator.pgn.message';
 
 }

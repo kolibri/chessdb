@@ -3,13 +3,19 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Helper\MovesTransformHelper;
 use Ramsey\Uuid\Uuid;
-use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Choice;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\CustomIdGenerator;
 
 
 /**
- * @ORM\Entity(repositoryClass="GameRepository")
+ * @Entity(repositoryClass="AppBundle\Entity\Repository\GameRepository")
  */
 class Game
 {
@@ -21,70 +27,67 @@ class Game
     /**
      * @var Uuid
      *
-     * @ORM\Id
-     * @ORM\Column(type="uuid")
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
+     * @Id
+     * @Column(type="uuid")
+     * @GeneratedValue(strategy="CUSTOM")
+     * @CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
      */
     private $uuid;
 
     /**
      * @var string
      *
-     * @ORM\Column
-     * @Assert\NotBlank
+     * @Column
+     * @NotBlank
      */
     private $event;
 
     /**
      * @var string
      *
-     * @ORM\Column
-     * @Assert\NotBlank
+     * @Column
+     * @NotBlank
      */
     private $site;
 
     /**
-     * @var \DateTime
+     * @var
      *
-     * @ORM\Column(type="date")
-     * @Assert\NotBlank
-     * @Assert\Date
+     * @Column
+     * @NotBlank
      */
     private $date;
 
     /**
      * @var string
      *
-     * @ORM\Column
-     * @Assert\NotBlank
+     * @Column
+     * @NotBlank
      */
     private $round;
 
     /**
-     * @var Player
+     * @var string
      *
-     * @ORM\ManyToOne(targetEntity="Player")
-     * @ORM\JoinColumn(name="white_id", referencedColumnName="uuid")
-     * @Assert\NotBlank
+     * @Column
+     * @NotBlank
      */
     private $white;
 
     /**
-     * @var Player
+     * @var string
      *
-     * @ORM\ManyToOne(targetEntity="Player")
-     * @ORM\JoinColumn(name="black_id", referencedColumnName="uuid")
-     * @Assert\NotBlank
+     * @Column
+     * @NotBlank
      */
     private $black;
 
     /**
      * @var string
      *
-     * @ORM\Column(length=7)
-     * @Assert\NotBlank
-     * @Assert\Choice({
+     * @Column(length=7)
+     * @NotBlank
+     * @Choice({
      *     Game::RESULT_WHITE_WINS,
      *     Game::RESULT_BLACK_WINS,
      *     Game::RESULT_DRAW,
@@ -94,25 +97,25 @@ class Game
     private $result;
 
     /**
-     * @var string
+     * @var array
      *
-     * @ORM\Column(type="text")
-     * @Assert\NotBlank
+     * @Column(type="simple_array")
+     * @NotBlank
      */
-    private $pgn;
+    private $moves;
 
     /**
-     * ChessGame constructor.
+     * Game constructor.
      * @param string $event
      * @param string $site
-     * @param \DateTime $date
+     * @param $date
      * @param string $round
-     * @param Player $white
-     * @param Player $black
+     * @param string $white
+     * @param string $black
      * @param string $result
-     * @param string $pgn
+     * @param string $moves
      */
-    public function __construct($event, $site, \DateTime $date, $round, Player $white, Player $black, $result, $pgn)
+    public function __construct($event, $site, $date, $round, $white, $black, $result, $moves)
     {
         $this->event = $event;
         $this->site = $site;
@@ -121,11 +124,11 @@ class Game
         $this->white = $white;
         $this->black = $black;
         $this->result = $result;
-        $this->pgn = $pgn;
+        $this->moves = $moves;
     }
 
     /**
-     * @return \Ramsey\Uuid\Uuid
+     * @return Uuid
      */
     public function getUuid()
     {
@@ -141,67 +144,19 @@ class Game
     }
 
     /**
-     * @return string
-     */
-    public function getSite()
-    {
-        return $this->site;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getDate()
-    {
-        return $this->date;
-    }
-
-    /**
-     * @return string
-     */
-    public function getRound()
-    {
-        return $this->round;
-    }
-
-    /**
-     * @return Player
-     */
-    public function getWhite()
-    {
-        return $this->white;
-    }
-
-    /**
-     * @return Player
-     */
-    public function getBlack()
-    {
-        return $this->black;
-    }
-
-    /**
-     * @return string
-     */
-    public function getResult()
-    {
-        return $this->result;
-    }
-
-    /**
-     * @return string
-     */
-    public function getPgn()
-    {
-        return $this->pgn;
-    }
-
-    /**
      * @param string $event
      */
     public function setEvent($event)
     {
         $this->event = $event;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSite()
+    {
+        return $this->site;
     }
 
     /**
@@ -213,11 +168,27 @@ class Game
     }
 
     /**
-     * @param \DateTime $date
+     * @return mixed
+     */
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    /**
+     * @param mixed $date
      */
     public function setDate($date)
     {
         $this->date = $date;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRound()
+    {
+        return $this->round;
     }
 
     /**
@@ -229,19 +200,43 @@ class Game
     }
 
     /**
-     * @param Player $white
+     * @return string
      */
-    public function setWhite(Player $white)
+    public function getWhite()
+    {
+        return $this->white;
+    }
+
+    /**
+     * @param string $white
+     */
+    public function setWhite($white)
     {
         $this->white = $white;
     }
 
     /**
-     * @param Player $black
+     * @return string
      */
-    public function setBlack(Player $black)
+    public function getBlack()
+    {
+        return $this->black;
+    }
+
+    /**
+     * @param string $black
+     */
+    public function setBlack($black)
     {
         $this->black = $black;
+    }
+
+    /**
+     * @return string
+     */
+    public function getResult()
+    {
+        return $this->result;
     }
 
     /**
@@ -253,10 +248,18 @@ class Game
     }
 
     /**
-     * @param string $pgn
+     * @return array
      */
-    public function setPgn($pgn)
+    public function getMoves()
     {
-        $this->pgn = $pgn;
+        return $this->moves;
+    }
+
+    /**
+     * @param array $moves
+     */
+    public function setMoves(array $moves)
+    {
+        $this->moves = $moves;
     }
 }
