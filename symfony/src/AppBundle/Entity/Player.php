@@ -1,17 +1,26 @@
 <?php
 
-
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Ramsey\Uuid\Uuid;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * @ORM\Entity(repositoryClass="PlayerRepository")
+ * @ORM\Entity(repositoryClass="UserRepository")
+ * @ORM\Table(
+ *     uniqueConstraints={
+ *         @ORM\UniqueConstraint(name="user_username_unique", columns="username"),
+ *         @ORM\UniqueConstraint(name="user_email_unique", columns="email_address"),
+ *     }
+ * )
+ * @UniqueEntity("username")
+ * @UniqueEntity("emailAddress")
  */
-class Player
+class Player implements UserInterface
 {
     /**
      * @var Uuid
@@ -27,25 +36,91 @@ class Player
      * @var string
      *
      * @ORM\Column
+     * @Assert\NotBlank(groups={"registration"})
+     * @Assert\Length(min=4, max=25, groups={"registration"})
+     * @Assert\Regex(pattern="/^[a-z0-9]+$/i", groups={"registration"})
+     */
+    private $username;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column
+     */
+    private $password;
+
+    /**
+     * @var array
+     *
+     * @ORM\Column(type="simple_array")
      * @Assert\NotBlank
      */
-    private $name;
+    private $roles = [];
 
     /**
-     * @var User
+     * @var string
      *
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="players")
-     * @ORM\JoinColumn(name="user_uuid", referencedColumnName="uuid")
+     * @ORM\Column
+     * @Assert\NotBlank(groups={"registration"})
+     * @Assert\Email(groups={"registration"})
      */
-    private $user;
+    private $emailAddress;
 
     /**
-     * Player constructor.
-     * @param string $name
+     * @var Player[]|ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="Player", mappedBy="user")
      */
-    public function __construct($name)
+    private $players = [];
+
+    /**
+     * @var string
+     *
+     * @Assert\NotBlank(groups={"registration"})
+     * @Assert\Length(min=6, groups={"registration"})
+     */
+    private $rawPassword;
+
+    /**
+     * @var DropboxInfo
+     *
+     * @ORM\OneToOne(targetEntity="DropboxInfo", mappedBy="user")
+     */
+    private $dropboxInfo;
+
+    /**
+     * User constructor.
+     */
+    public function __construct()
     {
-        $this->name = $name;
+        $this->players = new ArrayCollection();
+    }
+
+
+    public static function register($username, $emailAddress, $rawPassword)
+    {
+        $user = new self();
+        $user->setUsername($username);
+        $user->setEmailAddress($emailAddress);
+        $user->setRawPassword($rawPassword);
+        $user->setRoles(['ROLE_PLAYER']);
+
+        return $user;
+    }
+
+    public function getRoles()
+    {
+        return $this->roles;
+    }
+
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    public function getUsername()
+    {
+        return $this->username;
     }
 
     /**
@@ -59,29 +134,139 @@ class Player
     /**
      * @return string
      */
-    public function getName()
+    public function getEmailAddress()
     {
-        return $this->name;
+        return $this->emailAddress;
     }
 
     /**
-     * @return User
+     * @return Player[]
      */
-    public function getUser()
+    public function getPlayers()
     {
-        return $this->user;
+        return $this->players;
     }
 
     /**
-     * @param User $user
+     * @param string $username
      */
-    public function setUser(User $user)
+    public function setUsername($username)
     {
-        $this->user = $user;
+        $this->username = $username;
     }
 
-    public function removeUser()
+    /**
+     * @param string $password
+     */
+    public function setPassword($password)
     {
-        $this->user = null;
+        $this->password = $password;
+    }
+
+    /**
+     * @param string $roles
+     */
+    public function setRoles($roles)
+    {
+        foreach ($roles as $role) {
+            $this->addRole($role);
+        }
+    }
+
+    public function addRole($role)
+    {
+        if (in_array($role, $this->roles)) {
+            return;
+        }
+        $this->roles[] = $role;
+    }
+
+    public function removeRole($role)
+    {
+        if (!in_array($role, $this->roles)) {
+            return;
+        }
+        $this->roles = array_filter($this->roles, function($current) use ($role) {
+            return $current !== $role;
+        });
+
+    }
+
+    /**
+     * @param string $emailAddress
+     */
+    public function setEmailAddress($emailAddress)
+    {
+        $this->emailAddress = $emailAddress;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRawPassword()
+    {
+        return $this->rawPassword;
+    }
+
+    /**
+     * @param string $rawPassword
+     */
+    public function setRawPassword($rawPassword)
+    {
+        $this->rawPassword = $rawPassword;
+    }
+
+    /**
+     * @param Player[] $players
+     */
+    public function setPlayers($players)
+    {
+        foreach ($players as $player) {
+            $this->addPlayer($player);
+        }
+    }
+
+    /**
+     * @param Player $player
+     */
+    public function addPlayer(Player $player)
+    {
+        $player->setUser($this);
+        $this->players->add($player);
+    }
+
+    /**
+     * @param Player $player
+     */
+    public function removePlayer(Player $player)
+    {
+        $player->removeUser();
+        $this->players->removeElement($player);
+    }
+
+    /**
+     * @return DropboxInfo
+     */
+    public function getDropboxInfo()
+    {
+        return $this->dropboxInfo;
+    }
+
+    /**
+     * @param DropboxInfo $dropboxInfo
+     */
+    public function setDropboxInfo($dropboxInfo)
+    {
+        $this->dropboxInfo = $dropboxInfo;
+    }
+
+    public function eraseCredentials()
+    {
+        $this->rawPassword = '';
+    }
+
+    public function getSalt()
+    {
+        return;
     }
 }

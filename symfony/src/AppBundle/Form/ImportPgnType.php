@@ -1,33 +1,24 @@
 <?php
 
 
-namespace AppBundle\User;
+namespace AppBundle\Form;
 
 
-use AppBundle\Entity\Game;
+use AppBundle\Domain\Pgn;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class GameType extends AbstractType
+class ImportPgnType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('pgn', TextareaType::class, [
-            'attr' => [
-                'rows' => 20,
-                'cols' => 60,
-            ]
-        ]);
+        $builder->add('pgnString', TextareaType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        return [
-            'data-class' => Game::class
-        ];
+        $resolver->setDefaults(['data_class' => Pgn::class]);
     }
-
-
 }

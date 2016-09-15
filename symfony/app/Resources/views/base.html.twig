@@ -1,54 +1,13 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="UTF-8"/>
-    <title>{% block title %}chessdb{% endblock %}</title>
-    {% block stylesheets %}
-        <link rel="stylesheet" href="{{ asset('css/pure-min.css') }}">
-        <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-    {% endblock %}
-    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
-</head>
-<body>
-<div class="pure-g">
-    <header class="pure-u-1">
-        <h1>Chess Database</h1>
-    </header>
-
-    <section class="sidebar pure-u-1-5">
-        <nav class="pure-menu">
-            <ul class="pure-menu-list">
-                {% if app.user %}
-                    <li class="pure-menu-item"><a class="pure-menu-link" href="{{ path('app_logout') }}">Logout</a></li>
-                {% else %}
-                    <li class="pure-menu-item"><a class="pure-menu-link"
-                                                  href="{{ path('app_security_login') }}">Login</a></li>
-                    <li class="pure-menu-item"><a class="pure-menu-link" href="{{ path('app_security_register') }}">Register</a>
-                    </li>
-                {% endif %}
-            </ul>
-
-            <ul class="pure-menu-list">
-                <li class="pure-menu-item"><a class="pure-menu-link" href="{{ path('app_game_list') }}">Gamelist</a>
-                </li>
-                <li class="pure-menu-item"><a class="pure-menu-link" href="{{ path('app_player_list') }}">Players</a>
-                </li>
-                {% if is_granted('ROLE_PLAYER') %}
-                    <li class="pure-menu-item"><a class="pure-menu-link" href="{{ path('app_user_list') }}">Users</a>
-                    </li>
-                {% endif %}
-            </ul>
-        </nav>
-        {{ render(controller('AppBundle:Player:leaderBoard')) }}
-    </section>
-
-    <main class="pure-u-4-5">
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        {% block stylesheets %}{% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    </head>
+    <body>
         {% block body %}{% endblock %}
-    </main>
-</div>
-{% block javascripts %}
-    <script src="{{ asset('js/chess.min.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('js/chessboard.js') }}" type="text/javascript"></script>
-{% endblock %}
-</body>
+        {% block javascripts %}{% endblock %}
+    </body>
 </html>

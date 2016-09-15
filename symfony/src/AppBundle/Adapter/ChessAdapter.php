@@ -22,4 +22,19 @@ class ChessAdapter
     {
         return $this->chess->parsePgn($pgn);
     }
+
+    public function validatePgn($pgn)
+    {
+        return $this->chess->validatePgn($pgn);
+    }
+
+    public function setHeader($key, $value)
+    {
+        return $this->chess->header($key, $value);
+    }
+
+    public function getHeader($key)
+    {
+        return $this->chess->header($key);
+    }
 }

@@ -8,111 +8,12 @@ services:
         class: AppBundle\Adapter\ChessAdapter
         arguments: ['@chessphp.chess']
 
-    app.importer.pgn_string_importer:
-        class: AppBundle\Import\PgnStringToGameImporter
-        arguments:
-             - '@app.adapter.chess_adapter'
-             - '@app.repository.player'
 
-
-    app.import.pgn_files_importer:
-        class: AppBundle\Import\PgnFilesImporter
-        arguments:
-            - '@app.importer.pgn_string_importer'
-            - '@doctrine.orm.entity_manager'
-            - '@finder'
-
-    app.repository.player:
-        class: AppBundle\Entity\PlayerRepository
-        factory: ['@doctrine', getRepository]
-        arguments: [AppBundle\Entity\Player]
-
-    app.repository.dropbox_info:
-        class: AppBundle\Entity\DropboxInfoRepository
-        factory: ['@doctrine', getRepository]
-        arguments: [AppBundle\Entity\DropboxInfo]
-
-    app.repository.user:
-        class: AppBundle\Entity\UserRepository
-        factory: ['@doctrine', getRepository]
-        arguments: [AppBundle\Entity\User]
-
-    app.twig.chess_extension:
-        class: AppBundle\Twig\ChessExtension
-        arguments: ['pgn']
+    app.validator_constraints.pgn_validator:
+        class: AppBundle\Validator\Constraints\PgnValidator
+        arguments: ['@app.adapter.chess_adapter']
         tags:
-            - { name: twig.extension }
-
-    app.import.drop_box_importer:
-        class: AppBundle\Import\DropBoxImporter
-        arguments:
-            - '@app.importer.pgn_string_importer'
-            - '@doctrine.orm.entity_manager'
-            - '@dropbox.client'
-            - '/imported'
-            - '/tmp/dropboxtmp'
-
-    dropbox.client:
-        class: Dropbox\Client
-        arguments:
-            - '%dropbox_api_key%'
-            - '%dropbox_app_name%'
+            - { name: validator.constraint_validator }
 
     chessphp.chess:
         class: Ryanhs\Chess\Chess
-
-    finder:
-        class: Symfony\Component\Finder\Finder
-
-    app.form.game_type_handler:
-        class: AppBundle\Form\GameTypeHandler
-        arguments:
-            - '@app.importer.pgn_string_importer'
-            - '@doctrine.orm.entity_manager'
-
-    app.mailer.user_mailer:
-        class: AppBundle\Mailer\UserMailer
-        arguments:
-          - '@mailer'
-          - '%admin_mail_address%'
-          - '%sender_mail_address%'
-
-    app.user.registration_handler:
-        class: AppBundle\User\RegistrationHandler
-        arguments:
-          - '@security.encoder_factory'
-          - '@app.repository.user'
-          - '@app.mailer.user_mailer'
-
-    app.form.user_to_player_type:
-        class: AppBundle\Form\UserToPlayerType
-        arguments: ['@app.repository.player']
-        tags:
-            - { name: form.type, alias: AppBundle\Form\UserToPlayerType }
-
-    dropbox.app.info:
-        class: Dropbox\AppInfo
-        arguments:
-            - '%dropbox_api_key%'
-            - '%dropbox_api_secret%'
-
-    app.dropbox.session_value_store:
-        class: AppBundle\Dropbox\SessionValueStore
-        arguments:
-            - '@session'
-
-    app.dropbox.auth_helper:
-        class: AppBundle\Dropbox\AuthHelper
-        arguments:
-            - '@router'
-            - '@dropbox.app.info'
-            - '@app.dropbox.session_value_store'
-            - '%dropbox_app_name%'
-            - 'app_import_authfinish'
-            - '@app.dropbox.token_storage'
-
-    app.dropbox.token_storage:
-        class: AppBundle\Dropbox\TokenStorage
-        arguments:
-            - '@app.repository.dropbox_info'
-            - '@security.token_storage'
