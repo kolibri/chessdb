@@ -50,6 +50,7 @@ class ImportPgn
     public function __construct($pgnString)
     {
         $this->pgnString = $pgnString;
+        $this->imported = false;
     }
 
     /**

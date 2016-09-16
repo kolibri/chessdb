@@ -18,4 +18,14 @@ class ImportedPgnRepository extends EntityRepository
             $entityManager->flush();
         }
     }
+
+    public function findUnimported()
+    {
+        return $this
+            ->createQueryBuilder('p')
+            ->where('p.imported = :imported')
+            ->setParameter('imported', false)
+            ->getQuery()
+            ->execute();
+    }
 }

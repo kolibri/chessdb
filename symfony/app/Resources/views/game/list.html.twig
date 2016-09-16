@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% for game in games %}
+        <a href="{{ path('app_game_show', {'uuid': game.uuid}) }}">
+            {{ game.white }} - {{ game.black }} {{ game.result }}
+        </a>
+        <pre>{{ pgn(game) }}</pre>
+    {% endfor %}
+{% endblock %}

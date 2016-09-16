@@ -1,8 +1,6 @@
 <?php
 
-
 namespace AppBundle\Controller;
-
 
 use AppBundle\Entity\Game;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -14,9 +12,20 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 class GameController extends Controller
 {
     /**
+     * @Route("/list")
+     */
+    public function listAction()
+    {
+        return $this->render(
+            'game/list.html.twig',
+            ['games' => $this->getDoctrine()->getRepository(Game::class)->findAll()]
+        );
+    }
+
+    /**
      * @Route("/show/{uuid}")
      */
-    public function showGameAction(Game $game)
+    public function showAction(Game $game)
     {
         return $this->render(
             'game/show.html.twig',

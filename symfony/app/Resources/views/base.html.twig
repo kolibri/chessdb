@@ -7,6 +7,12 @@
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
+    <header>
+        <nav class="main">
+            <a href="{{ path('app_import_pgn') }}">Import PGN</a>
+            <a href="{{ path('app_game_list') }}">Game List</a>
+        </nav>
+    </header>
         {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}
     </body>

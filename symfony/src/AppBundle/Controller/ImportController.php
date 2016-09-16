@@ -4,6 +4,8 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Game;
 use AppBundle\Entity\ImportPgn;
+use AppBundle\Entity\Repository\GameRepository;
+use AppBundle\Entity\Repository\ImportedPgnRepository;
 use AppBundle\Form\GameType;
 use AppBundle\Form\ImportPgnType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -17,7 +19,7 @@ use Symfony\Component\HttpFoundation\Request;
 class ImportController extends Controller
 {
     /**
-     * @Route("/pgn", name="import")
+     * @Route("/pgn")
      */
     public function pgnAction(Request $request)
     {
@@ -43,6 +45,13 @@ class ImportController extends Controller
      */
     public function gameAction(Request $request, ImportPgn $importedPgn)
     {
+        if ($importedPgn->isImported()) {
+            return $this->render(
+                'import/game_already_imported.html.twig',
+                []
+            );
+        }
+
         $game = $this
             ->get('app.import.pgn_string_importer')
             ->importPgnString($importedPgn->getPgnString());
@@ -57,7 +66,7 @@ class ImportController extends Controller
 
             $this->getDoctrine()->getEntityManager()->flush();
 
-            return $this->redirectToRoute('app_game_showgame', ['uuid' => $game->getUuid()]);
+            return $this->redirectToRoute('app_game_show', ['uuid' => $game->getUuid()]);
         }
         
         return $this->render(
@@ -70,13 +79,27 @@ class ImportController extends Controller
     }
 
     /**
-     * @return \AppBundle\Entity\Repository\ImportedPgnRepository|\Doctrine\Common\Persistence\ObjectRepository
+     * @Route("/list")
+     */
+    public function listPgnsAction()
+    {
+        return $this->render(
+            'import/list_pgns.html.twig',
+            ['pgns' => $this->importedGameRepository()->findUnimported()]
+        );
+    }
+
+    /**
+     * @return ImportedPgnRepository
      */
     private function importedGameRepository()
     {
         return $this->getDoctrine()->getRepository(ImportPgn::class);
     }
 
+    /**
+     * @return GameRepository
+     */
     private function gameRepository()
     {
         return $this->getDoctrine()->getRepository(Game::class);
