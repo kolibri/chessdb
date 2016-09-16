@@ -3,8 +3,10 @@
 
 namespace AppBundle\Form;
 
+use AppBundle\Domain\PgnDate;
 use AppBundle\Entity\Game;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
@@ -23,6 +25,17 @@ class GameType extends AbstractType
             ->add('black', TextType::class)
             ->add('result', TextType::class)
             ->add('moves', MovesType::class);
+
+        $builder->get('date')->addModelTransformer(
+            new CallbackTransformer(
+                function ($value) {
+                    return $value->toString();
+                },
+                function ($value) {
+                    return PgnDate::fromString($value);
+                }
+            )
+        );
     }
 
     public function configureOptions(OptionsResolver $resolver)

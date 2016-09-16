@@ -51,7 +51,11 @@ class ImportController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $this->gameRepository()->save($game);
+            $importedPgn->setImported(true);
+            $this->importedGameRepository()->save($importedPgn, false);
+            $this->gameRepository()->save($game, false);
+
+            $this->getDoctrine()->getEntityManager()->flush();
 
             return $this->redirectToRoute('app_game_showgame', ['uuid' => $game->getUuid()]);
         }

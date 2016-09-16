@@ -3,6 +3,7 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Domain\PgnDate;
 use AppBundle\Helper\MovesTransformHelper;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -51,9 +52,9 @@ class Game
     private $site;
 
     /**
-     * @var
+     * @var PgnDate
      *
-     * @Column
+     * @Column(type="pgn_date")
      * @NotBlank
      */
     private $date;
@@ -168,7 +169,7 @@ class Game
     }
 
     /**
-     * @return mixed
+     * @return PgnDate
      */
     public function getDate()
     {
@@ -176,9 +177,9 @@ class Game
     }
 
     /**
-     * @param mixed $date
+     * @param PgnDate $date
      */
-    public function setDate($date)
+    public function setDate(PgnDate $date)
     {
         $this->date = $date;
     }

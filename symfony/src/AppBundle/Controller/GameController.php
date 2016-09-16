@@ -13,7 +13,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
  */
 class GameController extends Controller
 {
-
     /**
      * @Route("/show/{uuid}")
      */

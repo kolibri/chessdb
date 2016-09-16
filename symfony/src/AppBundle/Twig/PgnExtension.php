@@ -42,7 +42,7 @@ EOF;
             $format,
             $game->getEvent(),
             $game->getSite(),
-            $game->getDate(),
+            $game->getDate()->toString(),
             $game->getRound(),
             $game->getResult(),
             $game->getWhite(),

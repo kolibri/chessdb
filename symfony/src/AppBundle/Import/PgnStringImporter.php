@@ -5,6 +5,7 @@ namespace AppBundle\Import;
 
 
 use AppBundle\Adapter\ChessAdapter;
+use AppBundle\Domain\PgnDate;
 use AppBundle\Entity\Game;
 
 class PgnStringImporter
@@ -32,7 +33,7 @@ class PgnStringImporter
         return new Game(
             $info['header']['Event'],
             $info['header']['Site'],
-            $info['header']['Date'],
+            PgnDate::fromString($info['header']['Date']),
             $info['header']['Round'],
             $info['header']['White'],
             $info['header']['Black'],
