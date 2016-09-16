@@ -2,3 +2,8 @@ app:
     resource: "@AppBundle/Controller/"
     type:     annotation
     prefix: "/{_locale}"
+
+index:
+    path: /
+    defaults:
+        _controller: AppBundle:Default:index

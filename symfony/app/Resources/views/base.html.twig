@@ -13,6 +13,10 @@
             <a href="{{ path('app_game_list') }}">{{ 'nav.game_list'|trans }}</a>
             <a href="{{ path('app_import_listpgns') }}">{{ 'nav.import_list'|trans }}</a>
         </nav>
+        <nav class="language-select">
+            <a href="{{ path('app_default_homepage', {'_locale': 'de'}) }}">de</a>
+            <a href="{{ path('app_default_homepage', {'_locale': 'en'}) }}">en</a>
+        </nav>
     </header>
         {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}
