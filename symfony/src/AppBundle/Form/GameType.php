@@ -19,23 +19,12 @@ class GameType extends AbstractType
         $builder
             ->add('event', TextType::class)
             ->add('site', TextType::class)
-            ->add('date', TextType::class)
+            ->add('date', PgnDateType::class)
             ->add('round', TextType::class)
             ->add('white', TextType::class)
             ->add('black', TextType::class)
             ->add('result', TextType::class)
             ->add('moves', MovesType::class);
-
-        $builder->get('date')->addModelTransformer(
-            new CallbackTransformer(
-                function ($value) {
-                    return $value->toString();
-                },
-                function ($value) {
-                    return PgnDate::fromString($value);
-                }
-            )
-        );
     }
 
     public function configureOptions(OptionsResolver $resolver)
