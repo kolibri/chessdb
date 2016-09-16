@@ -29,7 +29,7 @@ class ImportController extends Controller
         if ($form->isValid()) {
             /** @var ImportPgn $importedPgn */
             $importedPgn = $form->getData();
-            $this->importedGameRepository()->save($importedPgn);
+            $this->importedPgnRepository()->save($importedPgn);
 
             return $this->redirectToRoute('app_import_game', ['uuid' => $importedPgn->getUuid()]);
         }
@@ -48,20 +48,20 @@ class ImportController extends Controller
         if ($importedPgn->isImported()) {
             return $this->render(
                 'import/game_already_imported.html.twig',
-                []
+                ['game' => $this->gameRepository()->findOneByImportPgn($importedPgn)]
             );
         }
 
         $game = $this
             ->get('app.import.pgn_string_importer')
             ->importPgnString($importedPgn->getPgnString());
-
+        $game->setOriginalPgn($importedPgn);
         $form = $this->createForm(GameType::class, $game);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
             $importedPgn->setImported(true);
-            $this->importedGameRepository()->save($importedPgn, false);
+            $this->importedPgnRepository()->save($importedPgn, false);
             $this->gameRepository()->save($game, false);
 
             $this->getDoctrine()->getEntityManager()->flush();
@@ -85,14 +85,14 @@ class ImportController extends Controller
     {
         return $this->render(
             'import/list_pgns.html.twig',
-            ['pgns' => $this->importedGameRepository()->findUnimported()]
+            ['pgns' => $this->importedPgnRepository()->findUnimported()]
         );
     }
 
     /**
      * @return ImportedPgnRepository
      */
-    private function importedGameRepository()
+    private function importedPgnRepository()
     {
         return $this->getDoctrine()->getRepository(ImportPgn::class);
     }

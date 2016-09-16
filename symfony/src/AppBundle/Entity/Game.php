@@ -13,7 +13,8 @@ use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\CustomIdGenerator;
-
+use Doctrine\ORM\Mapping\OneToOne;
+use Doctrine\ORM\Mapping\JoinColumn;
 
 /**
  * @Entity(repositoryClass="AppBundle\Entity\Repository\GameRepository")
@@ -106,17 +107,25 @@ class Game
     private $moves;
 
     /**
+     * @var ImportPgn
+     *
+     * @OneToOne(targetEntity="ImportPgn")
+     * @JoinColumn(name="original_pgn", referencedColumnName="uuid")
+     */
+    private $originalPgn;
+
+    /**
      * Game constructor.
      * @param string $event
      * @param string $site
-     * @param $date
+     * @param PgnDate $date
      * @param string $round
      * @param string $white
      * @param string $black
      * @param string $result
-     * @param string $moves
+     * @param array $moves
      */
-    public function __construct($event, $site, $date, $round, $white, $black, $result, $moves)
+    public function __construct($event, $site, PgnDate $date, $round, $white, $black, $result, array $moves)
     {
         $this->event = $event;
         $this->site = $site;
@@ -262,5 +271,21 @@ class Game
     public function setMoves(array $moves)
     {
         $this->moves = $moves;
+    }
+
+    /**
+     * @return ImportPgn
+     */
+    public function getOriginalPgn()
+    {
+        return $this->originalPgn;
+    }
+
+    /**
+     * @param ImportPgn $originalPgn
+     */
+    public function setOriginalPgn($originalPgn)
+    {
+        $this->originalPgn = $originalPgn;
     }
 }
