@@ -2,5 +2,5 @@
 
 {% block body %}
     <p>{{ 'import.already_imported.notice'|trans }}</p>
-    <a href="{{ path('app_game_show', {'uuid': game.uuid}) }}">{{ 'import.already_imported.link_to_game' }}</a>
+    <a href="{{ path('app_game_show', {'uuid': game.uuid}) }}">{{ 'import.already_imported.link_to_game'|trans }}</a>
 {% endblock %}

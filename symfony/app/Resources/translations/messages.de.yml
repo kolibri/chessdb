@@ -1,0 +1,34 @@
+import:
+  game:
+    form:
+      submit: Speichern
+  already_imported:
+    notice: Dieses Spiel wurde bereits importiert
+    link_to_game: Zum Spiel
+
+  list:
+    link_to_import: Importiere dieses Spiel
+    no_pgns: Keine zu importierenden Spiele vorhanden.
+  pgn:
+    form:
+      submit: Importieren
+
+nav:
+  import_pgn: Importiere PGN
+  game_list:  Spiele
+  import_list: Unfertige Imports
+
+form:
+  game:
+    label:
+      event: Ereignis
+      site: Ort
+      date: Datum
+      round: Runde
+      white: Weiß
+      black: Schwarz
+      result: Ergebnis
+      moves: Züge
+  importPgn:
+    label:
+      pgnString: PGN

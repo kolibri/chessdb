@@ -2,15 +2,16 @@
 <html>
     <head>
         <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>{% block title %}{% endblock %}</title>
         {% block stylesheets %}{% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
     <header>
         <nav class="main">
-            <a href="{{ path('app_import_pgn') }}">Import PGN</a>
-            <a href="{{ path('app_game_list') }}">Game List</a>
+            <a href="{{ path('app_import_pgn') }}">{{ 'nav.import_pgn'|trans }}</a>
+            <a href="{{ path('app_game_list') }}">{{ 'nav.game_list'|trans }}</a>
+            <a href="{{ path('app_import_listpgns') }}">{{ 'nav.import_list'|trans }}</a>
         </nav>
     </header>
         {% block body %}{% endblock %}

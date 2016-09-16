@@ -1,0 +1,33 @@
+import:
+  game:
+    form:
+      submit: Save
+  already_imported:
+    notice: This game id already imported.
+    link_to_game: Go to game
+  list:
+    link_to_import: Import this game
+    no_pgns: No games to import.
+  pgn:
+    form:
+      submit: Import
+
+nav:
+  import_pgn: Import PGN
+  game_list:  Game List
+  import_list: Unfinished Imports
+
+form:
+  game:
+    label:
+      event: Event
+      site: Site
+      date: Date
+      round: Round
+      white: White
+      black: Black
+      result: Result
+      moves: Moves
+  importPgn:
+    label:
+      pgnString: PGN

@@ -19,6 +19,7 @@ class ImportPgnType extends AbstractType
             TextareaType::class,
             [
                 'attr' => ['rows' => 20, 'cols' => 80],
+                'label' => 'form.importPgn.label.pgnString'
             ]
         );
     }
