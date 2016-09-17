@@ -54,7 +54,7 @@ class ImportController extends Controller
 
         $game = $this
             ->get('app.import.pgn_string_importer')
-            ->importPgnString($importedPgn->getPgnString());
+            ->importPgn($importedPgn);
         $game->setOriginalPgn($importedPgn);
         $form = $this->createForm(GameType::class, $game);
         $form->handleRequest($request);

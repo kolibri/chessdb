@@ -125,7 +125,7 @@ class Game
      * @param string $result
      * @param array $moves
      */
-    public function __construct($event, $site, PgnDate $date, $round, $white, $black, $result, array $moves)
+    public function __construct($event, $site, PgnDate $date, $round, $white, $black, $result, array $moves, ImportPgn $originalPgn)
     {
         $this->event = $event;
         $this->site = $site;
@@ -135,6 +135,7 @@ class Game
         $this->black = $black;
         $this->result = $result;
         $this->moves = $moves;
+        $this->originalPgn = $originalPgn;
     }
 
     /**

@@ -7,6 +7,7 @@ namespace AppBundle\Import;
 use AppBundle\Adapter\ChessAdapter;
 use AppBundle\Domain\PgnDate;
 use AppBundle\Entity\Game;
+use AppBundle\Entity\ImportPgn;
 
 class PgnStringImporter
 {
@@ -22,8 +23,10 @@ class PgnStringImporter
         $this->chess = $chess;
     }
 
-    public function importPgnString($pgn)
+    public function importPgn(ImportPgn $importPgn)
     {
+        $pgn = $importPgn->getPgnString();
+        
         if (!$this->chess->validatePgn($pgn)) {
             throw new \InvalidArgumentException('Given PGN is not valid!');
         }
