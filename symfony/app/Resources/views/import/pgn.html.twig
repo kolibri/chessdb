@@ -2,8 +2,10 @@
 
 {% block body %}
 {{ form_start(form) }}
-{{ form_rest(form) }}
-    <button type="submit">{{ 'import.pgn.form.submit'|trans }}</button>
+    <fieldset>
+        {{ form_rest(form.pgnString) }}
+        <button type="submit">{{ 'import.pgn.form.submit'|trans }}</button>
+    </fieldset>
 {{ form_end(form) }}
 
 {% endblock %}

@@ -1,10 +1,12 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <pre>{{ importedPgn.pgnString }}</pre>
+    {#<pre>{{ importedPgn.pgnString }}</pre>#}
     {{ form_start(form) }}
-    {{ form_rest(form) }}
-    <button type="submit">{{ 'import.game.form.submit'|trans }}</button>
+    <fieldset>
+        {{ form_rest(form) }}
+        <button type="submit">{{ 'import.game.form.submit'|trans }}</button>
+    </fieldset>
     {{ form_end(form) }}
 
 {% endblock %}
