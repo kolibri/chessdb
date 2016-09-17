@@ -37,6 +37,114 @@ main {
       width: 70vw;
       height: 10em;
     }
-
   }
+
+  .list {
+    > div {
+      width: 16em;
+      float: left;
+      margin-right: 1em;
+      margin-bottom: 1em;
+    }
+
+    dl.info {
+      margin: 0;
+
+      dt {
+        display: none;
+      }
+      dd {
+        display: inline-block;
+        margin: 0;
+      }
+
+      dd:nth-child(2):after {
+        content: ' - ';
+      }
+      dd:nth-child(4):after {
+        content: ': ';
+      }
+    }
+  }
+
+  .list.import {
+    a.button {
+      height: auto;
+      line-height: normal;
+      border-radius: 0;
+      width: 100%;
+      background-color: lightgrey;
+      color: #464646;
+    }
+  }
+
+  #game.pgn {
+    .board {
+      width: 32em;
+      height: 32em;
+      float: left;
+
+      .field:after {
+        font-size: 4em;
+      }
+    }
+    dl.info {
+      margin: 0;
+
+      dt {
+        float: left;
+        width: 6rem;
+
+      }
+      dd {
+        //display: inline-block;
+        clear: right;
+      }
+    }
+    ol.moves {
+      max-width: 40em;
+      max-height: 15em;
+      overflow: auto;
+
+    li {
+      float: left;
+      margin-left: 1rem;
+    }
+    }
+  }
+}
+
+.pgn {
+  font-family: sans-serif;
+  .buttons {
+    width: 16em;
+  }
+  button {
+    height: auto;
+    line-height: normal;
+    padding: 0;
+    margin-left: 8%;
+    border-radius: 0;
+    width: 19%;
+    background-color: lightgrey;
+    color: #464646;
+  }
+  button:first-child {
+    margin-left: 0;
+  }
+
+  .board {
+    line-height: normal;
+    color: black;
+    .row:before {
+      content: '' !important;
+    }
+    .row:before {
+      content: '' !important;
+    }
+    .field:before {
+      content: '' !important;
+    }
+  }
+
 }

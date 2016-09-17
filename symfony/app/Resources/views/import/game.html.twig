@@ -1,9 +1,18 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    {#<pre>{{ importedPgn.pgnString }}</pre>#}
     {{ form_start(form) }}
+    <div id="importedGame"
+         class="pgn"
+         data-show-moves="false"
+         data-show-header="false"
+         data-label-next="&gt;&gt;"
+         data-label-back="&lt;&lt;"
+         data-label-reset="start"
+    >{{ importedPgn.pgnString }}</div>
+
     <fieldset>
+
         {{ form_rest(form) }}
         <button type="submit">{{ 'import.game.form.submit'|trans }}</button>
     </fieldset>

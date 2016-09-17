@@ -5,6 +5,13 @@
         <a href="{{ path('app_game_show', {'uuid': game.uuid}) }}">
             {{ game.white }} - {{ game.black }} {{ game.result }}
         </a>
-        <pre>{{ pgn(game) }}</pre>
+        <div
+             class="pgn"
+             data-show-moves="false"
+             data-show-header="false"
+             data-label-next="&gt;&gt;"
+             data-label-back="&lt;&lt;"
+             data-label-reset="start"
+        >{{ pgn(game) }}</div>
     {% endfor %}
 {% endblock %}

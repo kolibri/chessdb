@@ -1,7 +1,14 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <pre>
-        {{ pgn(game) }}
-    </pre>
+
+    <div id="game"
+         class="pgn"
+         data-show-moves="true"
+         data-show-header="true"
+         data-label-next="&gt;&gt;"
+         data-label-back="&lt;&lt;"
+         data-label-reset="start"
+         data-ply="0"
+    >{{ pgn(game) }}</div>
 {% endblock %}

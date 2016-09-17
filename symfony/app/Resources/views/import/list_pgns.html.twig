@@ -1,13 +1,23 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    {% for pgn in pgns %}
-        <a href="{{ path('app_import_game', {'uuid': pgn.uuid}) }}">
-            {{ 'import.list.link_to_import'|trans }}
-        </a>
-        <pre>{{ pgn.pgnString }}</pre>
+    <section class="import list">
+        {% for pgn in pgns %}
+            <div>
+                <div
+                        class="pgn"
+                        data-show-moves="false"
+                        data-show-header="true"
+                        data-label-next="&gt;&gt;"
+                        data-label-back="&lt;&lt;"
+                        data-label-reset="start"
+                        data-display-headers="White,Black,Result">{{ pgn.pgnString }}</div>
+                <a href="{{ path('app_import_game', {'uuid': pgn.uuid}) }}" class="button">
+                    {{ 'import.list.link_to_import'|trans }}
+                </a>
+            </div>
         {% else %}
-        {{ 'import.list.no_pgns'|trans }}
-    {% endfor %}
-
+            {{ 'import.list.no_pgns'|trans }}
+        {% endfor %}
+    </section>
 {% endblock %}
