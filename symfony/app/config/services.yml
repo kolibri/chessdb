@@ -12,6 +12,11 @@ services:
         class: AppBundle\Import\PgnStringImporter
         arguments: ['@app.adapter.chess_adapter']
 
+    app.entity_repository.user_repository:
+        class: AppBundle\Entity\Repository\UserRepository
+        factory: ['@doctrine', getRepository]
+        arguments: [AppBundle\Entity\User]
+
     app.form.moves_type:
         class: AppBundle\Form\MovesType
         arguments: ['@app.form_data_transformer.moves_transformer']
@@ -24,6 +29,12 @@ services:
 
     app.helper.move_transform_helper:
         class: AppBundle\Helper\MovesTransformHelper
+
+    app.helper.registration_helper:
+        class: AppBundle\Helper\RegistrationHelper
+        arguments:
+          - '@security.encoder_factory.generic'
+          - '@app.entity_repository.user_repository'
 
     app.validator_constraints.pgn_validator:
         class: AppBundle\Validator\Constraints\PgnValidator

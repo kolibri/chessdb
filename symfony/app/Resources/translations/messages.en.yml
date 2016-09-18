@@ -14,6 +14,7 @@ import:
       submit: Import
 
 nav:
+  login: Log In
   import_pgn: Import PGN
   import_dropbox: from Dropbox
   game_list:  Game List

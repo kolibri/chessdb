@@ -1,9 +1,19 @@
+# At first, not localized routes
+app.index:
+    path: /
+    defaults:
+        _controller: AppBundle:Default:index
+
+app_login_check:
+    path: /login_check
+    methods: POST
+
+app_logout:
+    path: /logout
+    methods: GET
+
+# Then all localiced routes
 app:
     resource: "@AppBundle/Controller/"
     type:     annotation
     prefix: "/{_locale}"
-
-index:
-    path: /
-    defaults:
-        _controller: AppBundle:Default:index
