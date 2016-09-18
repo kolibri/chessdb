@@ -20,6 +20,12 @@ nav:
   game_list:  Game List
   import_list: Unfinished Imports
 
+security:
+  profile:
+    title: Profile
+    form:
+      submit: Speichern
+
 form:
   game:
     label:

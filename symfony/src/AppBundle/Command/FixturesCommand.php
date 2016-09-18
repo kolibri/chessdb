@@ -25,17 +25,17 @@ class FixturesCommand extends ContainerAwareCommand
                 ->getContainer()
                 ->getParameter('kernel.root_dir').'/Resources/fixtures/dev.yml';
 
-        $entityManager = $this
+        $manager = $this
             ->getContainer()
             ->get('doctrine')
             ->getManager();
 
-        $metadatas = $entityManager
+        $metadatas = $manager
             ->getMetadataFactory()
             ->getAllMetadata();
 
         if (!empty($metadatas)) {
-            $tool = new SchemaTool($entityManager);
+            $tool = new SchemaTool($manager);
 
             $tool->dropSchema($metadatas);
             $tool->createSchema($metadatas);

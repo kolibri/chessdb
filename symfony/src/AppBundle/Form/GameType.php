@@ -17,8 +17,8 @@ class GameType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('white', TextType::class, ['label' => 'form.game.label.white'])
-            ->add('black', TextType::class, ['label' => 'form.game.label.black'])
+            ->add('white', GamePlayerType::class, ['label' => 'form.game.label.white'])
+            ->add('black', GamePlayerType::class, ['label' => 'form.game.label.black'])
             ->add('result', TextType::class, ['label' => 'form.game.label.result'])
             ->add('date', PgnDateType::class, ['label' => 'form.game.label.date'])
             ->add('event', TextType::class, ['label' => 'form.game.label.event'])

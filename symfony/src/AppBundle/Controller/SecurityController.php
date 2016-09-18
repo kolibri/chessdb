@@ -3,6 +3,8 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\User;
+use AppBundle\Form\UserProfileType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -35,4 +37,31 @@ class SecurityController extends Controller
         );
     }
 
+    /**
+     * @Route("/profile")
+     */
+    public function profileAction(Request $request)
+    {
+        $user = $this->getUser();
+        
+        if (!$user instanceof User) {
+            return $this->redirectToRoute('app_security_login');
+        }
+
+        $form = $this->createForm(UserProfileType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $manager = $this->getDoctrine()->getManager();
+            $manager->persist($user);
+            $manager->flush();
+
+            return $this->redirectToRoute('app_security_profile');
+        }
+
+        return $this->render(
+            'security/profile.html.twig',
+            ['form' => $form->createView()]
+        );
+    }
 }

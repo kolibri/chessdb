@@ -23,6 +23,12 @@ services:
         tags:
             - { name: form.type, alias: AppBundle\Form\MovesType }
 
+    app.form.game_player_type:
+        class: AppBundle\Form\GamePlayerType
+        arguments: ['@security.token_storage', '@app.entity_repository.user_repository']
+        tags:
+            - { name: form.type, alias: AppBundle\Form\GamePlayerType }
+
     app.form_data_transformer.moves_transformer:
         class: AppBundle\Form\DataTransformer\MovesTransformer
         arguments: ['@app.helper.move_transform_helper']

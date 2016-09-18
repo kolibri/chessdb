@@ -76,6 +76,13 @@ class User implements UserInterface
     private $emailAddress;
 
     /**
+     * @var array
+     *
+     * @Column(type="simple_array", nullable=true)
+     */
+    private $playerAliases;
+
+    /**
      * @var string
      *
      * @NotBlank(groups={"registration"})
@@ -91,13 +98,14 @@ class User implements UserInterface
         $this->players = new ArrayCollection();
     }
 
-    public static function register($username, $emailAddress, $rawPassword)
+    public static function register($username, $emailAddress, $rawPassword, $playerAliases = null)
     {
         $user = new self();
         $user->setUsername($username);
         $user->setEmailAddress($emailAddress);
         $user->setRawPassword($rawPassword);
         $user->setRoles(['ROLE_PLAYER']);
+        $user->setPlayerAliases(is_array($playerAliases) ? $playerAliases : [$username]);
 
         return $user;
     }
@@ -195,6 +203,22 @@ class User implements UserInterface
     public function setRawPassword($rawPassword)
     {
         $this->rawPassword = $rawPassword;
+    }
+
+    /**
+     * @return array
+     */
+    public function getPlayerAliases()
+    {
+        return $this->playerAliases;
+    }
+
+    /**
+     * @param array $playerAliases
+     */
+    public function setPlayerAliases($playerAliases)
+    {
+        $this->playerAliases = $playerAliases;
     }
 
     public function getSalt()

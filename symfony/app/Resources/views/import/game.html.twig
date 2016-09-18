@@ -17,3 +17,43 @@
     </fieldset>
     {{ form_end(form) }}
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function() {
+            var forEach = function (array, callback, scope) {
+                for (var i = 0; i < array.length; i++) {
+                    callback.call(scope, i, array[i])
+                }
+            }
+
+            var InputWithSuggestion = function (input) {
+                function createSuggestion(label) {
+                    var suggestion = document.createElement('span')
+                    suggestion.appendChild(
+                            document.createTextNode(label)
+                    )
+                    suggestion.addEventListener('click', function () {
+                        input.value = this.innerHTML
+                    })
+
+                    return suggestion
+                }
+
+                var container = document.createElement('span')
+                input.closest('div').appendChild(container)
+                container.classList.add('input-suggestions')
+                container.appendChild(createSuggestion(input.value))
+
+                forEach(input.dataset.suggestions.split(','), function (index, suggestion){
+                    container.appendChild(createSuggestion(suggestion))
+                })
+            }
+
+            forEach(document.querySelectorAll('input[data-suggestions]'), function (index, input) {
+                inputWithSuggestion = new InputWithSuggestion(input)
+            })
+        })
+    </script>
+{% endblock %}

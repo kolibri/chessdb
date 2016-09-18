@@ -1,7 +1,7 @@
 AppBundle\Entity\ImportPgn:
   importGame{1..13}:
     __construct:
-      - >
+      - |
         [Event "Simultaneous"]
         [Site "Budapest HUN"]
         [Date "1934.??.??"]
@@ -21,7 +21,7 @@ AppBundle\Entity\ImportPgn:
 
   importedGame{1..13}:
     __construct:
-      - >
+      - |
         [Event "Simultaneous"]
         [Site "Budapest HUN"]
         [Date "1934.??.??"]

@@ -20,6 +20,11 @@ nav:
   game_list:  Spiele
   import_list: Unfertige Imports
 
+security:
+  profile:
+    title: Profil
+    form:
+      submit: Save
 
 form:
   game:
@@ -36,3 +41,9 @@ form:
   importPgn:
     label:
       pgnString: PGN
+
+dropbox:
+  import:
+    button:
+      game_import: Beenden # @todo bad translation!
+      import: Importieren
