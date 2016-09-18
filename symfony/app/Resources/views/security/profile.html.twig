@@ -10,4 +10,23 @@
     </fieldset>
     {{ form_end(form) }}
 
+
+    <section class="list">
+        {% for game in games %}
+            <div>
+                <a href="{{ path('app_game_show', {'uuid': game.uuid}) }}">
+                    {{ game.white }} - {{ game.black }} {{ game.result }}
+                </a>
+                <div
+                        class="pgn"
+                        data-show-moves="false"
+                        data-show-header="false"
+                        data-label-next="&gt;&gt;"
+                        data-label-back="&lt;&lt;"
+                        data-label-reset="start"
+                >{{ game.pgn }}</div>
+            </div>
+        {% endfor %}
+    </section>
+
 {% endblock %}

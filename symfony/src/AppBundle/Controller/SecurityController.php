@@ -3,6 +3,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Game;
 use AppBundle\Entity\User;
 use AppBundle\Form\UserProfileType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -61,7 +62,10 @@ class SecurityController extends Controller
 
         return $this->render(
             'security/profile.html.twig',
-            ['form' => $form->createView()]
+            [
+                'form' => $form->createView(),
+                'games' => $this->getDoctrine()->getRepository(Game::class)->findByUser($user)
+            ]
         );
     }
 }

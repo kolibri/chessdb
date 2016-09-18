@@ -6,6 +6,7 @@ namespace AppBundle\Entity\Repository;
 
 use AppBundle\Entity\Game;
 use AppBundle\Entity\ImportPgn;
+use AppBundle\Entity\User;
 use Doctrine\ORM\EntityRepository;
 
 class GameRepository extends EntityRepository
@@ -34,4 +35,20 @@ class GameRepository extends EntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
+
+    /**
+     * @param User $user
+     * @return Game[]|null
+     */
+    public function findByUser(User $user)
+    {
+        return $this
+            ->createQueryBuilder('g')
+            ->where('g.white = :user')
+            ->orWhere('g.black = :user')
+            ->setParameter('user', $user->getUsername())
+            ->getQuery()
+            ->execute();
+    }
+
 }
