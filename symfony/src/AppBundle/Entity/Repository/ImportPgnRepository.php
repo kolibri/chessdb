@@ -7,7 +7,7 @@ namespace AppBundle\Entity\Repository;
 use AppBundle\Entity\ImportPgn;
 use Doctrine\ORM\EntityRepository;
 
-class ImportedPgnRepository extends EntityRepository
+class ImportPgnRepository extends EntityRepository
 {
     public function save(ImportPgn $importedPgn, $flush = true)
     {

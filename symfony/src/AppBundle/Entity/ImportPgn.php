@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\CustomIdGenerator;
 
 /**
- * @Entity(repositoryClass="AppBundle\Entity\Repository\ImportedPgnRepository")
+ * @Entity(repositoryClass="AppBundle\Entity\Repository\ImportPgnRepository")
  */
 class ImportPgn
 {

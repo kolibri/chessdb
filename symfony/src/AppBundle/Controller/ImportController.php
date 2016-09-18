@@ -5,7 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Game;
 use AppBundle\Entity\ImportPgn;
 use AppBundle\Entity\Repository\GameRepository;
-use AppBundle\Entity\Repository\ImportedPgnRepository;
+use AppBundle\Entity\Repository\ImportPgnRepository;
 use AppBundle\Form\GameType;
 use AppBundle\Form\ImportPgnType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -27,11 +27,11 @@ class ImportController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            /** @var ImportPgn $importedPgn */
-            $importedPgn = $form->getData();
-            $this->importedPgnRepository()->save($importedPgn);
+            /** @var ImportPgn $importPgn */
+            $importPgn = $form->getData();
+            $this->importedPgnRepository()->save($importPgn);
 
-            return $this->redirectToRoute('app_import_game', ['uuid' => $importedPgn->getUuid()]);
+            return $this->redirectToRoute('app_import_game', ['uuid' => $importPgn->getUuid()]);
         }
 
         return $this->render(
@@ -90,7 +90,7 @@ class ImportController extends Controller
     }
 
     /**
-     * @return ImportedPgnRepository
+     * @return ImportPgnRepository
      */
     private function importedPgnRepository()
     {
