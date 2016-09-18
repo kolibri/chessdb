@@ -43,25 +43,25 @@ class ImportController extends Controller
     /**
      * @Route("/game/{uuid}")
      */
-    public function gameAction(Request $request, ImportPgn $importedPgn)
+    public function gameAction(Request $request, ImportPgn $importPgn)
     {
-        if ($importedPgn->isImported()) {
+        if ($importPgn->isImported()) {
             return $this->render(
                 'import/game_already_imported.html.twig',
-                ['game' => $this->gameRepository()->findOneByImportPgn($importedPgn)]
+                ['game' => $this->gameRepository()->findOneByImportPgn($importPgn)]
             );
         }
 
         $game = $this
             ->get('app.import.pgn_string_importer')
-            ->importPgn($importedPgn);
-        $game->setOriginalPgn($importedPgn);
+            ->importPgn($importPgn);
+        $game->setOriginalPgn($importPgn);
         $form = $this->createForm(GameType::class, $game);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $importedPgn->setImported(true);
-            $this->importedPgnRepository()->save($importedPgn, false);
+            $importPgn->setImported(true);
+            $this->importedPgnRepository()->save($importPgn, false);
             $this->gameRepository()->save($game, false);
 
             $this->getDoctrine()->getEntityManager()->flush();
@@ -73,9 +73,20 @@ class ImportController extends Controller
             'import/game.html.twig',
             [
                 'form' => $form->createView(),
-                'importedPgn' => $importedPgn,
+                'importedPgn' => $importPgn,
             ]
         );
+    }
+
+    /**
+     * @Route("/delete/pgn/{uuid}")
+     */
+    public function deletePgn(ImportPgn $importPgn)
+    {
+        $importPgnRepository = $this->getDoctrine()->getRepository(ImportPgn::class);
+        $importPgnRepository->remove($importPgn);
+
+        return $this->redirectToRoute('app_import_listpgns');
     }
 
     /**

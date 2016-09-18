@@ -3,6 +3,7 @@
 
 namespace AppBundle\Entity\Repository;
 
+use AppBundle\Entity\ImportPgn;
 use Doctrine\ORM\EntityRepository;
 
 class DropboxPgnRepository extends EntityRepository
@@ -15,5 +16,16 @@ class DropboxPgnRepository extends EntityRepository
             ->setParameter('path', $path)
             ->getQuery()
             ->getOneOrNullResult();
+    }
+
+    public function getByImportPgn(ImportPgn $importPgn)
+    {
+        return $this
+            ->createQueryBuilder('d')
+            ->where('d.importPgn = :importPgn')
+            ->setParameter('importPgn', $importPgn)
+            ->getQuery()
+            ->getResult()
+            ;
     }
 }

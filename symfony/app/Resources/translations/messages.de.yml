@@ -5,10 +5,10 @@ import:
   already_imported:
     notice: Dieses Spiel wurde bereits importiert
     link_to_game: Zum Spiel
-
   list:
     link_to_import: Importiere dieses Spiel
     no_pgns: Keine zu importierenden Spiele vorhanden.
+    delete_pgn: "[x]"
   pgn:
     form:
       submit: Importieren

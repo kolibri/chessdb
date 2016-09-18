@@ -12,8 +12,12 @@
                         data-label-back="&lt;&lt;"
                         data-label-reset="start"
                         data-display-headers="White,Black,Result">{{ pgn.pgnString }}</div>
-                <a href="{{ path('app_import_game', {'uuid': pgn.uuid}) }}" class="button">
+                <a href="{{ path('app_import_game', {'uuid': pgn.uuid}) }}" class="button" style="width: 85%">
                     {{ 'import.list.link_to_import'|trans }}
+                </a>
+
+                <a href="{{ path('app_import_deletepgn', {'uuid': pgn.uuid}) }}" class="button button-outline" style="width: 10%; margin-left: 3%">
+                    {{ 'import.list.delete_pgn'|trans }}
                 </a>
             </div>
         {% else %}

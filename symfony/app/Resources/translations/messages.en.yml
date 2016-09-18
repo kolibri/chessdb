@@ -8,6 +8,7 @@ import:
   list:
     link_to_import: Import this game
     no_pgns: No games to import.
+    delete_pgn: "[x]"
   pgn:
     form:
       submit: Import
