@@ -41,7 +41,8 @@ class PgnStringImporter
             $info['header']['White'],
             $info['header']['Black'],
             $info['header']['Result'],
-            $info['moves']
+            $info['moves'],
+            $importPgn
         );
    }
 }

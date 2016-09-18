@@ -289,4 +289,32 @@ class Game
     {
         $this->originalPgn = $originalPgn;
     }
+
+    public function getPgn()
+    {
+        $format = <<<EOF
+[Event "%s"]
+[Site "%s"]
+[Date "%s"]
+[Round "%s"]
+[Result "%s"]
+[White "%s"]
+[Black "%s"]
+
+%s %s
+EOF;
+
+        return sprintf(
+            $format,
+            $this->getEvent(),
+            $this->getSite(),
+            $this->getDate()->toString(),
+            $this->getRound(),
+            $this->getResult(),
+            $this->getWhite(),
+            $this->getBlack(),
+            MovesTransformHelper::moveArrayToString($this->getMoves()),
+            $this->getResult()
+        );
+    }
 }

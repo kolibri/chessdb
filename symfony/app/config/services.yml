@@ -25,12 +25,6 @@ services:
     app.helper.move_transform_helper:
         class: AppBundle\Helper\MovesTransformHelper
 
-    app.twig.pgn_extension:
-        class: AppBundle\Twig\PgnExtension
-        arguments: ['@app.helper.move_transform_helper']
-        tags:
-            - { name: twig.extension }
-
     app.validator_constraints.pgn_validator:
         class: AppBundle\Validator\Constraints\PgnValidator
         arguments: ['@app.adapter.chess_adapter']
@@ -40,3 +34,40 @@ services:
     chessphp.chess:
         class: Ryanhs\Chess\Chess
 
+
+
+    dropbox.app.info:
+        class: Dropbox\AppInfo
+        arguments:
+            - '%dropbox_api_key%'
+            - '%dropbox_api_secret%'
+
+    app.dropbox.auth_token_store:
+        class: AppBundle\Dropbox\AuthTokenStore
+        arguments:
+            - '@session'
+
+    app.dropbox.auth_helper:
+        class: AppBundle\Dropbox\AuthHelper
+        arguments:
+            - '@router'
+            - '@dropbox.app.info'
+            - '@app.dropbox.auth_token_store'
+            - '%dropbox_app_name%'
+            - 'app_dropbox_authfinish'
+            - '@app.dropbox.access_token_store'
+
+    app.dropbox.access_token_store:
+        class: AppBundle\Dropbox\AccessTokenStore
+        arguments:
+            - '@session'
+#
+#    app.dropbox.client_creator:
+#        class: AppBundle\Dropbox\ClientCreator
+#        arguments:
+#            - '@app.dropbox.token_storage'
+#            - '%dropbox_app_name%'
+
+#    app.dropbox.client:
+#        class: AppBundle\Dropbox\Client
+#        factory: ['@app.dropbox.client_creator', createClient]

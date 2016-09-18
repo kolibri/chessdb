@@ -1,11 +1,15 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    <h1>Import from Dropbox</h1>
     <section class="list">
     {% for game in games %}
         <div>
-            <a href="{{ path('app_game_show', {'uuid': game.uuid}) }}">
-                {{ game.white }} - {{ game.black }} {{ game.result }}
+            {#<a href="{{ path('app_game_show', {'uuid': game.uuid}) }}">#}
+                {#{{ game.white }} - {{ game.black }} {{ game.result }}#}
+            {#</a>#}
+            <a href="{{ path('app_dropbox_game', {'path': game.path}) }}" >
+                {{ game.path }}
             </a>
             <div
                     class="pgn"
@@ -17,4 +21,5 @@
             >{{ game.pgn }}</div>
         </div>
     {% endfor %}
+
 {% endblock %}

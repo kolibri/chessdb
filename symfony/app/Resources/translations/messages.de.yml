@@ -15,8 +15,10 @@ import:
 
 nav:
   import_pgn: Importiere PGN
+  import_dropbox: von Dropbox
   game_list:  Spiele
   import_list: Unfertige Imports
+
 
 form:
   game:

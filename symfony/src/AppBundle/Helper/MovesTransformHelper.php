@@ -6,7 +6,7 @@ namespace AppBundle\Helper;
 // @todo: break lines at length 80
 class MovesTransformHelper
 {
-    public function moveArrayToString(array $moves)
+    public static function moveArrayToString(array $moves)
     {
         $movesString = '';
         $moveCounter = 1;
@@ -23,7 +23,7 @@ class MovesTransformHelper
         return trim($movesString);
     }
 
-    public function moveStringToArray($moves)
+    public static function moveStringToArray($moves)
     {
         // Maybe it's better to builda dummy pgn, and throw it through chess.php...
         $movesArray = explode(' ', $moves);
