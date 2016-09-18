@@ -5,7 +5,9 @@ namespace AppBundle\Controller;
 
 
 use AppBundle\Dropbox\AuthHelper;
+use AppBundle\Entity\DropboxPgn;
 use AppBundle\Entity\ImportPgn;
+use AppBundle\Entity\Repository\DropboxPgnRepository;
 use Dropbox\Client;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -37,18 +39,22 @@ class DropboxController extends Controller
             $games[] = [
                 'path' => $filePath,
                 'pgn' => $client->getFileContent($filePath),
+                'dropboxPgn' =>  $this->dropboxPgnRepository()->getByPathOrNull($filePath)
             ];
         }
-
-        return $this->render('dropbox/import.html.twig', [
-            'games' => $games,
-        ]);
+        
+        return $this->render(
+            'dropbox/import.html.twig',
+            [
+                'games' => $games,
+            ]
+        );
     }
 
     /**
      * @Route("/game/{path}", requirements={"path"=".+"})
      */
-    public function gameAction(Request $request, $path)
+    public function gameAction($path)
     {
         $tokenStorage = $this->get('app.dropbox.access_token_store');
 
@@ -61,11 +67,23 @@ class DropboxController extends Controller
 
         $importPgn = new ImportPgn($game);
 
+        if (!$dropboxPgn = $this->dropboxPgnRepository()->getByPathOrNull($path)) {
+            $dropboxPgn = new DropboxPgn($path, $importPgn);
+        }
+
+        $dropboxPgn->setImportPgn($importPgn);
+
         $enitityManager = $this->getDoctrine()->getManager();
+        $enitityManager->persist($dropboxPgn);
         $enitityManager->persist($importPgn);
         $enitityManager->flush();
 
-        return $this->redirectToRoute('app_import_game', ['uuid' => $importPgn->getUuid()]);
+        return $this->redirectToRoute(
+            'app_import_game',
+            [
+                'uuid' => $importPgn->getUuid(),
+            ]
+        );
     }
 
     /**
@@ -106,12 +124,21 @@ class DropboxController extends Controller
         return $this->get('app.dropbox.auth_helper');
     }
 
-    private function getClient(){
+    private function getClient()
+    {
         $dropboxClient = new Client(
             $this->get('app.dropbox.access_token_store')->get(),
             'chessdb'
         );
 
         return new \AppBundle\Dropbox\Client($dropboxClient);
+    }
+
+    /**
+     * @return DropboxPgnRepository
+     */
+    private function dropboxPgnRepository()
+    {
+        return $this->getDoctrine()->getRepository(DropboxPgn::class);
     }
 }

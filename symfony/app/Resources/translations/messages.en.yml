@@ -33,3 +33,9 @@ form:
   importPgn:
     label:
       pgnString: PGN
+
+dropbox:
+  import:
+    button:
+      game_import: Finish Import
+      import: Import

@@ -2,15 +2,10 @@
 
 {% block body %}
     <h1>Import from Dropbox</h1>
-    <section class="list">
+    <section class="list import">
     {% for game in games %}
         <div>
-            {#<a href="{{ path('app_game_show', {'uuid': game.uuid}) }}">#}
-                {#{{ game.white }} - {{ game.black }} {{ game.result }}#}
-            {#</a>#}
-            <a href="{{ path('app_dropbox_game', {'path': game.path}) }}" >
-                {{ game.path }}
-            </a>
+            <p>{{ game.path }}</p>
             <div
                     class="pgn"
                     data-show-moves="false"
@@ -19,6 +14,18 @@
                     data-label-back="&lt;&lt;"
                     data-label-reset="start"
             >{{ game.pgn }}</div>
+            {% if game.dropboxPgn is not null %}
+                <a href="{{ path('app_import_game', {'uuid': game.dropboxPgn.importPgn.uuid}) }}" class="button" style="width: 48%">
+                    {{ 'dropbox.import.button.game_import'|trans }}
+                </a>
+                <a href="{{ path('app_dropbox_game', {'path': game.path}) }}" class="button button-outline"  style="width: 48%; margin-left: 2%;">
+                    {{ 'dropbox.import.button.import'|trans }}
+                </a>
+            {% else %}
+            <a href="{{ path('app_dropbox_game', {'path': game.path}) }}" class="button">
+                {{ 'dropbox.import.button.import'|trans }}
+            </a>
+            {% endif %}
         </div>
     {% endfor %}
 
