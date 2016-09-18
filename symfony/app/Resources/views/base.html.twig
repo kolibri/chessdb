@@ -17,9 +17,11 @@
         <a href="{{ path('app_default_homepage', {'_locale': 'en'}) }}">en</a>
     </nav>
     <nav class="main">
-        <a href="{{ path('app_security_login') }}">{{ 'nav.login'|trans }}</a>
         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            <a href="{{ path('app_logout') }}">{{ 'nav.logout'|trans }}</a>
             <a href="{{ path('app_security_profile') }}">{{ 'nav.profile'|trans }}</a>
+        {% else %}
+            <a href="{{ path('app_security_login') }}">{{ 'nav.login'|trans }}</a>
         {% endif %}
         <a href="{{ path('app_import_pgn') }}">{{ 'nav.import_pgn'|trans }}</a>
         <a href="{{ path('app_dropbox_list') }}">{{ 'nav.import_dropbox'|trans }}</a>

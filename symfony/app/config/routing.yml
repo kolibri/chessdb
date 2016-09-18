@@ -1,5 +1,5 @@
 # At first, not localized routes
-app.index:
+app_index:
     path: /
     defaults:
         _controller: AppBundle:Default:index
