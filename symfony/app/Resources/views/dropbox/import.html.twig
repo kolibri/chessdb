@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Import from Dropbox</h1>
+    <h1>{{ 'dropbox.import.title'|trans }}</h1>
     <section class="list import">
     {% for game in games %}
         <div>
@@ -15,7 +15,7 @@
                     data-label-reset="start"
             >{{ game.pgn }}</div>
             {% if game.dropboxPgn is not null %}
-                <a href="{{ path('app_import_game', {'uuid': game.dropboxPgn.importPgn.uuid}) }}" class="button" style="width: 48%">
+                <a href="{{ path('app_import_game', {'uuid': game.dropboxPgn.createFromImportPgn.uuid}) }}" class="button" style="width: 48%">
                     {{ 'dropbox.import.button.game_import'|trans }}
                 </a>
                 <a href="{{ path('app_dropbox_game', {'path': game.path}) }}" class="button button-outline"  style="width: 48%; margin-left: 2%;">

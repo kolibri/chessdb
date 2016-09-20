@@ -1,17 +1,25 @@
 import:
   game:
+    title: Spiel importieren
     form:
       submit: Speichern
   already_imported:
+    title: Dieses Spiel wurde bereits importiert
     notice: Dieses Spiel wurde bereits importiert
     link_to_game: Zum Spiel
   list:
+    title: Noch zu importierende Spiele
     link_to_import: Importiere dieses Spiel
     no_pgns: Keine zu importierenden Spiele vorhanden.
     delete_pgn: "[x]"
   pgn:
+    title: PGN importieren
     form:
       submit: Importieren
+
+game:
+  list:
+    title: Alle Spiele
 
 nav:
   login: Anmelden
@@ -19,8 +27,17 @@ nav:
   import_dropbox: von Dropbox
   game_list:  Spiele
   import_list: Unfertige Imports
+  logout: Abmelden
+  profile: Mein Profil
 
 security:
+  login:
+    title: Melde Dich an
+    form:
+      label:
+        username: Nutzername
+        password: Passwort
+        submit: Anmelden
   profile:
     title: Profil
     form:
@@ -44,6 +61,7 @@ form:
 
 dropbox:
   import:
+    title: Von Dropbox importieren
     button:
       game_import: Beenden # @todo bad translation!
       import: Importieren

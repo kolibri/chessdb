@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    <h1>{{ 'game.list.title'|trans }}</h1>
     <section class="list">
     {% for game in games %}
         <div>

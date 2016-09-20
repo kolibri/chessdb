@@ -1,7 +1,7 @@
 <?php
 
 
-namespace AppBundle\Import;
+namespace AppBundle\Factory;
 
 
 use AppBundle\Adapter\ChessAdapter;
@@ -9,13 +9,13 @@ use AppBundle\Domain\PgnDate;
 use AppBundle\Entity\Game;
 use AppBundle\Entity\ImportPgn;
 
-class PgnStringImporter
+class GameFactory
 {
     /** @var ChessAdapter */
     private $chess;
 
     /**
-     * PgnStringImporter constructor.
+     * GameFactory constructor.
      * @param ChessAdapter $chess
      */
     public function __construct(ChessAdapter $chess)

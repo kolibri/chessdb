@@ -1,9 +1,10 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    <h1>{{ 'import.pgn.title'|trans }}</h1>
 {{ form_start(form) }}
     <fieldset>
-        {{ form_rest(form.pgnString) }}
+        {{ form_rest(form) }}
         <button type="submit">{{ 'import.pgn.form.submit'|trans }}</button>
     </fieldset>
 {{ form_end(form) }}

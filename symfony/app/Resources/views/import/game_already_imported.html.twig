@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <p>{{ 'import.already_imported.notice'|trans }}</p>
+    <h1>{{ 'import.already_imported.title'|trans }}</>
+    <p>{{ 'import.already_imported.notice'|trans }}</>
     <a href="{{ path('app_game_show', {'uuid': game.uuid}) }}">{{ 'import.already_imported.link_to_game'|trans }}</a>
 {% endblock %}
