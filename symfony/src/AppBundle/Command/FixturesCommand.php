@@ -44,7 +44,7 @@ class FixturesCommand extends ContainerAwareCommand
 
         $tool->dropSchema($metadatas);
         $tool->createSchema($metadatas);
-        $output->writeln('No Metadata Classes to process.');
+        $output->writeln('Deleted and created database.');
 
         /** @var EntityManager $manager */
         $persister = new \Nelmio\Alice\Persister\Doctrine($manager);
@@ -60,9 +60,13 @@ class FixturesCommand extends ContainerAwareCommand
             if (!$object instanceof User) {
                 continue;
             }
-            $userHandler->handleRegistration($object);
+            //$output->writeln(sprintf('Add user: %s password: %s', $object->getUsername(), $object->getRawPassword()));
+            $userHandler->encodePassword($object);
         }
 
+        $output->writeln('Fixtures loaded ...');
+
         $persister->persist($objects);
+        $output->writeln('and persisted!');
     }
 }

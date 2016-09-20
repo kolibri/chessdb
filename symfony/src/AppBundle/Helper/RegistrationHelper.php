@@ -4,7 +4,6 @@ namespace AppBundle\Helper;
 
 use AppBundle\Entity\Repository\UserRepository;
 use AppBundle\Entity\User;
-use Doctrine\Common\Persistence\ObjectRepository;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 
 class RegistrationHelper
@@ -27,12 +26,17 @@ class RegistrationHelper
         $this->repository = $repository;
     }
 
-    public function handleRegistration(User $user)
+    public function encodePassword(User $user)
     {
         $encoder = $this->encoderFactory->getEncoder(User::class);
         $encodedPassword = $encoder->encodePassword($user->getRawPassword(), null);
         $user->setPassword($encodedPassword);
 
-        $this->repository->save($user);
+        return $user;
+    }
+
+    public function encodePasswordAndSave(User $user)
+    {
+        $this->repository->save($this->encodePassword($user));
     }
 }

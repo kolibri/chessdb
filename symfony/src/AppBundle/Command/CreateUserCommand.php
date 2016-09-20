@@ -37,6 +37,6 @@ class CreateUserCommand extends ContainerAwareCommand
         }
 
         $userHandler = $this->getContainer()->get('app.helper.registration_helper');
-        $userHandler->handleRegistration($user);
+        $userHandler->encodePasswordAndSave($user);
     }
 }
