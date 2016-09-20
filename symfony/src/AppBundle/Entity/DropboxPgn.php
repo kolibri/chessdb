@@ -1,6 +1,7 @@
 <?php
 
 namespace AppBundle\Entity;
+
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use AppBundle\Validator\Constraints\Pgn;

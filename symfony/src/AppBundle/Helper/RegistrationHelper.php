@@ -7,7 +7,6 @@ use AppBundle\Entity\User;
 use Doctrine\Common\Persistence\ObjectRepository;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 
-
 class RegistrationHelper
 {
     /** @var EncoderFactoryInterface */

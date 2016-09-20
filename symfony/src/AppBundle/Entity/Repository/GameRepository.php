@@ -3,7 +3,6 @@
 
 namespace AppBundle\Entity\Repository;
 
-
 use AppBundle\Entity\Game;
 use AppBundle\Entity\ImportPgn;
 use AppBundle\Entity\User;
@@ -50,5 +49,4 @@ class GameRepository extends EntityRepository
             ->getQuery()
             ->execute();
     }
-
 }

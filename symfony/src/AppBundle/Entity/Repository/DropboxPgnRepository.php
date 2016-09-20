@@ -22,8 +22,8 @@ class DropboxPgnRepository extends EntityRepository
     {
         return $this
             ->createQueryBuilder('d')
-            ->where('d.importPgn = :importPgn')
-            ->setParameter('importPgn', $importPgn)
+            ->where('d.createFromImportPgn = :createFromImportPgn')
+            ->setParameter('createFromImportPgn', $importPgn)
             ->getQuery()
             ->getResult()
             ;

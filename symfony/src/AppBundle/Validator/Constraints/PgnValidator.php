@@ -3,7 +3,6 @@
 
 namespace AppBundle\Validator\Constraints;
 
-
 use AppBundle\Adapter\ChessAdapter;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
@@ -31,5 +30,4 @@ class PgnValidator extends ConstraintValidator
                 ->addViolation();
         }
     }
-
 }

@@ -3,7 +3,6 @@
 
 namespace AppBundle\Entity\Repository;
 
-
 use AppBundle\Entity\DropboxPgn;
 use AppBundle\Entity\ImportPgn;
 use Doctrine\ORM\EntityRepository;
@@ -44,7 +43,8 @@ class ImportPgnRepository extends EntityRepository
         }
         
         $mananger->remove($importPgn);
-        $mananger->flush();
-
+        if ($flush) {
+            $mananger->flush();
+        }
     }
 }

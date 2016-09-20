@@ -3,7 +3,6 @@
 
 namespace AppBundle\Dropbox;
 
-
 class Client
 {
     /** @var  \Dropbox\Client */
@@ -60,7 +59,6 @@ class Client
             }
 
             $files[] = $path;
-
         }
 
         return $files;

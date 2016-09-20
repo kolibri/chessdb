@@ -3,7 +3,6 @@
 
 namespace AppBundle\Validator\Constraints;
 
-
 use Symfony\Component\Validator\Constraint;
 
 /**
@@ -12,5 +11,4 @@ use Symfony\Component\Validator\Constraint;
 class Pgn extends Constraint
 {
     public $message = 'validator.pgn.message';
-
 }

@@ -3,7 +3,6 @@
 
 namespace AppBundle\Dropbox;
 
-
 use Dropbox\ValueStore;
 use Symfony\Component\HttpFoundation\Session\Session;
 
@@ -23,17 +22,17 @@ class AuthTokenStore implements ValueStore
         $this->session = $session;
     }
 
-    function get()
+    public function get()
     {
         return $this->session->get(self::TOKEN_NAME);
     }
 
-    function set($value)
+    public function set($value)
     {
         $this->session->set(self::TOKEN_NAME, $value);
     }
 
-    function clear()
+    public function clear()
     {
         $this->session->remove(self::TOKEN_NAME);
     }

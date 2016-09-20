@@ -9,7 +9,6 @@ use AppBundle\Entity\Repository\ImportPgnRepository;
 use AppBundle\Form\GameType;
 use AppBundle\Form\ImportPgnType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -54,7 +53,7 @@ class ImportController extends Controller
 
         $game = $this
             ->get('app.import.pgn_string_importer')
-            ->importPgn($importPgn);
+            ->createFromImportPgn($importPgn);
         $game->setOriginalPgn($importPgn);
         $form = $this->createForm(GameType::class, $game);
         $form->handleRequest($request);
@@ -64,7 +63,7 @@ class ImportController extends Controller
             $this->importedPgnRepository()->save($importPgn, false);
             $this->gameRepository()->save($game, false);
 
-            $this->getDoctrine()->getEntityManager()->flush();
+            $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('app_game_show', ['uuid' => $game->getUuid()]);
         }

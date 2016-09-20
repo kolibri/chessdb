@@ -9,7 +9,7 @@ services:
         arguments: ['@chessphp.chess']
 
     app.import.pgn_string_importer:
-        class: AppBundle\Import\PgnStringImporter
+        class: AppBundle\Factory\GameFactory
         arguments: ['@app.adapter.chess_adapter']
 
     app.entity_repository.user_repository:

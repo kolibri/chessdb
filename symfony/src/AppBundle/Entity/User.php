@@ -95,7 +95,6 @@ class User implements UserInterface
      */
     public function __construct()
     {
-        $this->players = new ArrayCollection();
     }
 
     public static function register($username, $emailAddress, $rawPassword, $playerAliases = null)
@@ -223,7 +222,6 @@ class User implements UserInterface
 
     public function getSalt()
     {
-
     }
 
     public function eraseCredentials()
@@ -231,4 +229,3 @@ class User implements UserInterface
         $this->setRawPassword('');
     }
 }
-

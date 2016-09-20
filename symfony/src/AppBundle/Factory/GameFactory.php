@@ -3,7 +3,6 @@
 
 namespace AppBundle\Factory;
 
-
 use AppBundle\Adapter\ChessAdapter;
 use AppBundle\Domain\PgnDate;
 use AppBundle\Entity\Game;
@@ -23,7 +22,7 @@ class GameFactory
         $this->chess = $chess;
     }
 
-    public function importPgn(ImportPgn $importPgn)
+    public function createFromImportPgn(ImportPgn $importPgn)
     {
         $pgn = $importPgn->getPgnString();
         
@@ -32,7 +31,7 @@ class GameFactory
         }
 
         $info = $this->chess->parsePgn($pgn);
-        
+
         return new Game(
             $info['header']['Event'],
             $info['header']['Site'],
@@ -44,5 +43,5 @@ class GameFactory
             $info['moves'],
             $importPgn
         );
-   }
+    }
 }

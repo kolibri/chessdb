@@ -3,7 +3,8 @@
 
 namespace AppBundle\Command;
 
-
+use AppBundle\Entity\User;
+use AppBundle\Faker\Provider\ChessProvider;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\SchemaTool;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
@@ -34,24 +35,34 @@ class FixturesCommand extends ContainerAwareCommand
             ->getMetadataFactory()
             ->getAllMetadata();
 
-        if (!empty($metadatas)) {
-            $tool = new SchemaTool($manager);
-
-            $tool->dropSchema($metadatas);
-            $tool->createSchema($metadatas);
-        } else {
+        if (empty($metadatas)) {
             $output->writeln('No Metadata Classes to process.');
 
-            return 0;
+            return 1;
         }
+        $tool = new SchemaTool($manager);
+
+        $tool->dropSchema($metadatas);
+        $tool->createSchema($metadatas);
+        $output->writeln('No Metadata Classes to process.');
 
         /** @var EntityManager $manager */
         $persister = new \Nelmio\Alice\Persister\Doctrine($manager);
         $loader = new \Nelmio\Alice\Fixtures\Loader();
+        $loader->addProvider(new ChessProvider());
         $loader->setPersister($persister);
 
         $objects = $loader->load($fixturePath);
-        $persister->persist($objects);
 
+        $userHandler = $this->getContainer()->get('app.helper.registration_helper');
+
+        foreach ($objects as $object) {
+            if (!$object instanceof User) {
+                continue;
+            }
+            $userHandler->handleRegistration($object);
+        }
+
+        $persister->persist($objects);
     }
 }

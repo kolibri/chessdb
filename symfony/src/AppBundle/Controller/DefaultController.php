@@ -19,7 +19,7 @@ class DefaultController extends Controller
         );
     }
 
-    public function indexAction(Request $request)
+    public function indexAction()
     {
         return $this->redirectToRoute('app_default_homepage');
     }

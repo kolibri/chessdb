@@ -25,11 +25,11 @@ class MovesTransformHelper
 
     public static function moveStringToArray($moves)
     {
-        // Maybe it's better to builda dummy pgn, and throw it through chess.php...
+        // Maybe it's better to build a dummy pgn, and throw it through chess.php...
         $movesArray = explode(' ', $moves);
 
-        return array_map(function($move) {
-            if(preg_match('/^(\d+\.)?(.*)/', $move, $matches)) {
+        return array_map(function ($move) {
+            if (preg_match('/^(\d+\.)?(.*)/', $move, $matches)) {
                 return $matches[2];
             }
 

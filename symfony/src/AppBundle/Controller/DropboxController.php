@@ -3,7 +3,6 @@
 
 namespace AppBundle\Controller;
 
-
 use AppBundle\Dropbox\AuthHelper;
 use AppBundle\Entity\DropboxPgn;
 use AppBundle\Entity\ImportPgn;

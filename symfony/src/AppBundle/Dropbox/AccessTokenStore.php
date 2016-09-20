@@ -7,7 +7,8 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class AccessTokenStore
-{    const TOKEN_NAME = 'dropbox-access-token';
+{
+    const TOKEN_NAME = 'dropbox-access-token';
 
     /** @var Session */
     private $session;
@@ -21,17 +22,17 @@ class AccessTokenStore
         $this->session = $session;
     }
 
-   function get()
+    public function get()
     {
         return $this->session->get(self::TOKEN_NAME);
     }
 
-    function set($value)
+    public function set($value)
     {
         $this->session->set(self::TOKEN_NAME, $value);
     }
 
-    function clear()
+    public function clear()
     {
         $this->session->remove(self::TOKEN_NAME);
     }

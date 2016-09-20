@@ -20,5 +20,4 @@ class PgnDateTransformer implements DataTransformerInterface
     {
         return PgnDate::fromString($value);
     }
-
 }

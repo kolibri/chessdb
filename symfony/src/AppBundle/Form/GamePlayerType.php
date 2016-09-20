@@ -42,9 +42,9 @@ class GamePlayerType extends AbstractType
 
         $aliases = array_unique(array_merge(
             $aliases,
-            array_map(function(User $user) {
+            array_map(function (User $user) {
                 return $user->getUsername();
-            },$this->userRepository->findAll())
+            }, $this->userRepository->findAll())
         ));
 
         $resolver->setDefaults(
@@ -52,7 +52,6 @@ class GamePlayerType extends AbstractType
                 'attr' => ['data-suggestions' => implode(',', $aliases)],
             ]
         );
-
     }
 
     public function getParent()

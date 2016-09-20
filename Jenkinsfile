@@ -11,7 +11,6 @@ node {
                 sh 'make npm-install'
                 sh 'make gulp-default'
             }
-
         stage 'tests + tarball'
             parallel 'lint': {
                 sh 'make lint'

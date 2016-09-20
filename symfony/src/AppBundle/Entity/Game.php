@@ -116,6 +116,7 @@ class Game
 
     /**
      * Game constructor.
+     *
      * @param string $event
      * @param string $site
      * @param PgnDate $date
@@ -125,8 +126,17 @@ class Game
      * @param string $result
      * @param array $moves
      */
-    public function __construct($event, $site, PgnDate $date, $round, $white, $black, $result, array $moves, ImportPgn $originalPgn)
-    {
+    public function __construct(
+        $event,
+        $site,
+        PgnDate $date,
+        $round,
+        $white,
+        $black,
+        $result,
+        array $moves,
+        ImportPgn $originalPgn
+    ) {
         $this->event = $event;
         $this->site = $site;
         $this->date = $date;
