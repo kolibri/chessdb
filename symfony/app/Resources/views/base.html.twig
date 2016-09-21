@@ -19,14 +19,15 @@
     <nav class="main">
         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
             <a href="{{ path('app_logout') }}">{{ 'nav.logout'|trans }}</a>
-            <a href="{{ path('app_security_profile') }}">{{ 'nav.profile'|trans }}</a>
+            <a href="{{ path('app_user_myprofile') }}">{{ 'nav.profile'|trans }}</a>
         {% else %}
-            <a href="{{ path('app_security_login') }}">{{ 'nav.login'|trans }}</a>
+            <a href="{{ path('app_user_login') }}">{{ 'nav.login'|trans }}</a>
         {% endif %}
         <a href="{{ path('app_import_pgn') }}">{{ 'nav.import_pgn'|trans }}</a>
         <a href="{{ path('app_dropbox_list') }}">{{ 'nav.import_dropbox'|trans }}</a>
         <a href="{{ path('app_import_listpgns') }}">{{ 'nav.import_list'|trans }}</a>
         <a href="{{ path('app_game_list') }}">{{ 'nav.game_list'|trans }}</a>
+        <a href="{{ path('app_user_list') }}">{{ 'nav.user_list'|trans }}</a>
     </nav>
 </header>
 <main>

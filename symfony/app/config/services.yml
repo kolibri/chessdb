@@ -41,7 +41,11 @@ services:
         arguments:
           - '@security.encoder_factory.generic'
           - '@app.entity_repository.user_repository'
-
+    
+    app.twig.chess_extension:
+        class: AppBundle\Twig\ChessExtension
+        tags:
+            - { name: twig.extension }
     app.validator_constraints.pgn_validator:
         class: AppBundle\Validator\Constraints\PgnValidator
         arguments: ['@app.adapter.chess_adapter']

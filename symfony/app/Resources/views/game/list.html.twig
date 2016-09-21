@@ -1,21 +1,6 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>{{ 'game.list.title'|trans }}</h1>
-    <section class="list">
-    {% for game in games %}
-        <div>
-            <a href="{{ path('app_game_show', {'uuid': game.uuid}) }}">
-                {{ game.white }} - {{ game.black }} {{ game.result }}
-            </a>
-            <div
-                    class="pgn"
-                    data-show-moves="false"
-                    data-show-header="false"
-                    data-label-next="&gt;&gt;"
-                    data-label-back="&lt;&lt;"
-                    data-label-reset="start"
-            >{{ game.pgn }}</div>
-        </div>
-    {% endfor %}
+    {% set title %}<h1>{{ 'game.list.title'|trans }}</h1>{% endset %}
+    {{ include('partials/gameList.html.twig', {'games': games, 'title': title}) }}
 {% endblock %}

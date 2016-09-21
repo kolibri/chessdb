@@ -1,0 +1,12 @@
+<section class="list">
+    <h2>{{ title }}</h2>
+    {% for game in games %}
+        <div>
+            <a href="{{ path('app_game_show', {'uuid': game.uuid}) }}">
+                {{ game.white }} - {{ game.black }} {{ game.result }}
+            </a>
+            {{ pgn(game.pgn, {'data-show-header': "false"}) }}
+
+        </div>
+    {% endfor %}
+</section>

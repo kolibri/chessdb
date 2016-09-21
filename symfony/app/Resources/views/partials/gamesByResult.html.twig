@@ -1,0 +1,4 @@
+{% for result, games in gamesByResult %}
+    {% set title %}<h2>{{ ('user.profile.'~result~'.title')|trans }} ({{ games|length }})</h2>{% endset %}
+    {{ include('partials/gameList.html.twig', {'games': games, 'title': title}) }}
+{% endfor %}

@@ -1,14 +1,10 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-
-    <div id="game"
-         class="pgn"
-         data-show-moves="true"
-         data-show-header="true"
-         data-label-next="&gt;&gt;"
-         data-label-back="&lt;&lt;"
-         data-label-reset="start"
-         data-ply="0"
-    >{{ game.pgn }}</div>
+    {{ pgn(game.pgn, {
+        'id': 'game',
+        'data-show-moves': "true",
+        'data-show-header': "true",
+        'data-ply': "0"
+    }) }}
 {% endblock %}
