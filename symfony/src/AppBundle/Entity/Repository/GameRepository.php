@@ -60,6 +60,16 @@ class GameRepository extends EntityRepository
         ];
     }
 
+    public function findByPlayerVsPlayerGroupByResult($player1, $player2)
+    {
+        return [
+            'won' => $this->findWonPlayerVsPlayer($player1, $player2),
+            'lost' => $this->findLostPlayerVsPlayer($player1, $player2),
+            'draw' => $this->findDrawByPlayerVsPlayer($player1, $player2),
+            'unfinished' => $this->findUnfinishedByPlayerVsPlayer($player1, $player2),
+        ];
+    }
+
     public function findWonByPlayer($player)
     {
         return $this->findWonOrLostByPlayer($player, true);

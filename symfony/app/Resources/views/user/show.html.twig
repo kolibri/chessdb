@@ -1,8 +1,8 @@
 {% extends 'baseListByResult.html.twig' %}
 
-{% block title %}{{ parent() }} {{ 'user.show.title'|trans }}{% endblock %}
+{% block title %}{{ 'user.show.title'|trans({'%name%': player}) }}{% endblock %}
 {% block headline %}
-    {% if user is not null %}<a href="{{ path('app_user_show', {'player': user.username}) }}">{% endif %}
-    {{ 'user.show.title'|trans({'%name%': player}) }}
-    {% if user is not null %}</a>{% endif %}
+    <a href="{{ path('app_user_show', {'player': player}) }}">
+        {{ 'user.show.title'|trans({'%name%': player}) }}
+    </a>
 {% endblock %}

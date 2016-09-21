@@ -113,4 +113,34 @@ class UserController extends Controller
             ]
         );
     }
+
+    /**
+     * @Route("/profile/{player1}/vs/{player2}")
+     */
+    public function versusAction($player1, $player2)
+    {
+        $games = $this
+            ->getDoctrine()
+            ->getRepository(Game::class)
+            ->findByPlayerVsPlayerGroupByResult($player1, $player2);
+
+        $user1 = $this
+            ->getDoctrine()->getRepository(User::class)
+            ->findOneBy(['username' => $player1]);
+        $user2 = $this
+            ->getDoctrine()->getRepository(User::class)
+            ->findOneBy(['username' => $player2]);
+
+
+        return $this->render(
+            'user/versus.html.twig',
+            [
+                'player1' => $player1,
+                'player2' => $player2,
+                'gamesByResult' => $games,
+                'user1' => $user1,
+                'user2' => $user2,
+            ]
+        );
+    }
 }

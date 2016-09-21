@@ -1,7 +1,6 @@
 {% extends 'baseList.html.twig' %}
 
-{% block title %}{{ parent() }} {{ 'dropbox.import.title'|trans }}{% endblock %}
-{% block headline %}{{ 'dropbox.import.title'|trans }}{% endblock %}
+{% block title %}{{ 'dropbox.import.title'|trans }}{% endblock %}
 
 {% block game %}
     <a href="{{ path('app_dropbox_game', {'path': game.path}) }}">

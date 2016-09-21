@@ -1,7 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ parent() }} {{ 'import.game.title'|trans }}{% endblock %}
-{% block headline %}{{ 'import.game.title'|trans }}{% endblock %}
+{% block title %}{{ 'import.game.title'|trans }}{% endblock %}
 {% block content %}
     {{ pgn(importedPgn.pgnString, {
         'data-show-moves': "false",

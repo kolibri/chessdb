@@ -1,7 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ parent() }} {{ 'user.list.title'|trans }}{% endblock %}
-{% block headline %}{{ 'user.list.title'|trans }}{% endblock %}
+{% block title %}{{ 'user.list.title'|trans }}{% endblock %}
 
 {% block content %}
     {% for user in users %}

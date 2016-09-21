@@ -1,7 +1,6 @@
 {% extends 'baseList.html.twig' %}
 
-{% block title %}{{ parent() }} {{ 'import.list.title'|trans }}{% endblock %}
-{% block headline %}{{ 'import.list.title'|trans }}{% endblock %}
+{% block title %}{{ 'import.list.title'|trans }}{% endblock %}
 
 {% block game %}
     {{ pgn(game.pgnString, {'data-show-header': "true", 'data-display-headers': 'White,Black,Result'}) }}
