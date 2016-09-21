@@ -1,8 +1,9 @@
-{% extends 'base.html.twig' %}
+{% extends 'baseListByResult.html.twig' %}
 
-{% block body %}
-    <h1>{{ 'security.profile.title'|trans }}</h1>
+{% block title %}{{ parent() }} {{ 'security.profile.title'|trans }}{% endblock %}
+{% block headline %}{{ 'security.profile.title'|trans }}{% endblock %}
 
+{% block content %}
     {{ form_start(form) }}
     <fieldset>
         {{ form_rest(form) }}
@@ -10,5 +11,5 @@
     </fieldset>
     {{ form_end(form) }}
 
-    {{ include(':partials:gamesByResult.html.twig') }}
+    {{ parent() }}
 {% endblock %}

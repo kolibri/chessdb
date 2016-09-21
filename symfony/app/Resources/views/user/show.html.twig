@@ -1,15 +1,8 @@
-{% extends 'base.html.twig' %}
+{% extends 'baseListByResult.html.twig' %}
 
-{% block body %}
-    <section class="user">
-        <h1>
-            {% if user is not null %}<a href="{{ path('app_user_show', {'player': user.username}) }}">{% endif %}
-                {{ 'user.profile.title'|trans({'%name%': player}) }}
-                {% if user is not null %}</a>{% endif %}
-        </h1>
-        {{ dump(user) }}
-        {{ dump(gamesByResult) }}
-
-        {{ include(':partials:gamesByResult.html.twig') }}
-    </section>
+{% block title %}{{ parent() }} {{ 'user.show.title'|trans }}{% endblock %}
+{% block headline %}
+    {% if user is not null %}<a href="{{ path('app_user_show', {'player': user.username}) }}">{% endif %}
+    {{ 'user.show.title'|trans({'%name%': player}) }}
+    {% if user is not null %}</a>{% endif %}
 {% endblock %}

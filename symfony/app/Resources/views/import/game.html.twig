@@ -1,15 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-    <h1>{{ 'import.game.title'|trans }}</h1>
-    <div id="importedGame"
-         class="pgn"
-         data-show-moves="false"
-         data-show-header="false"
-         data-label-next="&gt;&gt;"
-         data-label-back="&lt;&lt;"
-         data-label-reset="start"
-    >{{ importedPgn.pgnString }}</div>
+{% block title %}{{ parent() }} {{ 'import.game.title'|trans }}{% endblock %}
+{% block headline %}{{ 'import.game.title'|trans }}{% endblock %}
+{% block content %}
+    {{ pgn(importedPgn.pgnString, {
+        'data-show-moves': "false",
+        'data-show-header': "false",
+    }) }}
+
 
     {{ form_start(form) }}
     <fieldset>

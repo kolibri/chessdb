@@ -25,7 +25,7 @@ services:
 
     app.form.game_player_type:
         class: AppBundle\Form\GamePlayerType
-        arguments: ['@security.token_storage', '@app.entity_repository.user_repository']
+        arguments: ['@app.entity_repository.user_repository']
         tags:
             - { name: form.type, alias: AppBundle\Form\GamePlayerType }
 

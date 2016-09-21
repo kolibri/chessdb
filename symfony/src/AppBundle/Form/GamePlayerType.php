@@ -12,44 +12,33 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 class GamePlayerType extends AbstractType
 {
-    /** @var TokenStorage */
-    private $tokenStorage;
-
     /** @var UserRepository */
     private $userRepository;
 
     /**
      * GamePlayerType constructor.
-     * @param TokenStorage $tokenStorage
      * @param UserRepository $userRepository
      */
-    public function __construct(TokenStorage $tokenStorage, UserRepository $userRepository)
+    public function __construct(UserRepository $userRepository)
     {
-        $this->tokenStorage = $tokenStorage;
         $this->userRepository = $userRepository;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $aliases = [];
-        if ($token = $this->tokenStorage->getToken()) {
-            $user = $token->getUser();
-
-            if ($user instanceof User) {
-                $aliases = array_unique(array_merge($aliases, $user->getPlayerAliases()));
-            }
-        }
-
-        $aliases = array_unique(array_merge(
-            $aliases,
-            array_map(function (User $user) {
-                return $user->getUsername();
-            }, $this->userRepository->findAll())
-        ));
-
         $resolver->setDefaults(
             [
-                'attr' => ['data-suggestions' => implode(',', $aliases)],
+                'attr' => [
+                    'data-suggestions' => implode(
+                        ',',
+                        array_map(
+                            function (User $user) {
+                                return $user->getUsername();
+                            },
+                            $this->userRepository->findAll()
+                        )
+                    ),
+                ],
             ]
         );
     }

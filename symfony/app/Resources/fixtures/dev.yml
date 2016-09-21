@@ -46,5 +46,5 @@ AppBundle\Entity\User:
     roles: ['ROLE_ADMIN', 'ROLE_PLAYER']
   user_torben:
     __construct: { register: ['torben', 'torben@tester.dev', 'tester']}
-  user_{1..13}:
-    __construct: { register: ['<username()>', '<email()>', 'tester']}
+#  user_{1..3}:
+#    __construct: { register: ['<username()>', '<email()>', 'tester']}

@@ -1,8 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-    <div class="register">
-        <h1><h1>{{ 'security.login.title'|trans }}</h1></h1>
+{% block title %}{{ parent() }} {{ 'security.login.title'|trans }}{% endblock %}
+{% block headline %}{{ 'security.login.title'|trans }}{% endblock %}
+
+{% block content %}
+    <section class="register">
         {% if error %}
             <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
         {% endif %}
@@ -16,5 +18,5 @@
 
             <button type="submit">{{ 'security.login.form.label.submit'|trans }}</button>
         </form>
-    </div>
+    </section>
 {% endblock %}

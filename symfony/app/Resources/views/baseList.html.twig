@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <section class="list">
+        {% for game in games %}
+            <section class="game">
+                {{ block('game') }}
+            </section>
+        {% else %}
+            {{ 'game.list.no_items'|trans }}
+        {% endfor %}
+    </section>
+{% endblock %}
+
+{% block game %}
+        <a href="{{ path('app_game_show', {'uuid': game.uuid}) }}">
+            {{ game.white }} - {{ game.black }}: {{ game.result }}
+        </a>
+        {{ pgn(game.pgn, {'data-show-header': "false"}) }}
+{% endblock %}

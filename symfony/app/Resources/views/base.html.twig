@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8"/>
-    <title>{% block title %}{% endblock %}</title>
+    <title>{% block title %}ChessDB{% endblock %}</title>
     {% block stylesheets %}
         <link rel="stylesheet" href="{{ asset('css/milligram.css') }}">
         <link rel="stylesheet" href="{{ asset('css/chessboard.css') }}">
@@ -25,14 +25,17 @@
         {% endif %}
         <a href="{{ path('app_import_pgn') }}">{{ 'nav.import_pgn'|trans }}</a>
         <a href="{{ path('app_dropbox_list') }}">{{ 'nav.import_dropbox'|trans }}</a>
-        <a href="{{ path('app_import_listpgns') }}">{{ 'nav.import_list'|trans }}</a>
+        <a href="{{ path('app_import_list') }}">{{ 'nav.import_list'|trans }}</a>
         <a href="{{ path('app_game_list') }}">{{ 'nav.game_list'|trans }}</a>
         <a href="{{ path('app_user_list') }}">{{ 'nav.user_list'|trans }}</a>
     </nav>
 </header>
-<main>
-    {% block body %}{% endblock %}
+<main id="{% block id %}main{% endblock %}">
+    <h1>{% block headline %}{% endblock %}</h1>
+    {% block content %}{% endblock %}
 </main>
+
+
 
 {% block javascripts %}
     <script src="{{ asset('js/chess.js') }}" type="text/javascript"></script>

@@ -1,6 +1,5 @@
-{% extends 'base.html.twig' %}
+{% extends 'baseList.html.twig' %}
 
-{% block body %}
-    {% set title %}<h1>{{ 'game.list.title'|trans }}</h1>{% endset %}
-    {{ include('partials/gameList.html.twig', {'games': games, 'title': title}) }}
-{% endblock %}
+{% block title %}{{ parent() }} {{ 'game.list.title'|trans }}{% endblock %}
+{% block headline %}{{ 'game.list.title'|trans }}{% endblock %}
+

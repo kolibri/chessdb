@@ -1,0 +1,26 @@
+{% extends 'baseList.html.twig' %}
+
+{% block title %}{{ parent() }} {{ 'dropbox.import.title'|trans }}{% endblock %}
+{% block headline %}{{ 'dropbox.import.title'|trans }}{% endblock %}
+
+{% block game %}
+    <a href="{{ path('app_dropbox_game', {'path': game.path}) }}">
+        <p>{{ game.path }}</p>
+        {{ pgn(game.pgn, {'data-show-header': "false"}) }}
+    </a>
+
+    {% if game.dropboxPgn is not null %}
+        <a href="{{ path('app_import_game', {'uuid': game.dropboxPgn.getImportPgn.uuid}) }}" class="button"
+           style="width: 48%">
+            {{ 'dropbox.import.button.game_import'|trans }}
+        </a>
+        <a href="{{ path('app_dropbox_game', {'path': game.path}) }}" class="button button-outline"
+           style="width: 48%; margin-left: 2%;">
+            {{ 'dropbox.import.button.import'|trans }}
+        </a>
+    {% else %}
+        <a href="{{ path('app_dropbox_game', {'path': game.path}) }}" class="button">
+            {{ 'dropbox.import.button.import'|trans }}
+        </a>
+    {% endif %}
+{% endblock %}

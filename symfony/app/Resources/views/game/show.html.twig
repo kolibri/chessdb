@@ -1,6 +1,8 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
+{% block title %}{{ parent() }} {{ game.white }} - {{ game.black }}: {{ game.result }}{% endblock %}
+{% block headline %}{{ game.white }} - {{ game.black }}: {{ game.result }}{% endblock %}
+{% block content %}
     {{ pgn(game.pgn, {
         'id': 'game',
         'data-show-moves': "true",

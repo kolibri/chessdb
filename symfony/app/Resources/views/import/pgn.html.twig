@@ -1,12 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-    <h1>{{ 'import.pgn.title'|trans }}</h1>
+{% block title %}{{ parent() }} {{ 'import.pgn.title'|trans }}{% endblock %}
+{% block headline %}{{ 'import.pgn.title'|trans }}{% endblock %}
+
+{% block content %}
 {{ form_start(form) }}
     <fieldset>
         {{ form_rest(form) }}
         <button type="submit">{{ 'import.pgn.form.submit'|trans }}</button>
     </fieldset>
 {{ form_end(form) }}
-
 {% endblock %}

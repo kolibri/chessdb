@@ -43,7 +43,7 @@ class DropboxController extends Controller
         }
         
         return $this->render(
-            'dropbox/import.html.twig',
+            'dropbox/list.html.twig',
             [
                 'games' => $games,
             ]

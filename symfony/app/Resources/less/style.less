@@ -33,10 +33,14 @@ main {
     }
 
     .input-suggestions {
+      display: block;
       margin-left: 8rem;
-
+      width: 70vw;
+      max-height: 5em;
+      overflow: auto;
 
       span {
+        display: inline-block;
         cursor: pointer;
         margin-right: 0.7em;
       }
@@ -49,45 +53,40 @@ main {
   }
 
   .list {
-    > div {
+    > .game {
       width: 16em;
       float: left;
       margin-right: 1em;
       margin-bottom: 1em;
-    }
 
-    dl.info {
-      margin: 0;
-
-      dt {
-        display: none;
+      .button {
+        height: auto;
+        line-height: normal;
+        width: 100%;
+        padding: 0;
       }
-      dd {
-        display: inline-block;
+      .button.button-outline {
+        background-color: transparent;
+      }
+
+      dl.info {
         margin: 0;
-      }
 
-      dd:nth-child(2):after {
-        content: ' - ';
-      }
-      dd:nth-child(4):after {
-        content: ': ';
-      }
-    }
-  }
+        dt {
+          display: none;
+        }
+        dd {
+          display: inline-block;
+          margin: 0;
+        }
 
-  .list.import {
-    a.button {
-      height: auto;
-      line-height: normal;
-      border-radius: 0;
-      width: 100%;
-      background-color: lightgrey;
-      color: #464646;
-      padding: 0;
-    }
-    .button.button-outline {
-      background-color: transparent;
+        dd:nth-child(2):after {
+          content: ' - ';
+        }
+        dd:nth-child(4):after {
+          content: ': ';
+        }
+      }
     }
   }
 
@@ -119,12 +118,19 @@ main {
       max-height: 15em;
       overflow: auto;
 
-    li {
-      float: left;
-      margin-left: 1rem;
-    }
+      li {
+        float: left;
+        margin-left: 1rem;
+      }
     }
   }
+}
+
+a.button,
+button {
+  border-radius: 0;
+  background-color: lightgrey;
+  color: #464646;
 }
 
 .pgn {
@@ -137,10 +143,7 @@ main {
     line-height: normal;
     padding: 0;
     margin-left: 8%;
-    border-radius: 0;
     width: 19%;
-    background-color: lightgrey;
-    color: #464646;
   }
   button:first-child {
     margin-left: 0;
@@ -159,5 +162,5 @@ main {
       content: '' !important;
     }
   }
-
 }
+

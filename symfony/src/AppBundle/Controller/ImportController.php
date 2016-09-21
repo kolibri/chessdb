@@ -85,17 +85,17 @@ class ImportController extends Controller
         $importPgnRepository = $this->getDoctrine()->getRepository(ImportPgn::class);
         $importPgnRepository->remove($importPgn);
 
-        return $this->redirectToRoute('app_import_listpgns');
+        return $this->redirectToRoute('app_import_list');
     }
 
     /**
      * @Route("/list")
      */
-    public function listPgnsAction()
+    public function listAction()
     {
         return $this->render(
-            'import/list_pgns.html.twig',
-            ['pgns' => $this->importedPgnRepository()->findUnimported()]
+            'import/list.html.twig',
+            ['games' => $this->importedPgnRepository()->findUnimported()]
         );
     }
 
