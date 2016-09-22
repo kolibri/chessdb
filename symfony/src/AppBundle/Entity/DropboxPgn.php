@@ -3,52 +3,18 @@
 namespace AppBundle\Entity;
 
 use Ramsey\Uuid\Uuid;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use AppBundle\Validator\Constraints\Pgn;
-use Doctrine\ORM\Mapping\Entity;
-use Doctrine\ORM\Mapping\Id;
-use Doctrine\ORM\Mapping\Column;
-use Doctrine\ORM\Mapping\GeneratedValue;
-use Doctrine\ORM\Mapping\CustomIdGenerator;
-use Doctrine\ORM\Mapping\OneToOne;
-use Doctrine\ORM\Mapping\JoinColumn;
 
-/**
- * @Entity(repositoryClass="AppBundle\Entity\Repository\DropboxPgnRepository")
- */
 class DropboxPgn
 {
-    /**
-     * @var Uuid
-     *
-     * @Id
-     * @Column(type="uuid")
-     * @GeneratedValue(strategy="CUSTOM")
-     * @CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
-     */
+    /** @var Uuid */
     private $uuid;
 
-    /**
-     * @var string
-     *
-     * @Column
-     * @NotBlank
-     */
+    /** @var string */
     private $path;
 
-    /**
-     * @var ImportPgn
-     *
-     * @OneToOne(targetEntity="ImportPgn")
-     * @JoinColumn(name="original_pgn", referencedColumnName="uuid")
-     */
+    /** @var ImportPgn */
     private $importPgn;
 
-    /**
-     * DropboxPgn constructor.
-     * @param string $path
-     * @param ImportPgn $importPgn
-     */
     public function __construct($path, ImportPgn $importPgn)
     {
         $this->path = $path;

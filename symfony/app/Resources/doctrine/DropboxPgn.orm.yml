@@ -1,0 +1,21 @@
+AppBundle\Entity\DropboxPgn:
+    type: entity
+    table: dropbox_pgn
+    repositoryClass: AppBundle\Entity\Repository\DropboxPgnRepository
+    id:
+        uuid:
+            type: uuid
+            id: true
+            generator:
+                strategy: CUSTOM
+            customIdGenerator:
+                class: \Ramsey\Uuid\Doctrine\UuidGenerator
+    fields:
+        path:
+            type: string
+    oneToOne:
+        importPgn:
+            targetEntity: AppBundle\Entity\ImportPgn
+            joinColumns:
+                original_pgn:
+                    referencedColumnName: uuid

@@ -19,9 +19,9 @@ AppBundle\Entity\Game:
       - "Budapest HUN"
       - '@date<current()>'
       - "?"
-      - "Esteban Canal"
-      - "NN"
-      - "1-0"
+      - "<randomElement(['jim', 'edward', 'arthur'])>"
+      - "<randomElement(['jim', 'edward', 'arthur'])>"
+      - "<randomElement(['1-0', '0-1', '1/2-1/2', '*'])>"
       -
         - '1.e4 d5'
         - '2.exd5 Qxd5'
@@ -44,7 +44,9 @@ AppBundle\Entity\User:
     __construct: { register: ['chessdb', 'chessdb@chesdb.dev', 'chessdb']}
     playerAliases: ['chessdb', 'admin']
     roles: ['ROLE_ADMIN', 'ROLE_PLAYER']
-  user_torben:
-    __construct: { register: ['torben', 'torben@tester.dev', 'tester']}
-#  user_{1..3}:
-#    __construct: { register: ['<username()>', '<email()>', 'tester']}
+  user_jim:
+    __construct: { register: ['jim', 'jim@chessdb.dev', 'tester']}
+  user_edward:
+    __construct: { register: ['edward', 'edward@chessdb.dev', 'tester']}
+  user_arthur:
+    __construct: { register: ['arthur', 'arthur@chessdb.dev', 'tester']}

@@ -1,0 +1,32 @@
+AppBundle\Entity\User:
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: username
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: emailAddress
+    properties:
+        username:
+            - NotBlank: ~
+            - Length:
+                min: 4
+                max: 25
+                groups: ["registration"]
+            - Regex:
+                pattern: "/^[a-z0-9]+$/i"
+                groups: ["registration"]
+        password:
+            - NotBlank: ~
+        roles:
+            - NotBlank: ~
+        emailAddress:
+            - NotBlank: ~
+            - NotBlank:
+                groups: ["registration"]
+            - Email:
+                groups: ["registration"]
+        playerAliases:
+            - NotBlank: ~
+        rawPassword:
+            - NotBlank:
+                groups: ["registration"]
+            - Length:
+                min: 6
+                groups: ["registration"]

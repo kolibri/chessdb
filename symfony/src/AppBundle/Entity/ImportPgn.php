@@ -4,49 +4,18 @@
 namespace AppBundle\Entity;
 
 use Ramsey\Uuid\Uuid;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use AppBundle\Validator\Constraints\Pgn;
-use Doctrine\ORM\Mapping\Entity;
-use Doctrine\ORM\Mapping\Id;
-use Doctrine\ORM\Mapping\Column;
-use Doctrine\ORM\Mapping\GeneratedValue;
-use Doctrine\ORM\Mapping\CustomIdGenerator;
 
-/**
- * @Entity(repositoryClass="AppBundle\Entity\Repository\ImportPgnRepository")
- */
 class ImportPgn
 {
-    /**
-     * @var Uuid
-     *
-     * @Id
-     * @Column(type="uuid")
-     * @GeneratedValue(strategy="CUSTOM")
-     * @CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
-     */
+    /** @var Uuid */
     private $uuid;
 
-    /**
-     * @var string
-     *
-     * @Column(type="text")
-     * @NotBlank
-     * @Pgn
-     */
+    /** @var string */
     private $pgnString;
 
-    /**
-     * @var boolean
-     *
-     * @Column(type="boolean", nullable=true)
-     */
+    /** @var boolean */
     private $imported;
 
-    /**
-     * ImportedPgn constructor.
-     * @param string $pgnString
-     */
     public function __construct($pgnString)
     {
         $this->pgnString = $pgnString;

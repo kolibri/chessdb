@@ -1,8 +1,3 @@
-# Learn more about services, parameters and containers at
-# http://symfony.com/doc/current/book/service_container.html
-parameters:
-#    parameter_name: value
-
 services:
     app.adapter.chess_adapter:
         class: AppBundle\Adapter\ChessAdapter
@@ -46,6 +41,7 @@ services:
         class: AppBundle\Twig\ChessExtension
         tags:
             - { name: twig.extension }
+
     app.validator_constraints.pgn_validator:
         class: AppBundle\Validator\Constraints\PgnValidator
         arguments: ['@app.adapter.chess_adapter']
@@ -54,8 +50,6 @@ services:
 
     chessphp.chess:
         class: Ryanhs\Chess\Chess
-
-
 
     dropbox.app.info:
         class: Dropbox\AppInfo
@@ -82,7 +76,7 @@ services:
         class: AppBundle\Dropbox\AccessTokenStore
         arguments:
             - '@session'
-#
+
 #    app.dropbox.client_creator:
 #        class: AppBundle\Dropbox\ClientCreator
 #        arguments:

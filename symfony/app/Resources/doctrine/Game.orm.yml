@@ -1,0 +1,36 @@
+AppBundle\Entity\Game:
+    type: entity
+    table: game
+    repositoryClass: AppBundle\Entity\Repository\GameRepository
+    id:
+        uuid:
+            type: uuid
+            id: true
+            generator:
+                strategy: CUSTOM
+            customIdGenerator:
+                class: \Ramsey\Uuid\Doctrine\UuidGenerator
+    fields:
+        event:
+            type: string
+        site:
+            type: string
+        date:
+            type: pgn_date
+        round:
+            type: string
+        white:
+            type: string
+        black:
+            type: string
+        result:
+            type: string
+            length: 7
+        moves:
+            type: simple_array
+    oneToOne:
+        originalPgn:
+            targetEntity: AppBundle\Entity\ImportPgn
+            joinColumns:
+                original_pgn:
+                    referencedColumnName: uuid

@@ -1,0 +1,23 @@
+AppBundle\Entity\Game:
+    properties:
+        event:
+            - NotBlank: ~
+        site:
+            - NotBlank: ~
+        date:
+            - NotBlank: ~
+        round:
+            - NotBlank: ~
+        white:
+            - NotBlank: ~
+        black:
+            - NotBlank: ~
+        result:
+            - NotBlank: ~
+            - Choice:
+                - '1-0'
+                - '0-1'
+                - '1/2-1/2'
+                - '*'
+        moves:
+            - NotBlank: ~

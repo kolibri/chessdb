@@ -2,97 +2,32 @@
 
 namespace AppBundle\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Ramsey\Uuid\Uuid;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\Length;
-use Symfony\Component\Validator\Constraints\Regex;
-use Symfony\Component\Validator\Constraints\Email;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Doctrine\ORM\Mapping\Entity;
-use Doctrine\ORM\Mapping\Id;
-use Doctrine\ORM\Mapping\Column;
-use Doctrine\ORM\Mapping\GeneratedValue;
-use Doctrine\ORM\Mapping\CustomIdGenerator;
-use Doctrine\ORM\Mapping\Table;
-use Doctrine\ORM\Mapping\UniqueConstraint;
 
-/**
- * @Entity(repositoryClass="AppBundle\Entity\Repository\UserRepository")
- * @Table(
- *     uniqueConstraints={
- *         @UniqueConstraint(name="user_username_unique", columns="username"),
- *         @UniqueConstraint(name="user_email_unique", columns="email_address"),
- *     }
- * )
- * @UniqueEntity("username")
- * @UniqueEntity("emailAddress")
- */
 class User implements UserInterface
 {
-    /**
-     * @var Uuid
-     *
-     * @Id
-     * @Column(type="uuid")
-     * @GeneratedValue(strategy="CUSTOM")
-     * @CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
-     */
+    /** @var Uuid */
     private $uuid;
 
-    /**
-     * @var string
-     *
-     * @Column
-     * @NotBlank(groups={"registration"})
-     * @Length(min=4, max=25, groups={"registration"})
-     * @Regex(pattern="/^[a-z0-9]+$/i", groups={"registration"})
-     */
+    /** @var string */
     private $username;
 
-    /**
-     * @var string
-     *
-     * @Column
-     */
+    /** @var string */
     private $password;
 
-    /**
-     * @var array
-     *
-     * @Column(type="simple_array")
-     * @NotBlank
-     */
+    /** @var array */
     private $roles = [];
 
-    /**
-     * @var string
-     *
-     * @Column
-     * @NotBlank(groups={"registration"})
-     * @Email(groups={"registration"})
-     */
+    /** @var string */
     private $emailAddress;
 
-    /**
-     * @var array
-     *
-     * @Column(type="simple_array", nullable=true)
-     */
+    /** @var array */
     private $playerAliases;
 
-    /**
-     * @var string
-     *
-     * @NotBlank(groups={"registration"})
-     * @Length(min=6, groups={"registration"})
-     */
+    /** @var string */
     private $rawPassword;
 
-    /**
-     * User constructor.
-     */
     public function __construct()
     {
     }

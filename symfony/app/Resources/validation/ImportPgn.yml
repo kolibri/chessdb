@@ -1,0 +1,5 @@
+AppBundle\Entity\ImportPgn:
+    properties:
+        pgnString:
+            - NotBlank: ~
+            - AppBundle\Validator\Constraints\Pgn: ~

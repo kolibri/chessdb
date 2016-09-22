@@ -1,0 +1,14 @@
+AppBundle\Entity\LeaderboardItem:
+    properties:
+        player:
+            - NotBlank: ~
+        games:
+            - NotBlank: ~
+        won:
+            - NotBlank: ~
+        lost:
+            - NotBlank: ~
+        draw:
+            - NotBlank: ~
+        createdAt:
+            - NotBlank: ~

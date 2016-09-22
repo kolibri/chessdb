@@ -1,0 +1,32 @@
+AppBundle\Entity\LeaderboardItem:
+    type: entity
+    table: leaderboard_item
+    repositoryClass: AppBundle\Entity\Repository\LeaderboardRepository
+    id:
+        uuid:
+            type: uuid
+            id: true
+            generator:
+                strategy: CUSTOM
+            customIdGenerator:
+                class: \Ramsey\Uuid\Doctrine\UuidGenerator
+    fields:
+        player:
+            type: string
+        games:
+            type: smallint
+        won:
+            type: smallint
+        lost:
+            type: smallint
+        draw:
+            type: smallint
+        createdAt:
+            type: datetime
+    manyToOne:
+        leaderboard:
+            targetEntity: AppBundle\Entity\Leaderboard
+            inversedBy: items
+            joinColumns:
+                leaderboard_uuid:
+                    referencedColumnName: uuid

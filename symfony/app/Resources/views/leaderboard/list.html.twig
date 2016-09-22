@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'leaderboard.list.title'|trans }}{% endblock %}
+
+{% block content %}
+    <section class="leaderboard">
+        {% for leaderboard in leaderboards %}
+            <a href="{{ path('app_leaderboard_show', {'uuid': leaderboard.uuid}) }}">{{ leaderboard.createdAt|date }}</a>
+        {% endfor %}
+    </section>
+{% endblock %}

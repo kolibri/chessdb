@@ -5,7 +5,6 @@ namespace AppBundle\Entity\Repository;
 
 use AppBundle\Entity\Game;
 use AppBundle\Entity\ImportPgn;
-use AppBundle\Entity\User;
 use Doctrine\ORM\EntityRepository;
 
 class GameRepository extends EntityRepository
@@ -36,7 +35,7 @@ class GameRepository extends EntityRepository
     }
 
     /**
-     * @param User $player
+     * @param string $player
      * @return Game[]|null
      */
     public function findByPlayer($player)
