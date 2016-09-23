@@ -1,5 +1,9 @@
 # Chess DB
 
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/8b4bc69b-0874-468a-b1f2-bc828543d907/mini.png)](https://insight.sensiolabs.com/projects/8b4bc69b-0874-468a-b1f2-bc828543d907)
+
+[![Build Status](https://travis-ci.org/kolibri/chessdb.svg?branch=master)](https://travis-ci.org/kolibri/chessdb)
+
 ## Project
     this is a chessdb in symfony
 
