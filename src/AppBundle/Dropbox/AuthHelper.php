@@ -68,9 +68,9 @@ class AuthHelper
             'code' => $request->query->get('code'),
         ];
 
-        list($accessToken, $userId, $urlState) = $this->getWebAuth()->finish($params);
+        $result = $this->getWebAuth()->finish($params);
 
-        $this->accessTokenStore->set($accessToken);
+        $this->accessTokenStore->set($result[0]);
     }
 
     private function getWebAuth()
