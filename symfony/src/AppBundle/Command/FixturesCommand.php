@@ -1,10 +1,8 @@
 <?php
 
-
 namespace AppBundle\Command;
 
 use AppBundle\Entity\User;
-use AppBundle\Faker\Provider\ChessProvider;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\SchemaTool;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
@@ -49,7 +47,6 @@ class FixturesCommand extends ContainerAwareCommand
         /** @var EntityManager $manager */
         $persister = new \Nelmio\Alice\Persister\Doctrine($manager);
         $loader = new \Nelmio\Alice\Fixtures\Loader();
-        $loader->addProvider(new ChessProvider());
         $loader->setPersister($persister);
 
         $objects = $loader->load($fixturePath);
