@@ -10,7 +10,7 @@ parameters:
     mailer_password:   ~
 
     # A secret key that's used to generate certain security-related tokens
-    secret:            ThisTokenIsNotSoSecretChangeIt
+    secret:            blaNn2irJ4un6iC9hylg0Oaf1quap4V
 
     # Dropbox config
     dropbox_api_key: <dropbox_api_key>
