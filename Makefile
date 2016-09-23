@@ -1,70 +1,74 @@
-REPORT_DIR = 'reports'
+REPORT_DIR=reports
 ENV=dev
+COMPOSER_CMD=composer
+NPM_CMD=npm
+GULP_CMD=gulp
+PHPUNIT_CMD=phpunit
+SYMFONY_CMD=php bin/console
+SECURITY_CHECKER_CMD=security-checker
+PHPCS_CMD=phpcs
+PHPCBF_CMD=phpcbf
+PHPMD_CMD=phpmd
+PHPCPD_CMD=phpcpd
 
 # build targets
 build: composer-install npm-install gulp-build
 dev-init: build reset-database
-
 composer-install:
-	composer install
+	$(COMPOSER_CMD) install
 npm-install:
-	npm install
+	$(NPM_CMD) install
 gulp-build:
-	gulp build
-
+	$(GULP_CMD) build
 reset-database:
-	-./bin/console doctrine:database:drop --force
-	./bin/console doctrine:database:create
-	./bin/console doctrine:schema:create
-	./bin/console app:fixtures
-
+	-$(SYMFONY_CMD) doctrine:database:drop --force
+	$(SYMFONY_CMD) doctrine:database:create
+	$(SYMFONY_CMD) doctrine:schema:create
+	$(SYMFONY_CMD) app:fixtures
 tarball:
 	tar -czf ../chessdb.tar.gz . --exclude ./reports --exclude ./node_modules --exclude ./var
 
 # test targets
-test-report: lint phpunit-report security-checker
-test: lint phpunit  security-checker
-
+test: lint phpunit security-checker
 lint: lint-php lint-twig lint-yaml
-
 lint-yaml:
-	./bin/console lint:yaml app/config
-	./bin/console lint:yaml src
-
+	$(SYMFONY_CMD) lint:yaml app
+	$(SYMFONY_CMD) lint:yaml src
 lint-twig:
-	./bin/console lint:twig app/Resources/views
-
+	$(SYMFONY_CMD) lint:twig app/Resources/views
 lint-php:
 	find ./src -name "*.php" -print0 | xargs -0 -n1 -P8 php -l
 	find ./tests -name "*.php" -print0 | xargs -0 -n1 -P8 php -l
-
 phpunit:
-	phpunit
-phpunit-report: report-dir
-	phpunit --coverage-html=$(REPORT_DIR)/phpunit-html-coverage --log-junit=$(REPORT_DIR)/phpunit.junit.xml --coverage-clover=$(REPORT_DIR)/phpunit.clover.xml
+	$(PHPUNIT_CMD) $(OPTIONS)
 security-checker:
-	security-checker check composer.lock
+	$(SECURITY_CHECKER_CMD) security:check composer.lock
 
 # Cody analysis targets
-qa-report: phpcs-report phpcpd-report
 qa: phpcs phpmd phpcpd
-
 phpcs:
-	phpcs --standard=phpcs.xml
+	$(PHPCS_CMD) --standard=phpcs.xml $(OPTIONS)
 phpcbf:
-	phpcbf --standard=phpcs.xml
-phpcs-report: report-dir
-	phpcs --standard=phpcs.xml --report=checkstyle --report-file=$(REPORT_DIR)/phpcs.cs.xml
-
+	-$(PHPCBF_CMD) --standard=phpcs.xml
 phpmd:
-	phpmd src xml phpmd.xml
-phpmd-report: report-dir
-	phpmd src xml phpmd.xml --reportfile $(REPORT_DIR)/phpmd.pmd.xml
-
+	$(PHPMD_CMD) src xml phpmd.xml $(OPTIONS)
 phpcpd:
-	phpcpd src/
+	$(PHPCPD_CMD) $(OPTIONS) src/
+
+## report targets
+reports: lint phpunit-report security-checker phpcs-report phpcpd-report
+
+phpunit-report: report-dir
+	$(MAKE) OPTIONS='--coverage-html=$(REPORT_DIR)/phpunit-html-coverage --log-junit=$(REPORT_DIR)/phpunit.junit.xml --coverage-clover=$(REPORT_DIR)/phpunit.clover.xml' phpunit
+
+phpcs-report: report-dir
+	$(MAKE) OPTIONS='--report=checkstyle --report-file=$(REPORT_DIR)/phpcs.cs.xml' phpcs
+
+phpmd-report: report-dir
+	$(MAKE) OPTIONS='--reportfile $(REPORT_DIR)/phpmd.pmd.xml' phpmd
+
 phpcpd-report: report-dir
-	phpcpd --log-pmd=$(REPORT_DIR)/phpcpd.dry.xml src/
+	$(MAKE) OPTIONS='--log-pmd=$(REPORT_DIR)/phpcpd.dry.xml' phpcpd
 
 report-dir:
 	mkdir -p $(REPORT_DIR)
