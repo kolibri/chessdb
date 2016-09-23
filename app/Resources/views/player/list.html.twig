@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ 'user.list.title'|trans }}{% endblock %}
+{% block title %}{{ 'player.list.title'|trans }}{% endblock %}
 
 {% block content %}
     {% for user in users %}
-        <a href="{{ path('app_user_show', {'player': user.username}) }}">
+        <a href="{{ path('app_player_show', {'player': user.username}) }}">
             {{ user.username }}
         </a>
     {% endfor %}

@@ -28,7 +28,7 @@ leaderboard.show:
     lost: lost
     draw: draw
 
-user:
+player:
   list.title: Player
   show.title: "%player%s profile"
   versus.title: "Games %player1% vs %player2%"
@@ -44,7 +44,7 @@ nav:
   user_list: Players
   leaderboard: Leaderboard
 
-security:
+user:
   login.title: Login
   profile.title: Profile
 

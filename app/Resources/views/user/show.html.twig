@@ -1,8 +1,0 @@
-{% extends 'baseListByResult.html.twig' %}
-
-{% block title %}{{ 'user.show.title'|trans({'%player%': player}) }}{% endblock %}
-{% block headline %}
-    <a href="{{ path('app_user_show', {'player': player}) }}">
-        {{ 'user.show.title'|trans({'%player%': player}) }}
-    </a>
-{% endblock %}

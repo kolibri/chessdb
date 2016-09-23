@@ -57,7 +57,6 @@ class ImportController extends Controller
         $game = $this
             ->get('app.import.pgn_string_importer')
             ->createFromImportPgn($importPgn);
-        $game->setOriginalPgn($importPgn);
         $form = $this->createForm(GameType::class, $game);
         $form->handleRequest($request);
 
@@ -82,7 +81,7 @@ class ImportController extends Controller
 
     /**
      * @Route("/delete/pgn/{uuid}")
-     * @Method({"GET"})
+     * @Method({"POST"})
      */
     public function deletePgnAction(ImportPgn $importPgn)
     {

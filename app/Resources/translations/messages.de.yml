@@ -28,7 +28,7 @@ leaderboard.show:
     lost: verloren
     draw: remis
 
-user:
+player:
   list.title: Spieler
   show.title: "Profile von %player%"
   versus.title: "Spiele von %player1% gegen %player2%"
@@ -44,7 +44,7 @@ nav:
   user_list: Spieler
   leaderboard: Bestenliste
 
-security:
+user:
   login.title: Melde Dich an
   profile.title: Profil
 

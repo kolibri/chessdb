@@ -9,7 +9,15 @@
         {{ 'import.list.link_to_import'|trans }}
     </a>
 
+    <form action="{{ path('app_import_deletepgn', {'uuid': game.uuid}) }}" method="post">
+        <button class="button-outline" style="width: 10%; margin-left: 3%">
+            {{ 'import.list.delete_pgn'|trans }}
+        </button>
+    </form>
+
+{#
     <a href="{{ path('app_import_deletepgn', {'uuid': game.uuid}) }}" class="button button-outline" style="width: 10%; margin-left: 3%">
         {{ 'import.list.delete_pgn'|trans }}
     </a>
+#}
 {% endblock %}
