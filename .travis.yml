@@ -4,16 +4,17 @@ php:
   - '7.0'
 
 before_script:
-  - composer global require squizlabs/php_codesniffer
   - composer global require sensiolabs/security-checker
+  - composer global require squizlabs/php_codesniffer
   - composer global require phpmd/phpmd
+  - composer global require sebastian/phpcpd
   - cp app/config/parameters.yml.dist app/config/parameters.yml
   - make composer-install
   - make reset-database
 
 script:
-  - make test
-  - make qa
+  - make SECURITY_CHECKER_CMD=~/.composer/vendor/bin/security-checker test
+  - make PHPCS_CMD=~/.composer/vendor/bin/phpcs PHPMD_CMD=~/.composer/vendor/bin/phpmd PHPCPD_CMD=~/.composer/vendor/bin/phpcpd qa
 
 notifications:
   email:
