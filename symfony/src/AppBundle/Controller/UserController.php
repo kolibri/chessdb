@@ -1,6 +1,5 @@
 <?php
 
-
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Game;
@@ -12,7 +11,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 class UserController extends Controller
 {
-
     /**
      * @Route("/login")
      */
@@ -20,17 +18,11 @@ class UserController extends Controller
     {
         $authenticationUtils = $this->get('security.authentication_utils');
 
-        // get the login error if there is one
-        $error = $authenticationUtils->getLastAuthenticationError();
-
-        // last username entered by the user
-        $lastUsername = $authenticationUtils->getLastUsername();
-
         return $this->render(
             'user/login.html.twig',
             [
-                'last_username' => $lastUsername,
-                'error' => $error,
+                'last_username' => $authenticationUtils->getLastUsername(),
+                'error' => $authenticationUtils->getLastAuthenticationError(),
             ]
         );
     }
@@ -98,17 +90,11 @@ class UserController extends Controller
             ->getRepository(Game::class)
             ->findByPlayerGroupByResult($player);
 
-        $user = $this
-            ->getDoctrine()->getRepository(User::class)
-            ->findOneBy(['username' => $player]);
-
-
         return $this->render(
             'user/show.html.twig',
             [
                 'player' => $player,
                 'gamesByResult' => $games,
-                'user' => $user,
             ]
         );
     }
@@ -123,22 +109,12 @@ class UserController extends Controller
             ->getRepository(Game::class)
             ->findByPlayerVsPlayerGroupByResult($player1, $player2);
 
-        $user1 = $this
-            ->getDoctrine()->getRepository(User::class)
-            ->findOneBy(['username' => $player1]);
-        $user2 = $this
-            ->getDoctrine()->getRepository(User::class)
-            ->findOneBy(['username' => $player2]);
-
-
         return $this->render(
             'user/versus.html.twig',
             [
                 'player1' => $player1,
                 'player2' => $player2,
                 'gamesByResult' => $games,
-                'user1' => $user1,
-                'user2' => $user2,
             ]
         );
     }
