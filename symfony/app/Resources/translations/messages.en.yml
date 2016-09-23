@@ -20,6 +20,30 @@ import:
 game:
   list:
     title: All Games
+    no_items: No games
+    won.title: won
+    lost.title: lost
+    draw.title: draw
+    unfinished.title: unfinished
+
+leaderboard:
+  show:
+    title: Leaderboard
+    table:
+      head:
+        player: Player
+        games: played
+        won: won
+        lost: lost
+        draw: draw
+
+user:
+  list:
+    title: Spieler
+  show:
+    title: Profile von "%player%"
+  versus:
+    title: Spiele von "%player1%" gegen %player2%
 
 nav:
   login: Log In
@@ -29,6 +53,8 @@ nav:
   import_list: Unfinished Imports
   logout: Logout
   profile: My Profile
+  user_list: Players
+  leaderboard: Leaderboard
 
 security:
   login:

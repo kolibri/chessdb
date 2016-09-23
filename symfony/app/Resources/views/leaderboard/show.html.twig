@@ -6,22 +6,30 @@
     <table id="leaderboard">
         <thead>
         <tr>
-            <th>Player</th>
-            <th>Games</th>
-            <th>Won</th>
-            <th>Lost</th>
-            <th>Draw</th>
+            {% for state in ['player', 'games', 'won', 'lost', 'draw'] %}
+                <th>
+                    <a
+                            href="{{ path(
+                                'app_leaderboard_show',
+                                {
+                                    'sortBy': state,
+                                    'sortAsc': (state != sortBy ? sortAsc : not sortAsc)})
+                            }}"
+                            class="{{ state == sortBy ? 'active' }} {{ sortAsc ? 'asc' : 'desc' }}"
+                    >{{ ('leaderboard.show.table.head.'~state)|trans }}</a>
+                </th>
+            {% endfor %}
         </tr>
         </thead>
         <tbody>
-    {% for player in leaderboard %}
-        <tr>
-            <td>{{ player.player }}</td>
-            <td>{{ player.games|length }}</td>
-            <td>{{ player.won|length }}</td>
-            <td>{{ player.lost|length }}</td>
-            <td>{{ player.draw|length }}</td>
-        </tr>
+        {% for player in leaderboard %}
+            <tr>
+                <td>{{ player.player }}</td>
+                <td>{{ player.games }}</td>
+                <td>{{ player.won }}</td>
+                <td>{{ player.lost }}</td>
+                <td>{{ player.draw }}</td>
+            </tr>
         {% endfor %}
         </tbody>
     </table>
