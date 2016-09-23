@@ -30,8 +30,8 @@ leaderboard.show:
 
 user:
   list.title: Spieler
-  show.title: Profile von "%player%"
-  versus.title: Spiele von "%player1%" gegen %player2%
+  show.title: "Profile von %player%"
+  versus.title: "Spiele von %player1% gegen %player2%"
 
 nav:
   login: Anmelden

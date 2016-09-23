@@ -30,8 +30,8 @@ leaderboard.show:
 
 user:
   list.title: Player
-  show.title: %player%s profile
-  versus.title: Games %player1% vs %player2%
+  show.title: "%player%s profile"
+  versus.title: "Games %player1% vs %player2%"
 
 nav:
   login: Log In
