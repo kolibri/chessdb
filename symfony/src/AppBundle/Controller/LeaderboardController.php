@@ -42,7 +42,7 @@ class LeaderboardController extends Controller
             throw new \InvalidArgumentException(sprintf('Cannot sort by "%s" as no such key exists', $sortBy));
         }
 
-        uasort($leaderboard, function($a, $b) use ($sortBy, $sortAsc){
+        uasort($leaderboard, function ($a, $b) use ($sortBy, $sortAsc) {
             if ($a[$sortBy] == $b[$sortBy]) {
                 return 0;
             }

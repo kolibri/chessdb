@@ -84,7 +84,6 @@ class UserController extends Controller
                 'users' => $userRepository->findAll(),
             ]
         );
-
     }
 
     //* #Route("/profile/{player}", requirements={"player": "/^[a-zA-Z0-9_.-\s]*$/"})

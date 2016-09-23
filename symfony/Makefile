@@ -21,8 +21,8 @@ tarball:
 	tar -czf ../chessdb.tar.gz . --exclude ./reports --exclude ./node_modules --exclude ./var
 
 # test targets
-test-report: lint phpunit-report behat-report deptrac-report
-
+test-report: lint phpunit-report
+test: lint phpunit 
 lint: lint-php lint-twig lint-yaml
 
 lint-yaml:
@@ -36,24 +36,29 @@ lint-php:
 	find ./src -name "*.php" -print0 | xargs -0 -n1 -P8 php -l
 	find ./tests -name "*.php" -print0 | xargs -0 -n1 -P8 php -l
 
+phpunit:
+	phpunit
 phpunit-report: report-dir
 	phpunit --coverage-html=$(REPORT_DIR)/phpunit-html-coverage --log-junit=$(REPORT_DIR)/phpunit.junit.xml --coverage-clover=$(REPORT_DIR)/phpunit.clover.xml
 
-behat-report: report-dir
-	behat --format junit --out $(REPORT_DIR)/behat.junit
-
-deptrac-report: report-dir
-	deptrac analyze --formatter-graphviz-dump-image=$(REPORT_DIR)/deptrac.png
-
 # Cody analysis targets
 qa-report: phpcs-report phpcpd-report
+qa: phpcs phpmd phpcpd
 
+phpcs:
+	phpcs --standard=phpcs.xml
+phpcbf:
+	phpcbf --standard=phpcs.xml
 phpcs-report: report-dir
 	phpcs --standard=phpcs.xml --report=checkstyle --report-file=$(REPORT_DIR)/phpcs.cs.xml
 
+phpmd:
+	phpmd src xml phpmd.xml
 phpmd-report: report-dir
 	phpmd src xml phpmd.xml --reportfile $(REPORT_DIR)/phpmd.pmd.xml
 
+phpcpd:
+	phpcpd src/
 phpcpd-report: report-dir
 	phpcpd --log-pmd=$(REPORT_DIR)/phpcpd.dry.xml src/
 
