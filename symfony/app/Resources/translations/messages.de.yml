@@ -91,3 +91,6 @@ dropbox:
     button:
       game_import: Beenden # @todo bad translation!
       import: Importieren
+
+pgn:
+  piece_names: '{"k": "K", "q": "D", "b": "L", "n": "S", "r": "T", "p": ""}'

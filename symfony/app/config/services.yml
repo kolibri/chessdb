@@ -39,6 +39,7 @@ services:
     
     app.twig.chess_extension:
         class: AppBundle\Twig\ChessExtension
+        arguments: ['@translator']
         tags:
             - { name: twig.extension }
 

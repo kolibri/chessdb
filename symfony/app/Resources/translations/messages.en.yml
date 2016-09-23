@@ -91,3 +91,6 @@ dropbox:
     button:
       game_import: Finish Import
       import: Import
+
+pgn:
+  piece_names: '{"k": "K", "q": "Q", "b": "B", "n": "N", "r": "R", "p": ""}'
