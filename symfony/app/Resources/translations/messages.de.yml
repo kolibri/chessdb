@@ -1,8 +1,5 @@
 import:
-  game:
-    title: Spiel importieren
-    form:
-      submit: Speichern
+  game.title: Spiel importieren
   already_imported:
     title: Dieses Spiel wurde bereits importiert
     notice: Dieses Spiel wurde bereits importiert
@@ -12,38 +9,29 @@ import:
     link_to_import: Importiere dieses Spiel
     no_pgns: Keine zu importierenden Spiele vorhanden.
     delete_pgn: "[x]"
-  pgn:
-    title: PGN importieren
-    form:
-      submit: Importieren
+  pgn.title: PGN importieren
 
-game:
-  list:
-    title: Alle Spiele
-    no_items: Keine Spiele vorhanden
-    won.title: gewonnen
-    lost.title: verloren
-    draw.title: remis
-    unfinished.title: laufend
+game.list:
+  title: Alle Spiele
+  no_items: Keine Spiele vorhanden
+  won.title: gewonnen
+  lost.title: verloren
+  draw.title: remis
+  unfinished.title: laufend
 
-leaderboard:
-  show:
-    title: Bestenliste
-    table:
-      head:
-        player: Spieler
-        games: gespielt
-        won: gewonnen
-        lost: verloren
-        draw: remis
+leaderboard.show:
+  title: Bestenliste
+  table.head:
+    player: Spieler
+    games: gespielt
+    won: gewonnen
+    lost: verloren
+    draw: remis
 
 user:
-  list:
-    title: Spieler
-  show:
-    title: Profile von "%player%"
-  versus:
-    title: Spiele von "%player1%" gegen %player2%
+  list.title: Spieler
+  show.title: Profile von "%player%"
+  versus.title: Spiele von "%player1%" gegen %player2%
 
 nav:
   login: Anmelden
@@ -57,40 +45,35 @@ nav:
   leaderboard: Bestenliste
 
 security:
-  login:
-    title: Melde Dich an
-    form:
-      label:
-        username: Nutzername
-        password: Passwort
-        submit: Anmelden
-  profile:
-    title: Profil
-    form:
-      submit: Save
+  login.title: Melde Dich an
+  profile.title: Profil
 
 form:
-  game:
-    label:
-      game: Spiel
-      event: Ereignis
-      site: Ort
-      date: Datum
-      round: Runde
-      white: Weiß
-      black: Schwarz
-      result: Ergebnis
-      moves: Züge
-  importPgn:
-    label:
-      pgnString: PGN
+  game.label:
+    game: Spiel
+    event: Ereignis
+    site: Ort
+    date: Datum
+    round: Runde
+    white: Weiß
+    black: Schwarz
+    result: Ergebnis
+    moves: Züge
+    submit: Speichern
+  importPgn.label:
+    pgnString: PGN
+    submit: Importieren
+  login.label:
+    username: Nutzername
+    password: Passwort
+    submit: Anmelden
+  profile.label:
+    submit: Speichern
 
-dropbox:
-  import:
-    title: Von Dropbox importieren
-    button:
-      game_import: Beenden # @todo bad translation!
-      import: Importieren
+dropbox.import:
+  title: Von Dropbox importieren
+  button:
+    game_import: Beenden # @todo bad translation!
+    import: Importieren
 
-pgn:
-  piece_names: '{"k": "K", "q": "D", "b": "L", "n": "S", "r": "T", "p": ""}'
+pgn.piece_names: '{"k": "K", "q": "D", "b": "L", "n": "S", "r": "T", "p": ""}'

@@ -1,8 +1,5 @@
 import:
-  game:
-    title: Import Game
-    form:
-      submit: Save
+  game.title: Import Game
   already_imported:
     title: This game was already imported
     notice: This game was already imported.
@@ -12,38 +9,29 @@ import:
     link_to_import: Import this game
     no_pgns: No games to import.
     delete_pgn: "[x]"
-  pgn:
-    title: Import PGN
-    form:
-      submit: Import
+  pgn.title: Import PGN
 
-game:
-  list:
-    title: All Games
-    no_items: No games
-    won.title: won
-    lost.title: lost
-    draw.title: draw
-    unfinished.title: unfinished
+game.list:
+  title: All Games
+  no_items: No games
+  won.title: won
+  lost.title: lost
+  draw.title: draw
+  unfinished.title: unfinished
 
-leaderboard:
-  show:
-    title: Leaderboard
-    table:
-      head:
-        player: Player
-        games: played
-        won: won
-        lost: lost
-        draw: draw
+leaderboard.show:
+  title: Leaderboard
+  table.head:
+    player: Player
+    games: played
+    won: won
+    lost: lost
+    draw: draw
 
 user:
-  list:
-    title: Spieler
-  show:
-    title: Profile von "%player%"
-  versus:
-    title: Spiele von "%player1%" gegen %player2%
+  list.title: Player
+  show.title: %player%s profile
+  versus.title: Games %player1% vs %player2%
 
 nav:
   login: Log In
@@ -57,40 +45,35 @@ nav:
   leaderboard: Leaderboard
 
 security:
-  login:
-    title: Login
-    form:
-      label:
-        username: Username
-        password: Password
-        submit: Login
-  profile:
-    title: Profile
-    form:
-      submit: Speichern
+  login.title: Login
+  profile.title: Profile
 
 form:
-  game:
-    label:
-      game: Game
-      event: Event
-      site: Site
-      date: Date
-      round: Round
-      white: White
-      black: Black
-      result: Result
-      moves: Moves
-  importPgn:
-    label:
-      pgnString: PGN
+  game.label:
+    game: Game
+    event: Event
+    site: Site
+    date: Date
+    round: Round
+    white: White
+    black: Black
+    result: Result
+    moves: Moves
+    submit: Save
+  importPgn.label:
+    pgnString: PGN
+    submit: Import
+  login.label:
+    username: Username
+    password: Password
+    submit: Login
+  profile.label:
+    submit: Save
 
-dropbox:
-  import:
-    title: Import form Dropbox
-    button:
-      game_import: Finish Import
-      import: Import
+dropbox.import:
+  title: Import form Dropbox
+  button:
+    game_import: Finish Import
+    import: Import
 
-pgn:
-  piece_names: '{"k": "K", "q": "Q", "b": "B", "n": "N", "r": "R", "p": ""}'
+pgn.piece_names: '{"k": "K", "q": "Q", "b": "B", "n": "N", "r": "R", "p": ""}'

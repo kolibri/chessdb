@@ -9,13 +9,13 @@
         {% endif %}
 
         <form action="{{ path('app_login_check') }}" method="post">
-            <label for="username">{{ 'security.login.form.label.username'|trans }}:</label>
+            <label for="username">{{ 'form.login.label.username'|trans }}:</label>
             <input type="text" id="username" name="_username" value="{{ last_username }}"/>
 
-            <label for="password">{{ 'security.login.form.label.password'|trans }}:</label>
+            <label for="password">{{ 'form.login.label.password'|trans }}:</label>
             <input type="password" id="password" name="_password"/>
 
-            <button type="submit">{{ 'security.login.form.label.submit'|trans }}</button>
+            <button type="submit">{{ 'form.login.label.submit'|trans }}</button>
         </form>
     </section>
 {% endblock %}
