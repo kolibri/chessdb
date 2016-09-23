@@ -4,7 +4,6 @@
 namespace AppBundle\Dropbox;
 
 use Dropbox\AppInfo;
-use Dropbox\ValueStore;
 use Dropbox\WebAuth;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -30,16 +29,13 @@ class AuthHelper
     /** @var AccessTokenStore */
     private $accessTokenStore;
 
-    /** @var WebAuth */
-    private $webAuth;
-
     /**
      * AuthHelper constructor.
      * @param RouterInterface $routing
      * @param AppInfo $appInfo
-     * @param ValueStore $authTokenStore
-     * @param string $clientIdentifier
-     * @param string $redirectRouteName
+     * @param AuthTokenStore $authTokenStore
+     * @param $clientIdentifier
+     * @param $redirectRouteName
      * @param AccessTokenStore $accessTokenStore
      */
     public function __construct(
@@ -79,15 +75,11 @@ class AuthHelper
 
     private function getWebAuth()
     {
-        if (null === $this->webAuth) {
-            $this->webAuth = new WebAuth(
-                $this->appInfo,
-                $this->clientIdentifier,
-                $this->routing->generate($this->redirectRouteName, [], UrlGeneratorInterface::ABSOLUTE_URL),
-                $this->authTokenStore
-            );
-        }
-
-        return $this->webAuth;
+        return new WebAuth(
+            $this->appInfo,
+            $this->clientIdentifier,
+            $this->routing->generate($this->redirectRouteName, [], UrlGeneratorInterface::ABSOLUTE_URL),
+            $this->authTokenStore
+        );
     }
 }

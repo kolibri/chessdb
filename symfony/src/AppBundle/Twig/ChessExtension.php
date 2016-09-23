@@ -28,17 +28,17 @@ class ChessExtension extends \Twig_Extension
         ];
     }
 
-    public function renderPgn($pgn, $options = [])
+    public function renderPgn($pgn, $attributes = [])
     {
-        $attributes = '';
-        foreach ($this->parseOptions($options) as $key => $value) {
-            $attributes .= sprintf("%s='%s' ", $key, $value);
+        $attributeString = '';
+        foreach ($this->parseAttributes($attributes) as $key => $value) {
+            $attributeString .= sprintf("%s='%s' ", $key, $value);
         }
 
-        return sprintf('<div %s>%s</div>', $attributes, $pgn);
+        return sprintf('<div %s>%s</div>', $attributeString, $pgn);
     }
 
-    private function parseOptions($options = [])
+    private function parseAttributes($options = [])
     {
         $defaultOptions = [
             'data-show-buttons' => "true",
