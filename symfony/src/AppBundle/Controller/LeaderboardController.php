@@ -1,10 +1,9 @@
 <?php
 
-
 namespace AppBundle\Controller;
 
-
-use AppBundle\Entity\Leaderboard;
+use AppBundle\Entity\Game;
+use AppBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
@@ -14,26 +13,26 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 class LeaderboardController extends Controller
 {
     /**
-     * @Route("/list")
+     * @Route("/")
      */
-    public function listAction()
+    public function showAction()
     {
-        return $this->render(
-            'leaderboard/list.html.twig',
-            [
-                'leaderboards' => $this
-                    ->getDoctrine()
-                    ->getRepository(Leaderboard::class)
-                    ->findAll(),
-            ]
-        );
-    }
+        $users = $this->getDoctrine()->getRepository(User::class)->findAll();
+        $gameRepository = $this
+            ->getDoctrine()
+            ->getRepository(Game::class);
 
-    /**
-     * @Route("/show/{uuid}")
-     */
-    public function showAction(Leaderboard $leaderboard)
-    {
+        $leaderboard = [];
+        foreach ($users as $user) {
+            $leaderboard[] = [
+                'player' => $user->getUsername(),
+                'games' => $gameRepository->findByPlayer($user->getUsername()),
+                'won' => $gameRepository->findWonByPlayer($user->getUsername()),
+                'lost' => $gameRepository->findLostByPlayer($user->getUsername()),
+                'draw' => $gameRepository->findDrawByPlayer($user->getUsername())
+            ];
+        }
+
         return $this->render(
             'leaderboard/show.html.twig',
             [
@@ -41,5 +40,4 @@ class LeaderboardController extends Controller
             ]
         );
     }
-
 }

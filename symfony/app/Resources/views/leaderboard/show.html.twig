@@ -14,13 +14,13 @@
         </tr>
         </thead>
         <tbody>
-    {% for player in leaderboard.items %}
+    {% for player in leaderboard %}
         <tr>
             <td>{{ player.player }}</td>
-            <td>{{ player.games }}</td>
-            <td>{{ player.won }}</td>
-            <td>{{ player.lost }}</td>
-            <td>{{ player.draw }}</td>
+            <td>{{ player.games|length }}</td>
+            <td>{{ player.won|length }}</td>
+            <td>{{ player.lost|length }}</td>
+            <td>{{ player.draw|length }}</td>
         </tr>
         {% endfor %}
         </tbody>
