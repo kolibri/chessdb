@@ -3,7 +3,6 @@
 
 namespace AppBundle\Controller;
 
-
 use AppBundle\Entity\Game;
 use AppBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
