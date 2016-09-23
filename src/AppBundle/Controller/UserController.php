@@ -14,7 +14,7 @@ class UserController extends Controller
 {
     /**
      * @Route("/login")
-     * @Method({"GET", "POST"})
+     * @Method({"GET"})
      */
     public function loginAction(Request $request)
     {
