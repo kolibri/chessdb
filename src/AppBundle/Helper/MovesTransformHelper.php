@@ -3,7 +3,6 @@
 
 namespace AppBundle\Helper;
 
-// @todo: break lines at length 80
 class MovesTransformHelper
 {
     public static function moveArrayToString(array $moves)

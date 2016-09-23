@@ -73,7 +73,7 @@ form:
 dropbox.import:
   title: Von Dropbox importieren
   button:
-    game_import: Beenden # @todo bad translation!
+    game_import: Beenden
     import: Importieren
 
 error:
