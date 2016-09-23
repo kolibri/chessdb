@@ -76,4 +76,12 @@ dropbox.import:
     game_import: Beenden # @todo bad translation!
     import: Importieren
 
+error:
+  404:
+    title: 404 - Nichts gefunden
+    text: Kein Inhalt gefunden. Sicher, dass Du hier richtig bist?
+  all:
+    title: Fehler
+    text: Es ist ein Fehler passiert. Dafür kannst Du nichts. Aber das ist jetzt halt so.
+
 pgn.piece_names: '{"k": "K", "q": "D", "b": "L", "n": "S", "r": "T", "p": ""}'

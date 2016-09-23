@@ -76,4 +76,12 @@ dropbox.import:
     game_import: Finish Import
     import: Import
 
+error:
+  404:
+    title: 404 - Not found.
+    text: No content found. Are you sure, you're supposed to be here?
+  all:
+    title: Error!
+    text: An error occured. It's not your fault. But it's still an error.
+
 pgn.piece_names: '{"k": "K", "q": "Q", "b": "B", "n": "N", "r": "R", "p": ""}'
