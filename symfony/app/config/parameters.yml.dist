@@ -18,11 +18,7 @@ parameters:
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt
 
-    # App config
-#    admin_mail_address:
-#        entengelb@gmail.com: 'Lukas Sadzik'
-#    sender_mail_address:
-#        noreply@noreply.foo: chessdb
+    # Dropbox config
     dropbox_api_key: <dropbox_api_key>
     dropbox_api_secret: <dropbox_api_secret>
     dropbox_app_name: chessdb
