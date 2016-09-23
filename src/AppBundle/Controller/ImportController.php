@@ -6,8 +6,8 @@ use AppBundle\Entity\Game;
 use AppBundle\Entity\ImportPgn;
 use AppBundle\Entity\Repository\GameRepository;
 use AppBundle\Entity\Repository\ImportPgnRepository;
-use AppBundle\Form\GameType;
-use AppBundle\Form\ImportPgnType;
+use AppBundle\Form\Type\GameType;
+use AppBundle\Form\Type\ImportPgnType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -80,7 +80,7 @@ class ImportController extends Controller
     /**
      * @Route("/delete/pgn/{uuid}")
      */
-    public function deletePgn(ImportPgn $importPgn)
+    public function deletePgnAction(ImportPgn $importPgn)
     {
         $importPgnRepository = $this->getDoctrine()->getRepository(ImportPgn::class);
         $importPgnRepository->remove($importPgn);

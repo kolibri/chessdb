@@ -2,15 +2,13 @@
 
 namespace AppBundle\Dropbox;
 
-use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class AccessTokenStore
 {
     const TOKEN_NAME = 'dropbox-access-token';
 
-    /** @var Session */
+    /** @var SessionInterface */
     private $session;
 
     /**

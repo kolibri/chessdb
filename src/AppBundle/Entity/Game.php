@@ -53,7 +53,7 @@ class Game
         $black,
         $result,
         array $moves,
-        ImportPgn $originalPgn
+        ImportPgn $originalPgn = null
     ) {
         $this->event = $event;
         $this->site = $site;

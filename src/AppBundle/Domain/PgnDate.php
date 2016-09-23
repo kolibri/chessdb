@@ -78,7 +78,7 @@ class PgnDate
             $month = 0;
         }
 
-        if ($month > 12 or $month < 0) {
+        if ($month > 12 || $month < 0) {
             throw new \InvalidArgumentException(sprintf('given month "%s" is not valid', $month));
         }
 

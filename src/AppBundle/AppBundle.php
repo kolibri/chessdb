@@ -2,7 +2,6 @@
 
 namespace AppBundle;
 
-use AppBundle\DependencyInjection\AppExtension;
 use AppBundle\DependencyInjection\Compiler\ValidatorPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;

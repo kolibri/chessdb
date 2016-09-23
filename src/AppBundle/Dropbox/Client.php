@@ -48,7 +48,7 @@ class Client
         $files = [];
 
         foreach ($metadata['contents'] as $content) {
-            if ($content['is_dir'] and $withDirs === false) {
+            if ($content['is_dir'] && $withDirs === false) {
                 continue;
             }
 

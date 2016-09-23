@@ -5,7 +5,6 @@ namespace AppBundle\Form\DataTransformer;
 
 use AppBundle\Helper\MovesTransformHelper;
 use Symfony\Component\Form\DataTransformerInterface;
-use Symfony\Component\Form\Exception\TransformationFailedException;
 
 class MovesTransformer implements DataTransformerInterface
 {

@@ -8,7 +8,6 @@ use AppBundle\Entity\DropboxPgn;
 use AppBundle\Entity\ImportPgn;
 use AppBundle\Entity\Repository\DropboxPgnRepository;
 use Dropbox\Client;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;

@@ -4,13 +4,13 @@
 namespace AppBundle\Dropbox;
 
 use Dropbox\ValueStore;
-use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class AuthTokenStore implements ValueStore
 {
     const TOKEN_NAME = 'dropbox-auth-token';
     
-    /** @var Session */
+    /** @var SessionInterface */
     private $session;
 
     /**

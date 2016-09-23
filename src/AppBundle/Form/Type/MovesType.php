@@ -1,7 +1,7 @@
 <?php
 
 
-namespace AppBundle\Form;
+namespace AppBundle\Form\Type;
 
 use AppBundle\Form\DataTransformer\MovesTransformer;
 use Symfony\Component\Form\AbstractType;

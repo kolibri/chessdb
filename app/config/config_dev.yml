@@ -6,7 +6,8 @@ framework:
         resource: "%kernel.root_dir%/config/routing_dev.yml"
         strict_requirements: true
     profiler: { only_exceptions: false }
-
+    session:
+        save_path:   "/dev/shm/var/sessions"
 
 web_profiler:
     toolbar: true

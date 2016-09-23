@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Form;
+namespace AppBundle\Form\Type;
 
 use AppBundle\Form\DataTransformer\PgnDateTransformer;
 use Symfony\Component\Form\AbstractType;

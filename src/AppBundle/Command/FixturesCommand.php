@@ -57,7 +57,7 @@ class FixturesCommand extends ContainerAwareCommand
             if (!$object instanceof User) {
                 continue;
             }
-            //$output->writeln(sprintf('Add user: %s password: %s', $object->getUsername(), $object->getRawPassword()));
+            $output->writeln(sprintf('Add user: %s password: %s', $object->getUsername(), $object->getRawPassword()));
             $userHandler->encodePassword($object);
         }
 
