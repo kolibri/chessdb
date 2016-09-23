@@ -9,6 +9,7 @@ use AppBundle\Entity\Repository\ImportPgnRepository;
 use AppBundle\Form\Type\GameType;
 use AppBundle\Form\Type\ImportPgnType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -19,6 +20,7 @@ class ImportController extends Controller
 {
     /**
      * @Route("/pgn")
+     * @Method({"GET", "POST"})
      */
     public function pgnAction(Request $request)
     {
@@ -41,6 +43,7 @@ class ImportController extends Controller
 
     /**
      * @Route("/game/{uuid}")
+     * @Method({"GET", "POST"})
      */
     public function gameAction(Request $request, ImportPgn $importPgn)
     {
@@ -79,6 +82,7 @@ class ImportController extends Controller
 
     /**
      * @Route("/delete/pgn/{uuid}")
+     * @Method({"GET"})
      */
     public function deletePgnAction(ImportPgn $importPgn)
     {
@@ -90,6 +94,7 @@ class ImportController extends Controller
 
     /**
      * @Route("/list")
+     * @Method({"GET"})
      */
     public function listAction()
     {

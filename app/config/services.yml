@@ -13,13 +13,13 @@ services:
         arguments: [AppBundle\Entity\User]
 
     app.form.moves_type:
-        class: AppBundle\Form\MovesType
+        class: AppBundle\Form\Type\MovesType
         arguments: ['@app.form_data_transformer.moves_transformer']
         tags:
             - { name: form.type, alias: AppBundle\Form\MovesType }
 
     app.form.game_player_type:
-        class: AppBundle\Form\GamePlayerType
+        class: AppBundle\Form\Type\GamePlayerType
         arguments: ['@app.entity_repository.user_repository']
         tags:
             - { name: form.type, alias: AppBundle\Form\GamePlayerType }

@@ -6,6 +6,7 @@ use AppBundle\Entity\Game;
 use AppBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 /**
  * @Route("/leaderboard")
@@ -19,6 +20,7 @@ class LeaderboardController extends Controller
      *          "sortAsc": false
      * }
      * )
+     * @Method({"GET"})
      */
     public function showAction($sortBy = 'won', $sortAsc = false)
     {

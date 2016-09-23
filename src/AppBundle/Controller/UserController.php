@@ -8,11 +8,13 @@ use AppBundle\Form\Type\UserProfileType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 class UserController extends Controller
 {
     /**
      * @Route("/login")
+     * @Method({"GET", "POST"})
      */
     public function loginAction(Request $request)
     {
@@ -29,6 +31,7 @@ class UserController extends Controller
 
     /**
      * @Route("/my-profile")
+     * @Method({"GET", "POST"})
      */
     public function myProfileAction(Request $request)
     {
@@ -65,6 +68,7 @@ class UserController extends Controller
 
     /**
      * @Route("/profiles")
+     * @Method({"GET"})
      */
     public function listAction()
     {
@@ -78,10 +82,9 @@ class UserController extends Controller
         );
     }
 
-    //* #Route("/profile/{player}", requirements={"player": "/^[a-zA-Z0-9_.-\s]*$/"})
     /**
      * @Route("/profile/{player}")
-     *
+     * @Method({"GET"})
      */
     public function showAction($player)
     {
@@ -101,6 +104,7 @@ class UserController extends Controller
 
     /**
      * @Route("/profile/{player1}/vs/{player2}")
+     * @Method({"GET"})
      */
     public function versusAction($player1, $player2)
     {

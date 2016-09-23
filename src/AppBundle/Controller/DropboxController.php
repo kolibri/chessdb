@@ -10,6 +10,7 @@ use AppBundle\Entity\Repository\DropboxPgnRepository;
 use Dropbox\Client;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -19,6 +20,7 @@ class DropboxController extends Controller
 {
     /**
      * @Route("/")
+     * @Method({"GET"})
      */
     public function listAction()
     {
@@ -51,6 +53,7 @@ class DropboxController extends Controller
 
     /**
      * @Route("/game/{path}", requirements={"path"=".+"})
+     * @Method({"GET"})
      */
     public function gameAction($path)
     {
@@ -86,6 +89,7 @@ class DropboxController extends Controller
 
     /**
      * @Route("/auth-clear")
+     * @Method({"GET"})
      */
     public function clearAction(Request $request)
     {
@@ -96,6 +100,7 @@ class DropboxController extends Controller
 
     /**
      * @Route("/auth-start")
+     * @Method({"GET"})
      */
     public function authStartAction(Request $request)
     {
@@ -106,6 +111,7 @@ class DropboxController extends Controller
 
     /**
      * @Route("/auth-finish")
+     * @Method({"GET"})
      */
     public function authFinishAction(Request $request)
     {
