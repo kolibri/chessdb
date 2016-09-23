@@ -42,7 +42,7 @@ class FixturesCommand extends ContainerAwareCommand
 
         $tool->dropSchema($metadatas);
         $tool->createSchema($metadatas);
-        $output->writeln('Deleted and created database.');
+        $output->writeln('Recreated database schema');
 
         /** @var EntityManager $manager */
         $persister = new \Nelmio\Alice\Persister\Doctrine($manager);

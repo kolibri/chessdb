@@ -4,15 +4,15 @@ var concat = require('gulp-concat');
 
 var paths = {
     scripts: [
-        './node_modules/chessboard/**/*.js',
-        './node_modules/chess.js/**/*.js'
+        './node_modules/chessboard/chessboard*.js',
+        './node_modules/chess.js/chess*.js'
     ],
     less: [
         './app/Resources/less/**/*.less'
     ],
     css: [
         './node_modules/chessboard/**/*.css',
-        './node_modules/milligram/dist/**/*.css',
+        './node_modules/milligram/dist/**/*.css'
     ]
 }
 

@@ -16,22 +16,8 @@ vagrant up dev
 vagrant ssh dev
 
 # in box, cd to project
-cd /srv/share/chessdb/symfony
+cd /srv/share
 
 # initialize project
-make init
+make dev-init
 ```
-
-
-## Start the jenkins box
-```bash
-# start box
-vagrant up jenkins
-
-# ssh into box
-vagrant ssh jenkins
-
-# in box, switch user to jenkins ;)
-sudo su - jenkins
-```
-

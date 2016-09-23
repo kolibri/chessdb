@@ -1,11 +1,10 @@
 server {
-    {% set doc_root = webserver.project_dir ~ '/' ~ webserver.relative_doc_root%}
-    server_name {{ webserver.hostname }} www.{{ webserver.hostname }};
+    server_name {{ hostname }} www.{{ hostname }};
     root {{ doc_root }};
 
     location / {
-        # try to serve file directly, fallback to default front controller ({{ webserver.front_controller }})
-        try_files $uri /{{ webserver.front_controller }}$is_args$args;
+        # try to serve file directly, fallback to default front controller ({{ front_controller }})
+        try_files $uri /{{ front_controller }}$is_args$args;
     }
     location ~ ^/(app_dev|config)\.php(/|$) {
         fastcgi_pass unix:/run/php/php7.0-fpm.sock;
@@ -39,13 +38,12 @@ server {
     ssl_certificate      /var/ssl/server.crt;
     ssl_certificate_key  /var/ssl/server.key;
 
-    {% set doc_root = webserver.project_dir ~ '/' ~ webserver.relative_doc_root%}
-    server_name {{ webserver.hostname }} www.{{ webserver.hostname }};
+    server_name {{ hostname }} www.{{ hostname }};
     root {{ doc_root }};
 
     location / {
-        # try to serve file directly, fallback to default front controller ({{ webserver.front_controller }})
-        try_files $uri /{{ webserver.front_controller }}$is_args$args;
+        # try to serve file directly, fallback to default front controller ({{ front_controller }})
+        try_files $uri /{{ front_controller }}$is_args$args;
     }
     location ~ ^/(app_dev|config)\.php(/|$) {
         fastcgi_pass unix:/run/php/php7.0-fpm.sock;
