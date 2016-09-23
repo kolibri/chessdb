@@ -23,3 +23,5 @@ cd /srv/share
 # initialize project
 make dev-init
 ```
+
+[Open the project in your browser](http://192.168.31.95/)
