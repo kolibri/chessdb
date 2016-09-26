@@ -34,6 +34,14 @@ class ImportPgn
     }
 
     /**
+     * @param string $pgnString
+     */
+    public function setPgnString($pgnString)
+    {
+        $this->pgnString = $pgnString;
+    }
+
+    /**
      * @return string
      */
     public function getPgnString()

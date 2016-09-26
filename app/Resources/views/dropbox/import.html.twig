@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'dropbox.import.title'|trans }}{% endblock %}
+
+{% block content %}
+    {{ form_start(form) }}
+    <fieldset>
+        {{ form_rest(form) }}
+        <button type="submit">{{ 'form.importPgn.label.submit'|trans }}</button>
+    </fieldset>
+    {{ form_end(form) }}
+{% endblock %}

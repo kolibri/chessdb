@@ -53,6 +53,10 @@ main {
     }
   }
 
+  form.delete {
+    display: inline;
+  }
+
   .list {
     > .game {
       display: inline-block;
@@ -66,7 +70,9 @@ main {
         width: 100%;
         padding: 0;
       }
-      .button.button-outline {
+
+      .button.button-outline,
+      button.button-outline {
         background-color: transparent;
       }
 
@@ -127,8 +133,9 @@ main {
   }
 }
 
-a.button,
-button {
+.button,
+button
+{
   border-radius: 0;
   background-color: lightgrey;
   color: #464646;

@@ -1,3 +1,15 @@
+AppBundle\Entity\User:
+  user_chessdb:
+    __construct: { register: ['chessdb', 'chessdb@chesdb.dev', 'chessdb']}
+    playerAliases: ['chessdb', 'admin']
+    roles: ['ROLE_ADMIN', 'ROLE_PLAYER']
+  user_jim:
+    __construct: { register: ['jim', 'jim@chessdb.dev', 'tester']}
+  user_edward:
+    __construct: { register: ['edward', 'edward@chessdb.dev', 'tester']}
+  user_arthur:
+    __construct: { register: ['arthur', 'arthur@chessdb.dev', 'tester']}
+
 AppBundle\Entity\ImportPgn:
   importGame{1..13}:
     __construct:
@@ -72,15 +84,3 @@ AppBundle\Entity\Game:
         - '13.Qxc6+ bxc6'
         - '14.Ba6#'
       - '@importedGame<current()>'
-
-AppBundle\Entity\User:
-  user_chessdb:
-    __construct: { register: ['chessdb', 'chessdb@chesdb.dev', 'chessdb']}
-    playerAliases: ['chessdb', 'admin']
-    roles: ['ROLE_ADMIN', 'ROLE_PLAYER']
-  user_jim:
-    __construct: { register: ['jim', 'jim@chessdb.dev', 'tester']}
-  user_edward:
-    __construct: { register: ['edward', 'edward@chessdb.dev', 'tester']}
-  user_arthur:
-    __construct: { register: ['arthur', 'arthur@chessdb.dev', 'tester']}
