@@ -2,3 +2,6 @@ AppBundle\Entity\DropboxPgn:
     properties:
         path:
             - NotBlank: ~
+        importPgn:
+            - NotBlank: ~
+            - Valid: ~

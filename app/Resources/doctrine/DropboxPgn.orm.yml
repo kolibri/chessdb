@@ -19,3 +19,4 @@ AppBundle\Entity\DropboxPgn:
             joinColumns:
                 original_pgn:
                     referencedColumnName: uuid
+            cascade: [ all ]

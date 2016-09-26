@@ -70,11 +70,12 @@ form:
   profile.label:
     submit: Save
 
-dropbox.import:
-  title: Import form Dropbox
-  button:
-    game_import: Finish Import
-    import: Import
+dropbox:
+  import.title: Import PGN from Dropbox
+  list:
+    title: Import form Dropbox
+    to_import.title: PGNs to import
+    imported.title: Not yet finished imports
 
 error:
   404:
