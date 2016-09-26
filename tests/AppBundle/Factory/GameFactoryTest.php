@@ -5,6 +5,7 @@ namespace Tests\AppBundle\Factory;
 use AppBundle\Adapter\ChessAdapter;
 use AppBundle\Entity\Game;
 use AppBundle\Entity\ImportPgn;
+use AppBundle\Entity\User;
 use AppBundle\Factory\GameFactory;
 
 class GameFactoryTest extends \PHPUnit_Framework_TestCase
@@ -34,7 +35,7 @@ class GameFactoryTest extends \PHPUnit_Framework_TestCase
         $gameFactory = new GameFactory($chessMock);
 
         $game = $gameFactory->createFromImportPgn(
-            new ImportPgn($this->getSamplePgn())
+            new ImportPgn($this->getSamplePgn(), new User())
         );
 
         $this->assertInstanceOf(Game::class, $game);
