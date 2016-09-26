@@ -36,7 +36,7 @@ player:
 nav:
   login: Anmelden
   import_pgn: Importiere PGN
-  import_dropbox: von Dropbox
+  import_dropbox: Von Dropbox
   game_list:  Spiele
   import_list: Unfertige Imports
   logout: Abmelden

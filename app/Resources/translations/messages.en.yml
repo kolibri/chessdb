@@ -36,7 +36,7 @@ player:
 nav:
   login: Log In
   import_pgn: Import PGN
-  import_dropbox: from Dropbox
+  import_dropbox: From Dropbox
   game_list:  Game List
   import_list: Unfinished Imports
   logout: Logout
