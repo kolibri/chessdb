@@ -1,6 +1,5 @@
 <?php
 
-
 namespace AppBundle\Entity;
 
 use Ramsey\Uuid\Uuid;
@@ -16,10 +15,14 @@ class ImportPgn
     /** @var boolean */
     private $imported;
 
-    public function __construct($pgnString)
+    /** @var User */
+    private $user;
+
+    public function __construct($pgnString, User $user)
     {
         $this->pgnString = $pgnString;
         $this->imported = false;
+        $this->user = $user;
     }
 
     /**
@@ -39,14 +42,6 @@ class ImportPgn
     }
 
     /**
-     * @param string $pgnString
-     */
-    public function setPgnString($pgnString)
-    {
-        $this->pgnString = $pgnString;
-    }
-
-    /**
      * @return boolean
      */
     public function isImported()
@@ -60,5 +55,13 @@ class ImportPgn
     public function setImported($imported)
     {
         $this->imported = $imported;
+    }
+
+    /**
+     * @return User
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }

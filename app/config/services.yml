@@ -24,6 +24,12 @@ services:
         tags:
             - { name: form.type, alias: AppBundle\Form\GamePlayerType }
 
+    app.form_type.import_pgn_type:
+        class: AppBundle\Form\Type\ImportPgnType
+        arguments: ['@security.token_storage']
+        tags:
+            - { name: form.type, alias: AppBundle\Form\Type\ImportPgnType }
+
     app.form_data_transformer.moves_transformer:
         class: AppBundle\Form\DataTransformer\MovesTransformer
         arguments: ['@app.helper.move_transform_helper']
@@ -36,7 +42,13 @@ services:
         arguments:
           - '@security.encoder_factory.generic'
           - '@app.entity_repository.user_repository'
-    
+
+    app.security.import_pgn_voter:
+        class: AppBundle\Security\ImportPgnVoter
+        arguments: ['@security.access.decision_manager']
+        tags:
+            - { name: security.voter }
+
     app.twig.chess_extension:
         class: AppBundle\Twig\ChessExtension
         arguments: ['@translator']

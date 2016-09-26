@@ -10,11 +10,13 @@ use AppBundle\Form\Type\GameType;
 use AppBundle\Form\Type\ImportPgnType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/import")
+ * @Security("has_role('ROLE_PLAYER')")
  */
 class ImportController extends Controller
 {
@@ -47,10 +49,15 @@ class ImportController extends Controller
      */
     public function gameAction(Request $request, ImportPgn $importPgn)
     {
+        $this->denyAccessUnlessGranted('import', $importPgn);
+
         if ($importPgn->isImported()) {
             return $this->render(
                 'import/game_already_imported.html.twig',
-                ['game' => $this->gameRepository()->findOneByImportPgn($importPgn)]
+                ['game' => $this
+                    ->gameRepository()
+                    ->findOneByImportPgn($importPgn)
+                ]
             );
         }
 
@@ -62,14 +69,24 @@ class ImportController extends Controller
 
         if ($form->isValid()) {
             $importPgn->setImported(true);
-            $this->importedPgnRepository()->save($importPgn, false);
-            $this->gameRepository()->save($game, false);
+            $this
+                ->importedPgnRepository()
+                ->save($importPgn, false);
+            $this
+                ->gameRepository()
+                ->save($game, false);
 
-            $this->getDoctrine()->getManager()->flush();
+            $this
+                ->getDoctrine()
+                ->getManager()
+                ->flush();
 
-            return $this->redirectToRoute('app_game_show', ['uuid' => $game->getUuid()]);
+            return $this->redirectToRoute(
+                'app_game_show',
+                ['uuid' => $game->getUuid()]
+            );
         }
-        
+
         return $this->render(
             'import/game.html.twig',
             [
@@ -85,8 +102,8 @@ class ImportController extends Controller
      */
     public function deletePgnAction(ImportPgn $importPgn)
     {
-        $importPgnRepository = $this->getDoctrine()->getRepository(ImportPgn::class);
-        $importPgnRepository->remove($importPgn);
+        $this->denyAccessUnlessGranted('delete', $importPgn);
+        $this->importedPgnRepository()->remove($importPgn);
 
         return $this->redirectToRoute('app_import_list');
     }
@@ -99,7 +116,10 @@ class ImportController extends Controller
     {
         return $this->render(
             'import/list.html.twig',
-            ['games' => $this->importedPgnRepository()->findUnimported()]
+            ['games' => $this
+                ->importedPgnRepository()
+                ->findUnimportedByUser($this->getUser())
+            ]
         );
     }
 
@@ -108,7 +128,9 @@ class ImportController extends Controller
      */
     private function importedPgnRepository()
     {
-        return $this->getDoctrine()->getRepository(ImportPgn::class);
+        return $this
+            ->getDoctrine()
+            ->getRepository(ImportPgn::class);
     }
 
     /**
@@ -116,6 +138,8 @@ class ImportController extends Controller
      */
     private function gameRepository()
     {
-        return $this->getDoctrine()->getRepository(Game::class);
+        return $this
+            ->getDoctrine()
+            ->getRepository(Game::class);
     }
 }

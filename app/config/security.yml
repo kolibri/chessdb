@@ -28,7 +28,7 @@ security:
             anonymous: ~
             provider: users
             form_login:
-                login_path: app_security_login
+                login_path: app_user_login
                 check_path: app_login_check
             logout:
                 path: app_logout

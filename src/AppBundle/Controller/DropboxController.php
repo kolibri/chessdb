@@ -11,10 +11,12 @@ use Dropbox\Client;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/dropbox")
+ * @Security("has_role('ROLE_PLAYER')")
  */
 class DropboxController extends Controller
 {
@@ -66,7 +68,7 @@ class DropboxController extends Controller
         $client = $this->getClient();
         $game = $client->getFileContent($path);
 
-        $importPgn = new ImportPgn($game);
+        $importPgn = new ImportPgn($game, $this->getUser());
 
         if (!$dropboxPgn = $this->dropboxPgnRepository()->getByPathOrNull($path)) {
             $dropboxPgn = new DropboxPgn($path, $importPgn);

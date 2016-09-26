@@ -3,3 +3,6 @@ AppBundle\Entity\ImportPgn:
         pgnString:
             - NotBlank: ~
             - AppBundle\Validator\Constraints\Pgn: ~
+        user:
+            - NotBlank: ~
+            - Valid: ~
