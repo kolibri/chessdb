@@ -18,3 +18,4 @@ web/css/
 node_modules/
 .rules/
 reports/
+app/tests.db3

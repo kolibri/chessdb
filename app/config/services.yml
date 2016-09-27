@@ -1,101 +1,107 @@
 services:
-    app.adapter.chess_adapter:
-        class: AppBundle\Adapter\ChessAdapter
-        arguments: ['@chessphp.chess']
+  app.adapter.chess_adapter:
+    class: AppBundle\Adapter\ChessAdapter
+    arguments: ['@chessphp.chess']
 
-    app.import.pgn_string_importer:
-        class: AppBundle\Factory\GameFactory
-        arguments: ['@app.adapter.chess_adapter']
+  app.import.pgn_string_importer:
+    class: AppBundle\Factory\GameFactory
+    arguments: ['@app.adapter.chess_adapter']
 
-    app.entity_repository.user_repository:
-        class: AppBundle\Entity\Repository\UserRepository
-        factory: ['@doctrine', getRepository]
-        arguments: [AppBundle\Entity\User]
+  app.entity_repository.user_repository:
+    class: AppBundle\Entity\Repository\UserRepository
+    factory: ['@doctrine', getRepository]
+    arguments: [AppBundle\Entity\User]
 
-    app.form.moves_type:
-        class: AppBundle\Form\Type\MovesType
-        arguments: ['@app.form_data_transformer.moves_transformer']
-        tags:
-            - { name: form.type, alias: AppBundle\Form\MovesType }
+  app.form.moves_type:
+    class: AppBundle\Form\Type\MovesType
+    arguments: ['@app.form_data_transformer.moves_transformer']
+    tags:
+      - { name: form.type, alias: AppBundle\Form\MovesType }
 
-    app.form.game_player_type:
-        class: AppBundle\Form\Type\GamePlayerType
-        arguments: ['@app.entity_repository.user_repository']
-        tags:
-            - { name: form.type, alias: AppBundle\Form\GamePlayerType }
+  app.form.game_player_type:
+    class: AppBundle\Form\Type\GamePlayerType
+    arguments: ['@app.entity_repository.user_repository']
+    tags:
+      - { name: form.type, alias: AppBundle\Form\GamePlayerType }
 
-    app.form_type.import_pgn_type:
-        class: AppBundle\Form\Type\ImportPgnType
-        arguments: ['@security.token_storage']
-        tags:
-            - { name: form.type, alias: AppBundle\Form\Type\ImportPgnType }
+  app.form_type.import_pgn_type:
+    class: AppBundle\Form\Type\ImportPgnType
+    arguments: ['@security.token_storage']
+    tags:
+      - { name: form.type, alias: AppBundle\Form\Type\ImportPgnType }
 
-    app.form_data_transformer.moves_transformer:
-        class: AppBundle\Form\DataTransformer\MovesTransformer
-        arguments: ['@app.helper.move_transform_helper']
+  app.form_data_transformer.moves_transformer:
+    class: AppBundle\Form\DataTransformer\MovesTransformer
+    arguments: ['@app.helper.move_transform_helper']
 
-    app.helper.move_transform_helper:
-        class: AppBundle\Helper\MovesTransformHelper
+  app.helper.move_transform_helper:
+    class: AppBundle\Helper\MovesTransformHelper
 
-    app.helper.registration_helper:
-        class: AppBundle\Helper\RegistrationHelper
-        arguments:
-          - '@security.encoder_factory.generic'
-          - '@app.entity_repository.user_repository'
+  app.helper.registration_helper:
+    class: AppBundle\Helper\RegistrationHelper
+    arguments:
+      - '@security.encoder_factory.generic'
+      - '@app.entity_repository.user_repository'
 
-    app.security.import_pgn_voter:
-        class: AppBundle\Security\ImportPgnVoter
-        arguments: ['@security.access.decision_manager']
-        tags:
-            - { name: security.voter }
+  app.security.import_pgn_voter:
+    class: AppBundle\Security\ImportPgnVoter
+    arguments: ['@security.access.decision_manager']
+    tags:
+      - { name: security.voter }
 
-    app.twig.chess_extension:
-        class: AppBundle\Twig\ChessExtension
-        arguments: ['@translator']
-        tags:
-            - { name: twig.extension }
+  app.twig.chess_extension:
+    class: AppBundle\Twig\ChessExtension
+    arguments: ['@translator']
+    tags:
+      - { name: twig.extension }
 
-    app.validator_constraints.pgn_validator:
-        class: AppBundle\Validator\Constraints\PgnValidator
-        arguments: ['@app.adapter.chess_adapter']
-        tags:
-            - { name: validator.constraint_validator }
+  app.fixtures.loader:
+    class: AppBundle\Fixtures\Loader
+    arguments:
+      - '@doctrine.orm.entity_manager'
+      - '@app.helper.registration_helper'
 
-    chessphp.chess:
-        class: Ryanhs\Chess\Chess
+  app.validator_constraints.pgn_validator:
+    class: AppBundle\Validator\Constraints\PgnValidator
+    arguments: ['@app.adapter.chess_adapter']
+    tags:
+      - { name: validator.constraint_validator }
 
-    dropbox.app.info:
-        class: Dropbox\AppInfo
-        arguments:
-            - '%dropbox_api_key%'
-            - '%dropbox_api_secret%'
+  chessphp.chess:
+    class: Ryanhs\Chess\Chess
 
-    app.dropbox.auth_token_store:
-        class: AppBundle\Dropbox\AuthTokenStore
-        arguments:
-            - '@session'
+  dropbox.app.info:
+    class: Dropbox\AppInfo
+    arguments:
+      - '%dropbox_api_key%'
+      - '%dropbox_api_secret%'
 
-    app.dropbox.auth_helper:
-        class: AppBundle\Dropbox\AuthHelper
-        arguments:
-            - '@router'
-            - '@dropbox.app.info'
-            - '@app.dropbox.auth_token_store'
-            - '%dropbox_app_name%'
-            - 'app_dropbox_authfinish'
-            - '@app.dropbox.access_token_store'
+  app.dropbox.auth_token_store:
+    class: AppBundle\Dropbox\AuthTokenStore
+    arguments:
+      - '@session'
 
-    app.dropbox.access_token_store:
-        class: AppBundle\Dropbox\AccessTokenStore
-        arguments:
-            - '@session'
+  app.dropbox.auth_helper:
+    class: AppBundle\Dropbox\AuthHelper
+    arguments:
+      - '@router'
+      - '@dropbox.app.info'
+      - '@app.dropbox.auth_token_store'
+      - '%dropbox_app_name%'
+      - 'app_dropbox_authfinish'
+      - '@app.dropbox.access_token_store'
 
-#    app.dropbox.client_creator:
-#        class: AppBundle\Dropbox\ClientCreator
-#        arguments:
-#            - '@app.dropbox.token_storage'
-#            - '%dropbox_app_name%'
+  app.dropbox.access_token_store:
+    class: AppBundle\Dropbox\AccessTokenStore
+    arguments:
+      - '@session'
 
-#    app.dropbox.client:
-#        class: AppBundle\Dropbox\Client
-#        factory: ['@app.dropbox.client_creator', createClient]
+#  app.dropbox.client_creator:
+#    class: AppBundle\Dropbox\ClientCreator
+#    arguments:
+#      - '@app.dropbox.token_storage'
+#      - '%dropbox_app_name%'
+
+#  app.dropbox.client:
+#    class: AppBundle\Dropbox\Client
+#    factory: ['@app.dropbox.client_creator', createClient]

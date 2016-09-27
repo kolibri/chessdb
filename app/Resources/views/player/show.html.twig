@@ -6,3 +6,12 @@
         {{ 'player.show.title'|trans({'%player%': player}) }}
     </a>
 {% endblock %}
+
+{% block content %}
+    <section class="vs">
+        {% for player2 in players if player2 != player %}
+            <a href="{{ path('app_player_versus', {'player1': player, 'player2': player2, '_locale': 'x'}) }}">{{ player2 }}</a>
+        {% endfor %}
+    </section>
+    {{ parent() }}
+{% endblock %}

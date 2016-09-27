@@ -37,10 +37,20 @@ class PlayerController extends Controller
      */
     public function showAction($player)
     {
+        $players = $this
+            ->getDoctrine()
+            ->getRepository(User::class)
+            ->findAll();
+
+        $players = array_map(function(User $player){
+            return $player->getUsername();
+        }, $players);
+
         return $this->render(
             'player/show.html.twig',
             [
                 'player' => $player,
+                'players' => $players,
                 'gamesByResult' => $this
                     ->getDoctrine()
                     ->getRepository(Game::class)
