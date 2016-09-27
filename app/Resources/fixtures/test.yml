@@ -92,8 +92,8 @@ AppBundle\Entity\Game:
       - "Budapest HUN"
       - '@date'
       - "?"
-      - "<randomElement(['torben', 'tamara', 'theresa', 'tobias'])>"
-      - "<randomElement(['torben', 'tamara', 'theresa', 'tobias'])>"
+      - "<randomElement(['tamara', 'theresa', 'tobias'])>"
+      - "<randomElement(['tamara', 'theresa', 'tobias'])>"
       - "<randomElement(['1-0', '0-1', '1/2-1/2', '*'])>"
       -
         - '1.e4 d5'
