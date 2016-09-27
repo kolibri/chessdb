@@ -1,0 +1,39 @@
+---
+default:
+  suites:
+    default:
+      type: symfony_bundle
+      bundle: AppBundle
+#      default:
+#        contexts:
+#           - FeatureContext:
+#          session:   '@session'
+
+  extensions:
+    Behat\Symfony2Extension: ~
+    Behat\MinkExtension:
+      sessions:
+        default:
+          symfony2: ~
+
+#default:
+#    suites:
+#        sofia:
+#            type: symfony_bundle
+#            bundle: AppBundle
+#            mink_session: goutte
+#            contexts:
+#                - features/bootstrap/FeatureContext
+##                - AcmeBundle\Features\Context\FeatureContext
+#    extensions:
+#        Behat\Symfony2Extension: ~
+#        Behat\MinkExtension:
+#            base_url:  http://localhost
+#            sessions:
+#                default:
+#                    symfony2: ~
+#                goutte:
+#                    goutte: ~
+#                selenium2:
+#                    selenium2: ~
+

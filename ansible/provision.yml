@@ -55,6 +55,7 @@
           - php-intl
           - php-xml
           - php-zip
+          - php-mbstring
           - php-sqlite3
           - nginx
           - php-fpm
@@ -184,7 +185,7 @@
           dest: "/usr/local/bin/{{ item.key }}"
           mode: 0755
         with_dict:
-          phpunit: https://phar.phpunit.de/phpunit.phar
+          behat: https://github.com/Behat/Behat/releases/download/v3.2.1/behat.phar
           phpcbf: https://squizlabs.github.io/PHP_CodeSniffer/phpcbf.phar
           phpcpd: https://phar.phpunit.de/phpcpd.phar
           phpcs: https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar

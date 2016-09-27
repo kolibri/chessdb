@@ -31,7 +31,12 @@
         "incenteev/composer-parameter-handler": "^2.0",
         "ryanhs/chess.php": "^1.0",
         "ramsey/uuid-doctrine": "^1.2",
-        "dropbox/dropbox-sdk": "^1.1"
+        "dropbox/dropbox-sdk": "^1.1",
+        "behat/symfony2-extension": "^2.1",
+        "behat/mink": "^1.7",
+        "behat/mink-extension": "^2.2",
+        "behat/mink-browserkit-driver": "^1.3",
+        "behat/mink-goutte-driver": "^1.2"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
