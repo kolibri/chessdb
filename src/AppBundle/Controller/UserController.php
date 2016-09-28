@@ -4,7 +4,6 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Game;
 use AppBundle\Entity\User;
-use AppBundle\Form\Type\RegisterType;
 use AppBundle\Form\Type\UserProfileType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -42,13 +41,21 @@ class UserController extends Controller
             return $this->redirectToRoute('app_user_login');
         }
 
-        $form = $this->createForm(UserProfileType::class, $user);
+        $form = $this->createForm(UserProfileType::class, $user, ['validation_groups' => ["profile"]]);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $manager = $this->getDoctrine()->getManager();
-            $manager->persist($user);
-            $manager->flush();
+            if (null !== $user->getRawPassword()) {
+                $user = $this
+                    ->get('app.helper.registration_helper')
+                    ->encodePassword($user);
+            }
+
+            $this
+                ->getDoctrine()
+                ->getRepository(User::class)
+                ->save($user)
+            ;
 
             return $this->redirectToRoute('app_user_myprofile');
         }
@@ -71,7 +78,7 @@ class UserController extends Controller
      */
     public function registerAction(Request $request)
     {
-        $form = $this->createForm(RegisterType::class);
+        $form = $this->createForm(UserProfileType::class);
         $form->handleRequest($request);
 
         if ($form->isValid()) {

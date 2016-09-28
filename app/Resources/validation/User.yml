@@ -8,20 +8,18 @@ AppBundle\Entity\User:
             - Length:
                 min: 4
                 max: 25
-                groups: ["registration"]
+                groups: ["registration", "profile"]
             - Regex:
                 pattern: "/^[a-z0-9]+$/i"
-                groups: ["registration"]
+                groups: ["registration", "profile"]
         password:
             - NotBlank: ~
         roles:
             - NotBlank: ~
         emailAddress:
-            - NotBlank: ~
             - NotBlank:
-                groups: ["registration"]
-            - Email:
-                groups: ["registration"]
+                groups: ["registration", "profile"]
+            - Email: ~
         playerAliases:
             - NotBlank: ~
         rawPassword:

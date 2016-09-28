@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block id('admin-registrations') %}
+{% block title %}{{ 'admin.registrations.title'|trans }}{% endblock %}
+
+{% block content %}
+    {{ form_start(form) }}
+    {% for form_rows in [form.inActive, form.active] %}
+        {% for form_row in form_rows if not form_row.rendered %}
+            <section class="user">
+                {{ form_widget(form_row.isEnabled) }}
+                {{ form_errors(form_row.isEnabled) }}
+
+                {{ form_widget(form_row.username, {'attr': {'placeholder': 'form.profile.label.username'|trans }}) }}
+                {{ form_errors(form_row.username) }}
+
+                {{ form_widget(form_row.emailAddress, {'attr': {'placeholder': 'form.profile.label.emailAddress'|trans }}) }}
+                {{ form_errors(form_row.emailAddress) }}
+
+                {{ form_widget(form_row.rawPassword.first, {'attr': {'placeholder': 'form.profile.label.raw_password.first'|trans }}) }}
+                {{ form_errors(form_row.rawPassword.first) }}
+                {{ form_widget(form_row.rawPassword.second, {'attr': {'placeholder': 'form.profile.label.raw_password.second'|trans }}) }}
+                {{ form_errors(form_row.rawPassword.second) }}
+            </section>
+        {% endfor %}
+    {% endfor %}
+
+    {{ form_rest(form) }}
+    <button type="submit">{{ 'form.admin.label.submit'|trans }}</button>
+    {{ form_end(form) }}
+{% endblock %}

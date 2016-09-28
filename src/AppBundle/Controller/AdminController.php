@@ -3,8 +3,9 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\User;
-use AppBundle\Form\Type\RegistrationsType;
+use AppBundle\Form\Type\UserAdminProfileType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -17,10 +18,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 class AdminController extends Controller
 {
     /**
-     * @Route("/registrations")
+     * @Route("/users")
      * @Method({"GET","POST"})
      */
-    public function registrationsAction(Request $request)
+    public function usersAction(Request $request)
     {
         $userRepository = $this->getDoctrine()
             ->getRepository(User::class);
@@ -30,10 +31,20 @@ class AdminController extends Controller
             'active' => $userRepository->findByIsEnabled(true),
         ];
 
-        $form = $this->createFormBuilder($users)
-            ->add('inActive', RegistrationsType::class)
-            ->add('active', RegistrationsType::class)
+        $form = $this
+            ->createFormBuilder($users)
+            ->add(
+                'inActive',
+                CollectionType::class,
+                ['entry_type' => UserAdminProfileType::class, 'entry_options' => ['validation_groups' => 'profile']]
+            )
+            ->add(
+                'active',
+                CollectionType::class,
+                ['entry_type' => UserAdminProfileType::class, 'entry_options' => ['validation_groups' => 'profile']]
+            )
             ->getForm();
+
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -52,7 +63,7 @@ class AdminController extends Controller
         }
 
         return $this->render(
-            'admin/registrations.html.twig',
+            'admin/users.html.twig',
             [
                 'form' => $form->createView(),
             ]

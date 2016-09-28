@@ -42,7 +42,7 @@
         <a href="{{ path('app_player_list') }}">{{ 'nav.user_list'|trans }}</a>
 
         {% if is_granted('ROLE_ADMIN') %}
-            <a href="{{ path('app_admin_registrations') }}">{{ 'nav.registrations'|trans }}</a>
+            <a href="{{ path('app_admin_users') }}">{{ 'nav.registrations'|trans }}</a>
         {% endif %}
     </nav>
 </header>
