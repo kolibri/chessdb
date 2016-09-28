@@ -4,6 +4,7 @@ default:
     default:
       type: symfony_bundle
       bundle: AppBundle
+      paths: [ %paths.base%/features ]
 #      default:
 #        contexts:
 #           - FeatureContext:
@@ -36,4 +37,3 @@ default:
 #                    goutte: ~
 #                selenium2:
 #                    selenium2: ~
-

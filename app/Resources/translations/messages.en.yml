@@ -29,7 +29,7 @@ leaderboard.show:
     draw: draw
 
 player:
-  list.title: Player
+  list.title: Players
   show.title: "%player%s profile"
   versus.title: "Games %player1% vs %player2%"
 

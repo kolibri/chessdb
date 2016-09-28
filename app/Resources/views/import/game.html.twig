@@ -1,5 +1,6 @@
 {% extends 'base.html.twig' %}
 
+{% block id('import-game') %}
 {% block title %}{{ 'import.game.title'|trans }}{% endblock %}
 {% block content %}
     {{ pgn(importedPgn.pgnString, {

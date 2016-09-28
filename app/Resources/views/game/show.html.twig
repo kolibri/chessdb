@@ -1,5 +1,6 @@
 {% extends 'base.html.twig' %}
 
+{% block id('game-show') %}
 {% block title %}{{ game.white }} - {{ game.black }}: {{ game.result }}{% endblock %}
 {% block content %}
     {{ pgn(game.pgn, {

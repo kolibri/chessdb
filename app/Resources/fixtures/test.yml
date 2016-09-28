@@ -1,6 +1,6 @@
 AppBundle\Entity\User:
   user_torben:
-    __construct: { register: ['torben', 'torben@chesdb.dev', 'torben']}
+    __construct: { register: ['torben', 'torben@chesdb.dev', 'tester']}
     playerAliases: ['torben', 'admin']
     roles: ['ROLE_ADMIN', 'ROLE_PLAYER']
   user_tamara:
