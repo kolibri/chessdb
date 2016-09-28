@@ -2,10 +2,10 @@
 
 namespace AppBundle\Entity;
 
-use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Ramsey\Uuid\Uuid;
 
-class User implements UserInterface
+class User implements AdvancedUserInterface
 {
     /** @var Uuid */
     private $uuid;
@@ -25,6 +25,9 @@ class User implements UserInterface
     /** @var array */
     private $playerAliases;
 
+    /** @var boolean */
+    private $isEnabled;
+
     /** @var string */
     private $rawPassword;
 
@@ -40,6 +43,7 @@ class User implements UserInterface
         $user->setRawPassword($rawPassword);
         $user->setRoles(['ROLE_PLAYER']);
         $user->setPlayerAliases(is_array($playerAliases) ? $playerAliases : [$username]);
+        $user->setIsEnabled(false);
 
         return $user;
     }
@@ -155,6 +159,22 @@ class User implements UserInterface
         $this->playerAliases = $playerAliases;
     }
 
+    /**
+     * @return bool
+     */
+    public function isEnabled()
+    {
+        return $this->isEnabled;
+    }
+
+    /**
+     * @param boolean $isEnabled
+     */
+    public function setIsEnabled($isEnabled)
+    {
+        $this->isEnabled = $isEnabled;
+    }
+
     public function getSalt()
     {
     }
@@ -162,5 +182,20 @@ class User implements UserInterface
     public function eraseCredentials()
     {
         $this->setRawPassword('');
+    }
+
+    public function isAccountNonExpired()
+    {
+        return true;
+    }
+
+    public function isAccountNonLocked()
+    {
+        return true;
+    }
+
+    public function isCredentialsNonExpired()
+    {
+        return true;
     }
 }

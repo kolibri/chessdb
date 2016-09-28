@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Game;
 use AppBundle\Entity\User;
+use AppBundle\Form\Type\RegisterType;
 use AppBundle\Form\Type\UserProfileType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -61,6 +62,41 @@ class UserController extends Controller
                     ->getRepository(Game::class)
                     ->findByPlayerGroupByResult($user->getUsername()),
             ]
+        );
+    }
+
+    /**
+     * @Route("/register")
+     * @Method({"GET", "POST"})
+     */
+    public function registerAction(Request $request)
+    {
+        $form = $this->createForm(RegisterType::class);
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            /** @var User $user */
+            $user = $form->getData();
+            $this
+                ->get('app.helper.registration_helper')
+                ->encodePasswordAndSave($user);
+
+            $message = new \Swift_Message();
+            $message->setTo($this->getParameter('admin_mail'));
+            $message->setFrom($this->getParameter('admin_mail'));
+            $message->setSubject('New user in chessdb');
+            $message->setBody($this->renderView('user/register_mail.txt.twig', ['user' => $user]));
+
+            $this
+                ->get('mailer')
+                ->send($message);
+
+            return $this->redirectToRoute('app_user_login');
+        }
+
+        return $this->render(
+            'user/register.html.twig',
+            ['form' => $form->createView()]
         );
     }
 }

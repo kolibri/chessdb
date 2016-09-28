@@ -3,12 +3,16 @@ AppBundle\Entity\User:
     __construct: { register: ['chessdb', 'chessdb@chesdb.dev', 'chessdb']}
     playerAliases: ['chessdb', 'admin']
     roles: ['ROLE_ADMIN', 'ROLE_PLAYER']
+    isEnabled: true
   user_jim:
     __construct: { register: ['jim', 'jim@chessdb.dev', 'tester']}
+    isEnabled: true
   user_edward:
     __construct: { register: ['edward', 'edward@chessdb.dev', 'tester']}
+    isEnabled: false
   user_arthur:
     __construct: { register: ['arthur', 'arthur@chessdb.dev', 'tester']}
+    isEnabled: false
 
 AppBundle\Entity\ImportPgn:
   importGame{1..13}:

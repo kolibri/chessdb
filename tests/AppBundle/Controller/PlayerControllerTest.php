@@ -34,7 +34,6 @@ class PlayerControllerTest extends WebTestCase
         // check versus
         $crawler = $client->request('GET', '/en/player/torben/vs/tamara');
         $this->assertTrue($client->getResponse()->isSuccessful());
-        echo $client->getResponse()->getContent();
         $this->assertEquals(4, $crawler->filter('section.list')->count());
     }
 }

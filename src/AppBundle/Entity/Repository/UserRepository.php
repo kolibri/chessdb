@@ -17,4 +17,18 @@ class UserRepository extends EntityRepository
             $entityManager->flush();
         }
     }
+
+    /**
+     * @param bool $isEnabled
+     * @return User[]|null
+     */
+    public function findByIsEnabled($isEnabled = true)
+    {
+        return $this
+            ->createQueryBuilder('u')
+            ->where('u.isEnabled = :isEnabled')
+            ->setParameter('isEnabled', $isEnabled)
+            ->getQuery()
+            ->execute();
+    }
 }

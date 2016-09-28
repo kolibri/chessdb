@@ -22,3 +22,5 @@ parameters:
     dropbox_api_key: <dropbox_api_key>
     dropbox_api_secret: <dropbox_api_secret>
     dropbox_app_name: chessdb
+
+    admin_mail: chessdb@chessdb.dev

@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block id('register') %}
+{% block title %}{{ 'user.register.title'|trans }}{% endblock %}
+
+{% block content %}
+    {{ form_start(form) }}
+    <fieldset>
+        {{ form_rest(form) }}
+        <button type="submit">{{ 'form.register.label.submit'|trans }}</button>
+    </fieldset>
+    {{ form_end(form) }}
+
+    {{ parent() }}
+{% endblock %}

@@ -35,6 +35,7 @@ player:
 
 nav:
   login: Anmelden
+  register: Registieren
   import_pgn: Importiere PGN
   import_dropbox: Von Dropbox
   game_list:  Spiele
@@ -69,6 +70,8 @@ form:
     submit: Anmelden
   profile.label:
     submit: Speichern
+  register.label:
+    submit: Registrieren
 
 dropbox:
   import.title: Importiere PGN von Dropbox

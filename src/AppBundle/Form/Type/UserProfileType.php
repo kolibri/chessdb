@@ -5,7 +5,6 @@ namespace AppBundle\Form\Type;
 
 use AppBundle\Entity\User;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -18,23 +17,7 @@ class UserProfileType extends AbstractType
         $builder
             ->add('username', TextType::class)
             ->add('emailAddress', EmailType::class)
-            ->add('playerAliases', TextType::class);
-
-        $builder->get('playerAliases')->addModelTransformer(
-            new CallbackTransformer(
-                function ($aliasesAsArray) {
-                    return implode(',', $aliasesAsArray);
-                },
-                function ($aliasesAsString) {
-                    return array_map(
-                        function ($item) {
-                            return trim($item);
-                        },
-                        explode(',', $aliasesAsString)
-                    );
-                }
-            )
-        );
+            ->add('playerAliases', PlayerAliasesType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver)

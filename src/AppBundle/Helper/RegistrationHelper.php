@@ -18,7 +18,7 @@ class RegistrationHelper
      * RegistrationHandler constructor.
      *
      * @param EncoderFactoryInterface $encoderFactory
-     * @param UserRepository          $repository
+     * @param UserRepository $repository
      */
     public function __construct(EncoderFactoryInterface $encoderFactory, UserRepository $repository)
     {
@@ -28,15 +28,23 @@ class RegistrationHelper
 
     public function encodePassword(User $user)
     {
-        $encoder = $this->encoderFactory->getEncoder(User::class);
-        $encodedPassword = $encoder->encodePassword($user->getRawPassword(), null);
-        $user->setPassword($encodedPassword);
+        $encoder = $this
+            ->encoderFactory
+            ->getEncoder(User::class);
+        $encodedPassword = $encoder
+            ->encodePassword($user->getRawPassword(), null);
+        $user
+            ->setPassword($encodedPassword);
 
         return $user;
     }
 
     public function encodePasswordAndSave(User $user)
     {
-        $this->repository->save($this->encodePassword($user));
+        $this
+            ->repository
+            ->save(
+                $this->encodePassword($user)
+            );
     }
 }

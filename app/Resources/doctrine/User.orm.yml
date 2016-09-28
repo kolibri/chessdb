@@ -29,3 +29,6 @@ AppBundle\Entity\User:
         playerAliases:
             type: simple_array
             nullable: true
+        isEnabled:
+            type: boolean
+            nullable: true
