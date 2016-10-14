@@ -7,14 +7,18 @@ use AppBundle\Dropbox\AuthHelper;
 use AppBundle\Entity\DropboxPgn;
 use AppBundle\Entity\ImportPgn;
 use AppBundle\Entity\Repository\DropboxPgnRepository;
+use AppBundle\Form\Type\DropboxPgnType;
+use AppBundle\Form\Type\ImportPgnType;
 use Dropbox\Client;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/dropbox")
+ * @Security("has_role('ROLE_PLAYER')")
  */
 class DropboxController extends Controller
 {
@@ -35,67 +39,79 @@ class DropboxController extends Controller
         $files = $client->getFilePaths('/pgn', '/.*\.pgn/');
         $games = [];
 
-        foreach ($files as $filePath) {
-            $games[] = [
-                'path' => $filePath,
-                'pgn' => $client->getFileContent($filePath),
-                'dropboxPgn' =>  $this->dropboxPgnRepository()->getByPathOrNull($filePath)
-            ];
+        /** @var DropboxPgn[] $importedGames */
+        $importedGames = [];
+        foreach ($this->dropboxPgnRepository()->findByUser($this->getUser()) as $importedGame) {
+            $importedGames[$importedGame->getPath()] = $importedGame;
         }
-        
+
+        $pathsToImport = [];
+        $imported = [];
+        foreach ($files as $path) {
+            if (key_exists($path, $importedGames)) {
+                $imported[] = [
+                    'path' => $path,
+                    'dropboxPgn' => $importedGames[$path],
+                ];
+            } else {
+                $pathsToImport[] = [
+                    'path' => $path,
+                    'content' => $client->getFileContent($path),
+                ];
+            }
+        }
+
         return $this->render(
             'dropbox/list.html.twig',
             [
-                'games' => $games,
+                'pathsToImport' => $pathsToImport,
+                'imported' => $imported,
             ]
         );
     }
 
     /**
-     * @Route("/game/{path}", requirements={"path"=".+"})
-     * @Method({"GET"})
+     * @Route("/import/{path}", requirements={"path"=".+"})
+     * @Method({"GET", "POST"})
      */
-    public function gameAction($path)
+    public function importAction(Request $request, $path)
     {
-        $tokenStorage = $this->get('app.dropbox.access_token_store');
-
-        if (!$tokenStorage->get()) {
-            return $this->redirectToRoute('app_dropbox_authstart');
-        }
-
         $client = $this->getClient();
-        $game = $client->getFileContent($path);
 
-        $importPgn = new ImportPgn($game);
+        $form = $this->createForm(
+            DropboxPgnType::class,
+            new DropboxPgn(
+                $path,
+                new ImportPgn(
+                    $client->getFileContent($path),
+                    $this->getUser()
+                )
+            )
+        );
 
-        if (!$dropboxPgn = $this->dropboxPgnRepository()->getByPathOrNull($path)) {
-            $dropboxPgn = new DropboxPgn($path, $importPgn);
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            /** @var DropboxPgn $dropboxPgn */
+            $dropboxPgn = $form->getData();
+            $this
+                ->dropboxPgnRepository()
+                ->save($dropboxPgn);
+
+            return $this->redirectToRoute(
+                'app_import_game',
+                [
+                    'uuid' => $dropboxPgn
+                        ->getImportPgn()
+                        ->getUuid(),
+                ]
+            );
         }
 
-        $dropboxPgn->setImportPgn($importPgn);
-
-        $enitityManager = $this->getDoctrine()->getManager();
-        $enitityManager->persist($dropboxPgn);
-        $enitityManager->persist($importPgn);
-        $enitityManager->flush();
-
-        return $this->redirectToRoute(
-            'app_import_game',
-            [
-                'uuid' => $importPgn->getUuid(),
-            ]
+        return $this->render(
+            'dropbox/import.html.twig',
+            ['form' => $form->createView()]
         );
-    }
-
-    /**
-     * @Route("/auth-clear")
-     * @Method({"GET"})
-     */
-    public function clearAction(Request $request)
-    {
-        $request->getSession()->clear();
-
-        return $this->redirectToRoute('app_dropbox_list');
     }
 
     /**

@@ -1,25 +1,42 @@
-{% extends 'baseList.html.twig' %}
+{% extends 'base.html.twig' %}
 
-{% block title %}{{ 'dropbox.import.title'|trans }}{% endblock %}
+{% block title %}{{ 'dropbox.list.title'|trans }}{% endblock %}
+
+{% block content %}
+    <h2>{{ 'dropbox.list.to_import.title'|trans }}</h2>
+    <section id="dropbox-to-import">
+        {% for pathToImport in pathsToImport %}
+            <a href="{{ path('app_dropbox_import', {'path': pathToImport.path}) }}">{{ pathToImport.path }}</a>
+            <pre>{{ pathToImport.content }}</pre>
+        {% endfor %}
+    </section>
+
+    <h2>{{ 'dropbox.list.imported.title'|trans }}</h2>
+    <section class="list">
+        {% for game in imported if game.dropboxPgn.importPgn.imported == false %}
+            <section class="game">
+                {% set importPgn = game.dropboxPgn.importPgn %}
+                {{ pgn(importPgn.pgnString, {'data-show-header': "true", 'data-display-headers': 'White,Black,Result'}) }}
+
+                <a href="{{ path('app_import_game', {'uuid': importPgn.uuid}) }}" class="button" style="width: 85%">
+                    {{ 'import.list.link_to_import'|trans }}
+                </a>
+
+                <form
+                        action="{{ path('app_import_deletepgn', {'uuid': importPgn.uuid}) }}"
+                        method="post"
+                        class="delete">
+                    <button class="button button-outline" style="width: 10%; margin-left: 3%">
+                        {{ 'import.list.delete_pgn'|trans }}
+                    </button>
+                </form>
+            </section>
+        {% else %}
+            {{ 'game.list.no_items'|trans }}
+        {% endfor %}
+    </section>
+{% endblock %}
+
 
 {% block game %}
-    <a href="{{ path('app_dropbox_game', {'path': game.path}) }}">
-        <p>{{ game.path }}</p>
-        {{ pgn(game.pgn, {'data-show-header': "false"}) }}
-    </a>
-
-    {% if game.dropboxPgn is not null %}
-        <a href="{{ path('app_import_game', {'uuid': game.dropboxPgn.getImportPgn.uuid}) }}" class="button"
-           style="width: 48%">
-            {{ 'dropbox.import.button.game_import'|trans }}
-        </a>
-        <a href="{{ path('app_dropbox_game', {'path': game.path}) }}" class="button button-outline"
-           style="width: 48%; margin-left: 2%;">
-            {{ 'dropbox.import.button.import'|trans }}
-        </a>
-    {% else %}
-        <a href="{{ path('app_dropbox_game', {'path': game.path}) }}" class="button">
-            {{ 'dropbox.import.button.import'|trans }}
-        </a>
-    {% endif %}
 {% endblock %}

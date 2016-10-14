@@ -16,3 +16,9 @@ AppBundle\Entity\ImportPgn:
         imported:
             type: boolean
             nullable: true
+    manyToOne:
+        user:
+            targetEntity: AppBundle\Entity\User
+            joinColumn:
+                name: user
+                referencedColumnName: uuid

@@ -5,6 +5,7 @@ namespace AppBundle\Entity\Repository;
 
 use AppBundle\Entity\DropboxPgn;
 use AppBundle\Entity\ImportPgn;
+use AppBundle\Entity\User;
 use Doctrine\ORM\EntityRepository;
 
 class ImportPgnRepository extends EntityRepository
@@ -19,12 +20,14 @@ class ImportPgnRepository extends EntityRepository
         }
     }
 
-    public function findUnimported()
+    public function findUnimportedByUser(User $user)
     {
         return $this
             ->createQueryBuilder('p')
             ->where('p.imported = :imported')
+            ->andWhere('p.user = :user')
             ->setParameter('imported', false)
+            ->setParameter('user', $user)
             ->getQuery()
             ->execute();
     }
