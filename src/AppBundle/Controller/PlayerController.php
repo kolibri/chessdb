@@ -42,7 +42,7 @@ class PlayerController extends Controller
             ->getRepository(User::class)
             ->findAll();
 
-        $players = array_map(function(User $player){
+        $players = array_map(function (User $player) {
             return $player->getUsername();
         }, $players);
 

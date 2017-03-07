@@ -12,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Bundle\SwiftmailerBundle\DataCollector\MessageDataCollector;
 use Symfony\Component\HttpKernel\Profiler\Profile;
 use PHPUnit_Framework_ExpectationFailedException as AssertException;
+
 /**
  * Defines application features from the specific context.
  */
@@ -127,7 +128,8 @@ class FeatureContext extends MinkContext
             throw new UnsupportedDriverActionException(
                 'You need to tag the scenario with '.
                 '"@mink:symfony2". Using the profiler is not '.
-                'supported by %s', $driver
+                'supported by %s',
+                $driver
             );
         }
 

@@ -14,7 +14,6 @@ class UserAdminProfileType extends AbstractType
         $builder
             ->add('isEnabled', CheckboxType::class, ['required' => false])
             ->remove('playerAliases');
-
     }
 
     public function configureOptions(OptionsResolver $resolver)
