@@ -44,6 +44,8 @@ nav:
   profile: My Profile
   user_list: Players
   leaderboard: Leaderboard
+  registrations: Registrations
+
 
 user:
   login.title: Login
@@ -70,8 +72,17 @@ form:
     submit: Login
   profile.label:
     submit: Save
+    username: Username
+    emailAddress: Email Address
+    raw_password:
+      first: Password
+      second: Repeat Password
   register.label:
     submit: Register
+    password_first: Password
+    password_second: Repeat Password
+  admin.label:
+    submit: Save
 
 dropbox:
   import.title: Import PGN from Dropbox
@@ -87,5 +98,9 @@ error:
   all:
     title: Error!
     text: An error occured. It's not your fault. But it's still an error.
+
+admin:
+  registrations:
+    title: Registrations
 
 pgn.piece_names: '{"k": "K", "q": "Q", "b": "B", "n": "N", "r": "R", "p": ""}'

@@ -44,6 +44,7 @@ nav:
   profile: Mein Profil
   user_list: Spieler
   leaderboard: Bestenliste
+  registrations: Registrierungen
 
 user:
   login.title: Melde Dich an
@@ -70,8 +71,18 @@ form:
     submit: Anmelden
   profile.label:
     submit: Speichern
+    username: Nutzername
+    emailAddress: Email Addresse
+    raw_password:
+      first: Passwort
+      second: Wiederhole Passwort
   register.label:
     submit: Registrieren
+    password_first: Passwort
+    password_second: Wiederhole Passwort
+  admin.label:
+    submit: Speichern
+
 
 dropbox:
   import.title: Importiere PGN von Dropbox
@@ -87,5 +98,9 @@ error:
   all:
     title: Fehler
     text: Es ist ein Fehler passiert. Dafür kannst Du nichts. Aber das ist jetzt halt so.
+
+admin:
+  registrations:
+    title: Registrierungen
 
 pgn.piece_names: '{"k": "K", "q": "D", "b": "L", "n": "S", "r": "T", "p": ""}'
