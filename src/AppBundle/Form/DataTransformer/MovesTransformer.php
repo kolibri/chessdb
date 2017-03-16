@@ -1,5 +1,4 @@
-<?php
-
+<?php declare(strict_types = 1);
 
 namespace AppBundle\Form\DataTransformer;
 
@@ -8,25 +7,17 @@ use Symfony\Component\Form\DataTransformerInterface;
 
 class MovesTransformer implements DataTransformerInterface
 {
-    /** @var  MovesTransformHelper */
-    private $transformHelper;
-
-    public function __construct(MovesTransformHelper $transformHelper)
-    {
-        $this->transformHelper = $transformHelper;
-    }
-
     public function transform($value)
     {
         if (empty($value)) {
             return '';
         }
 
-        return $this->transformHelper->moveArrayToString($value);
+        return MovesTransformHelper::moveArrayToString($value);
     }
 
     public function reverseTransform($value)
     {
-        return $this->transformHelper->moveStringToArray($value);
+        return MovesTransformHelper::moveStringToArray($value);
     }
 }

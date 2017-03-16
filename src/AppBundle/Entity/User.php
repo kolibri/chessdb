@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace AppBundle\Entity;
 
@@ -10,32 +10,15 @@ class User implements AdvancedUserInterface
     /** @var Uuid */
     private $uuid;
 
-    /** @var string */
     private $username;
-
-    /** @var string */
     private $password;
-
-    /** @var array */
     private $roles = [];
-
-    /** @var string */
     private $emailAddress;
-
-    /** @var array */
     private $playerAliases;
-
-    /** @var boolean */
     private $isEnabled;
-
-    /** @var string */
     private $rawPassword;
 
-    public function __construct()
-    {
-    }
-
-    public static function register($username, $emailAddress, $rawPassword, $playerAliases = null)
+    public static function register(string $username, string $emailAddress, string $rawPassword, array $playerAliases = null)
     {
         $user = new self();
         $user->setUsername($username);
@@ -48,129 +31,84 @@ class User implements AdvancedUserInterface
         return $user;
     }
 
-    /**
-     * @return Uuid
-     */
-    public function getUuid()
+    public function getUuid(): Uuid
     {
         return $this->uuid;
     }
 
-    /**
-     * @return string
-     */
-    public function getUsername()
+    public function getUsername(): string
     {
         return $this->username;
     }
 
-    /**
-     * @param string $username
-     */
-    public function setUsername($username)
+    public function setUsername(string $username)
     {
         $this->username = $username;
     }
 
-    /**
-     * @return string
-     */
-    public function getPassword()
+    public function getPassword(): string
     {
         return $this->password;
     }
 
-    /**
-     * @param string $password
-     */
-    public function setPassword($password)
+    public function setPassword(string $password)
     {
         $this->password = $password;
     }
 
-    /**
-     * @return array
-     */
-    public function getRoles()
+    public function getRoles(): array
     {
         return $this->roles;
     }
 
-    /**
-     * @param array $roles
-     */
-    public function setRoles($roles)
+    public function setRoles(array $roles)
     {
         foreach ($roles as $role) {
             $this->addRole($role);
         }
     }
 
-    public function addRole($role)
+    public function addRole(string $role)
     {
         $this->roles[] = $role;
     }
 
-    /**
-     * @return string
-     */
-    public function getEmailAddress()
+    public function getEmailAddress(): string
     {
         return $this->emailAddress;
     }
 
-    /**
-     * @param string $emailAddress
-     */
-    public function setEmailAddress($emailAddress)
+    public function setEmailAddress(string $emailAddress)
     {
         $this->emailAddress = $emailAddress;
     }
 
-    /**
-     * @return string
-     */
-    public function getRawPassword()
+    public function getRawPassword(): string
     {
         return $this->rawPassword;
     }
 
-    /**
-     * @param string $rawPassword
-     */
-    public function setRawPassword($rawPassword)
+    public function setRawPassword(string $rawPassword)
     {
         $this->rawPassword = $rawPassword;
     }
 
-    /**
-     * @return array
-     */
-    public function getPlayerAliases()
+    public function getPlayerAliases(): array
     {
         return $this->playerAliases;
     }
 
-    /**
-     * @param array $playerAliases
-     */
-    public function setPlayerAliases($playerAliases)
+    public function setPlayerAliases(array $playerAliases)
     {
         $this->playerAliases = $playerAliases;
     }
 
-    /**
-     * @return bool
-     */
-    public function isEnabled()
+    public function isEnabled(): bool
     {
         return $this->isEnabled;
     }
 
-    /**
-     * @param boolean $isEnabled
-     */
-    public function setIsEnabled($isEnabled)
+    public function setIsEnabled(bool $isEnabled)
     {
         $this->isEnabled = $isEnabled;
     }
@@ -184,17 +122,17 @@ class User implements AdvancedUserInterface
         $this->setRawPassword('');
     }
 
-    public function isAccountNonExpired()
+    public function isAccountNonExpired(): bool
     {
         return true;
     }
 
-    public function isAccountNonLocked()
+    public function isAccountNonLocked(): bool
     {
         return true;
     }
 
-    public function isCredentialsNonExpired()
+    public function isCredentialsNonExpired(): bool
     {
         return true;
     }

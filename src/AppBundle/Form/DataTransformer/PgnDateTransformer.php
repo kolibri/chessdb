@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace AppBundle\Form\DataTransformer;
 
@@ -7,7 +7,7 @@ use Symfony\Component\Form\DataTransformerInterface;
 
 class PgnDateTransformer implements DataTransformerInterface
 {
-    public function transform($value)
+    public function transform($value):string
     {
         if (empty($value)) {
             return '????.??.??';
@@ -16,7 +16,7 @@ class PgnDateTransformer implements DataTransformerInterface
         return $value->toString();
     }
 
-    public function reverseTransform($value)
+    public function reverseTransform($value): PgnDate
     {
         return PgnDate::fromString($value);
     }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace AppBundle\Form\Type;
 
@@ -24,8 +24,8 @@ class UserAdminProfileType extends AbstractType
             ]
         );
     }
-    
-    public function getParent()
+
+    public function getParent(): string
     {
         return UserProfileType::class;
     }

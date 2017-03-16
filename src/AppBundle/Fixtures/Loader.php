@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace AppBundle\Fixtures;
 
@@ -10,41 +10,31 @@ use Nelmio\Alice\Persister\Doctrine;
 
 class Loader
 {
-    /** @var ObjectManager */
     private $manager;
-
-    /** @var  RegistrationHelper */
     private $registrationHelper;
 
-    /**
-     * Loader constructor.
-     * @param ObjectManager $manager
-     * @param RegistrationHelper $registrationHelper
-     */
     public function __construct(ObjectManager $manager, RegistrationHelper $registrationHelper)
     {
         $this->manager = $manager;
         $this->registrationHelper = $registrationHelper;
     }
 
-    public function loadFixtures($fixturePath)
+    public function loadFixtures(string $fixturePath)
     {
         $manager = $this->manager;
 
-        $metadatas = $manager
+        $metadata = $manager
             ->getMetadataFactory()
             ->getAllMetadata();
 
-        if (empty($metadatas)) {
-//            $output->writeln('No Metadata Classes to process.');
+        if (empty($metadata)) {
 
             return 1;
         }
         $tool = new SchemaTool($manager);
 
-        $tool->dropSchema($metadatas);
-        $tool->createSchema($metadatas);
-//        $output->writeln('Recreated database schema');
+        $tool->dropSchema($metadata);
+        $tool->createSchema($metadata);
 
         $persister = new Doctrine($manager);
         $loader = new \Nelmio\Alice\Fixtures\Loader();
@@ -58,13 +48,9 @@ class Loader
             if (!$object instanceof User) {
                 continue;
             }
-//            $output->writeln(sprintf('Add user: %s password: %s', $object->getUsername(), $object->getRawPassword()));
             $userHandler->encodePassword($object);
         }
 
-//        $output->writeln('Fixtures loaded ...');
-
         $persister->persist($objects);
-//        $output->writeln('and persisted!');
     }
 }

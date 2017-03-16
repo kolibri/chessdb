@@ -32,7 +32,6 @@ services:
 
   app.form_data_transformer.moves_transformer:
     class: AppBundle\Form\DataTransformer\MovesTransformer
-    arguments: ['@app.helper.move_transform_helper']
 
   app.helper.move_transform_helper:
     class: AppBundle\Helper\MovesTransformHelper

@@ -1,5 +1,4 @@
-<?php
-
+<?php declare(strict_types = 1);
 
 namespace AppBundle\Form\Type;
 
@@ -11,7 +10,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class MovesType extends AbstractType
 {
-    /** @var MovesTransformer */
     private $transformer;
 
     public function __construct(MovesTransformer $transformer)
@@ -33,7 +31,7 @@ class MovesType extends AbstractType
         );
     }
 
-    public function getParent()
+    public function getParent():string
     {
         return TextareaType::class;
     }

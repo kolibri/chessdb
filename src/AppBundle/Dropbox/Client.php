@@ -1,31 +1,17 @@
-<?php
-
+<?php declare(strict_types = 1);
 
 namespace AppBundle\Dropbox;
 
 class Client
 {
-    /** @var  \Dropbox\Client */
     private $client;
 
-    /**
-     * Client constructor.
-     * @param \Dropbox\Client $client
-     */
     public function __construct(\Dropbox\Client $client)
     {
         $this->client = $client;
     }
 
-    /**
-     * @param $path
-     * @return mixed
-     * @throws \Dropbox\Exception_BadResponseCode
-     * @throws \Dropbox\Exception_OverQuota
-     * @throws \Dropbox\Exception_RetryLater
-     * @throws \Dropbox\Exception_ServerError
-     */
-    public function getFileContent($path)
+    public function getFileContent(string $path): string
     {
         $tmpFileName = tempnam('/tmp', 'dropbox-import-');
         $tmpFile = fopen($tmpFileName, 'wb');
@@ -34,13 +20,7 @@ class Client
         return file_get_contents($tmpFileName);
     }
 
-    /**
-     * @param $directory
-     * @param string $pattern
-     * @param bool $withDirs
-     * @return array
-     */
-    public function getFilePaths($directory, $pattern = '/.*/', $withDirs = false)
+    public function getFilePaths(string $directory, string $pattern = '/.*/', bool $withDirs = false): array
     {
 
         $metadata = $this->client->getMetadataWithChildren($directory);

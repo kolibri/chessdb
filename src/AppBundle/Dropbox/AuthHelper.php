@@ -1,5 +1,4 @@
-<?php
-
+<?php declare(strict_types = 1);
 
 namespace AppBundle\Dropbox;
 
@@ -11,33 +10,13 @@ use Symfony\Component\Routing\RouterInterface;
 
 class AuthHelper
 {
-    /** @var  RouterInterface */
     private $routing;
-
-    /** @var  AppInfo */
     private $appInfo;
-
-    /** @var AuthTokenStore */
     private $authTokenStore;
-
-    /** @var string */
     private $clientIdentifier;
-
-    /** @var string */
     private $redirectRouteName;
-
-    /** @var AccessTokenStore */
     private $accessTokenStore;
 
-    /**
-     * AuthHelper constructor.
-     * @param RouterInterface $routing
-     * @param AppInfo $appInfo
-     * @param AuthTokenStore $authTokenStore
-     * @param $clientIdentifier
-     * @param $redirectRouteName
-     * @param AccessTokenStore $accessTokenStore
-     */
     public function __construct(
         RouterInterface $routing,
         AppInfo $appInfo,
@@ -54,7 +33,7 @@ class AuthHelper
         $this->accessTokenStore = $accessTokenStore;
     }
 
-    public function getStartUrl()
+    public function getStartUrl():array
     {
         return $this->getWebAuth()->start();
     }
@@ -73,7 +52,7 @@ class AuthHelper
         $this->accessTokenStore->set($result[0]);
     }
 
-    private function getWebAuth()
+    private function getWebAuth(): WebAuth
     {
         return new WebAuth(
             $this->appInfo,

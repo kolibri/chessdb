@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace AppBundle\Entity;
 
@@ -9,66 +9,43 @@ class ImportPgn
     /** @var Uuid */
     private $uuid;
 
-    /** @var string */
     private $pgnString;
-
-    /** @var boolean */
     private $imported;
-
-    /** @var User */
     private $user;
 
-    public function __construct($pgnString, User $user)
+    public function __construct(string $pgnString, User $user)
     {
         $this->pgnString = $pgnString;
         $this->imported = false;
         $this->user = $user;
     }
 
-    /**
-     * @return Uuid
-     */
-    public function getUuid()
+    public function getUuid(): Uuid
     {
         return $this->uuid;
     }
 
-    /**
-     * @param string $pgnString
-     */
-    public function setPgnString($pgnString)
+    public function setPgnString(string $pgnString)
     {
         $this->pgnString = $pgnString;
     }
 
-    /**
-     * @return string
-     */
-    public function getPgnString()
+    public function getPgnString(): string
     {
         return $this->pgnString;
     }
 
-    /**
-     * @return boolean
-     */
-    public function isImported()
+    public function isImported(): bool
     {
         return $this->imported;
     }
 
-    /**
-     * @param boolean $imported
-     */
-    public function setImported($imported)
+    public function setImported(bool $imported)
     {
         $this->imported = $imported;
     }
 
-    /**
-     * @return User
-     */
-    public function getUser()
+    public function getUser(): User
     {
         return $this->user;
     }

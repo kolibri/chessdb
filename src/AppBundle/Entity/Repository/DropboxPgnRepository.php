@@ -1,5 +1,4 @@
-<?php
-
+<?php declare(strict_types = 1);
 
 namespace AppBundle\Entity\Repository;
 
@@ -10,7 +9,7 @@ use Doctrine\ORM\EntityRepository;
 
 class DropboxPgnRepository extends EntityRepository
 {
-    public function save(DropboxPgn $dropboxPgn, $flush = true)
+    public function save(DropboxPgn $dropboxPgn, bool $flush = true)
     {
         $entityManager = $this->getEntityManager();
         $entityManager->persist($dropboxPgn);
@@ -24,7 +23,7 @@ class DropboxPgnRepository extends EntityRepository
      * @param User $user
      * @return DropboxPgn[]
      */
-    public function findByUser(User $user)
+    public function findByUser(User $user): array
     {
         return $this
             ->createQueryBuilder('d')
@@ -34,16 +33,23 @@ class DropboxPgnRepository extends EntityRepository
             ->execute();
     }
 
-    public function getByPathOrNull($path)
+    public function getByPathOrNull(string $path): DropboxPgn
     {
-        return $this
+        $result = $this
             ->createQueryBuilder('d')
             ->where('d.path = :path')
             ->setParameter('path', $path)
             ->getQuery()
             ->getOneOrNullResult();
+
+        if (null === $result) {
+            throw new \RuntimeException(sprintf('could not load one dropbox pgn for path "%s"', sprintf($path)));
+        }
+
+        return $result;
     }
 
+    // @todo dertimine result type
     public function getByImportPgn(ImportPgn $importPgn)
     {
         return $this

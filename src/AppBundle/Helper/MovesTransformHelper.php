@@ -1,11 +1,10 @@
-<?php
-
+<?php declare(strict_types = 1);
 
 namespace AppBundle\Helper;
 
 class MovesTransformHelper
 {
-    public static function moveArrayToString(array $moves)
+    public static function moveArrayToString(array $moves): string
     {
         $movesString = '';
         $moveCounter = 1;
@@ -22,7 +21,7 @@ class MovesTransformHelper
         return trim($movesString);
     }
 
-    public static function moveStringToArray($moves)
+    public static function moveStringToArray($moves): array
     {
         // Maybe it's better to build a dummy pgn, and throw it through chess.php...
         $movesArray = explode(' ', $moves);

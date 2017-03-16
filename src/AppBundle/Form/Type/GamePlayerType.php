@@ -1,5 +1,4 @@
-<?php
-
+<?php declare(strict_types = 1);
 
 namespace AppBundle\Form\Type;
 
@@ -11,13 +10,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class GamePlayerType extends AbstractType
 {
-    /** @var UserRepository */
     private $userRepository;
 
-    /**
-     * GamePlayerType constructor.
-     * @param UserRepository $userRepository
-     */
     public function __construct(UserRepository $userRepository)
     {
         $this->userRepository = $userRepository;
@@ -42,7 +36,7 @@ class GamePlayerType extends AbstractType
         );
     }
 
-    public function getParent()
+    public function getParent(): string
     {
         return TextType::class;
     }
