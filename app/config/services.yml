@@ -104,3 +104,21 @@ services:
 #  app.dropbox.client:
 #    class: AppBundle\Dropbox\Client
 #    factory: ['@app.dropbox.client_creator', createClient]
+
+
+  app.controller.player:
+    class: AppBundle\Controller\PlayerController
+    arguments:
+      - '@app.repository.user'
+      - '@app.repository.game'
+      - '@twig'
+
+  app.repository.user:
+    class: AppBundle\Entity\Repository\UserRepository
+    factory: ['@doctrine', getRepository]
+    arguments: ['AppBundle:User']
+
+  app.repository.game:
+    class: AppBundle\Entity\Repository\GameRepository
+    factory: ['@doctrine', getRepository]
+    arguments: ['AppBundle:Game']

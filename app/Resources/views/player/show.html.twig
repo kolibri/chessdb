@@ -1,17 +1,19 @@
 {% extends 'baseListByResult.html.twig' %}
 
 {% block id('player-show') %}
-{% block title %}{{ 'player.show.title'|trans({'%player%': player}) }}{% endblock %}
+{% block title %}{{ 'player.show.title'|trans({'%player%': player.username}) }}{% endblock %}
 {% block headline %}
-    <a href="{{ path('app_player_show', {'player': player}) }}">
-        {{ 'player.show.title'|trans({'%player%': player}) }}
+    <a href="{{ path('app_player_show', {'player': player.username}) }}">
+        {{ 'player.show.title'|trans({'%player%': player.username}) }}
     </a>
 {% endblock %}
 
 {% block content %}
     <section class="vs">
         {% for player2 in players if player2 != player %}
-            <a href="{{ path('app_player_versus', {'player1': player, 'player2': player2, '_locale': 'x'}) }}">{{ player2 }}</a>
+            <a href="{{ path('app_player_versus', {'player1': player.username, 'player2': player2.username, '_locale': 'x'}) }}">
+                {{ player2.username }}
+            </a>
         {% endfor %}
     </section>
     {{ parent() }}

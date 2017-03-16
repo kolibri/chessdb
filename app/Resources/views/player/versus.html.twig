@@ -1,9 +1,9 @@
 {% extends 'baseListByResult.html.twig' %}
 
 {% block id('player-versus') %}
-{% block title %}{{ 'player.versus.title'|trans({'%name1%': player1, '%name2%': player2}) }}{% endblock %}
+{% block title %}{{ 'player.versus.title'|trans({'%name1%': player1.username, '%name2%': player2.username}) }}{% endblock %}
 {% block headline %}
-    <a href="{{ path('app_player_show', {'player': player1}) }}">{{ player1 }}</a>
+    <a href="{{ path('app_player_show', {'player': player1.username}) }}">{{ player1.username }}</a>
     -
-    <a href="{{ path('app_player_show', {'player': player2}) }}">{{ player2 }}</a>
+    <a href="{{ path('app_player_show', {'player': player2.username}) }}">{{ player2.username }}</a>
 {% endblock %}

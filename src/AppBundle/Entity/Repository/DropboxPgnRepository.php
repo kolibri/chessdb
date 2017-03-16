@@ -33,22 +33,6 @@ class DropboxPgnRepository extends EntityRepository
             ->execute();
     }
 
-    public function getByPathOrNull(string $path): DropboxPgn
-    {
-        $result = $this
-            ->createQueryBuilder('d')
-            ->where('d.path = :path')
-            ->setParameter('path', $path)
-            ->getQuery()
-            ->getOneOrNullResult();
-
-        if (null === $result) {
-            throw new \RuntimeException(sprintf('could not load one dropbox pgn for path "%s"', sprintf($path)));
-        }
-
-        return $result;
-    }
-
     // @todo dertimine result type
     public function getByImportPgn(ImportPgn $importPgn)
     {

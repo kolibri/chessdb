@@ -2,78 +2,91 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\Game;
-use AppBundle\Entity\User;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use AppBundle\Entity\Repository\GameRepository;
+use AppBundle\Entity\Repository\UserRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\HttpFoundation\Response;
 
-/**
- * @Route("/player")
- */
-class PlayerController extends Controller
+class PlayerController
 {
-    /**
-     * @Route("/")
-     * @Method({"GET"})
-     */
-    public function listAction()
+    private $userRepository;
+    private $gameRepository;
+    private $twig;
+
+    public function __construct(
+        UserRepository $userRepository,
+        GameRepository $gameRepository,
+        \Twig_Environment $twig
+    ) {
+        $this->userRepository = $userRepository;
+        $this->gameRepository = $gameRepository;
+        $this->twig = $twig;
+    }
+
+    public function list()
     {
-        return $this->render(
-            'player/list.html.twig',
-            [
-                'users' => $this
-                    ->getDoctrine()
-                    ->getRepository(User::class)
-                    ->findAll(),
-            ]
+        return new Response(
+            $this->twig->render(
+                'player/list.html.twig',
+                [
+                    'users' => $this
+                        ->userRepository
+                        ->findAll(),
+                ]
+            )
         );
     }
 
     /**
-     * @Route("/{player}")
-     * @Method({"GET"})
+     * @ParamConverter(
+     *     "player",
+     *     class="AppBundle:User",
+     *     options={"mapping": {"player": "username"}}
+     * )
      */
-    public function showAction($player)
+    public function show($player)
     {
-        $players = $this
-            ->getDoctrine()
-            ->getRepository(User::class)
-            ->findAll();
-
-        $players = array_map(function (User $player) {
-            return $player->getUsername();
-        }, $players);
-
-        return $this->render(
-            'player/show.html.twig',
-            [
-                'player' => $player,
-                'players' => $players,
-                'gamesByResult' => $this
-                    ->getDoctrine()
-                    ->getRepository(Game::class)
-                    ->findByPlayerGroupByResult($player),
-            ]
+        return new Response(
+            $this->twig->render(
+                'player/show.html.twig',
+                [
+                    'player' => $player,
+                    'players' => $this
+                        ->userRepository
+                        ->findAll(),
+                    'gamesByResult' => $this
+                        ->gameRepository
+                        ->findByPlayerGroupByResult($player),
+                ]
+            )
         );
     }
 
     /**
-     * @Route("/{player1}/vs/{player2}")
-     * @Method({"GET"})
+     * @ParamConverter(
+     *     "player1",
+     *     class="AppBundle:User",
+     *     options={"mapping": {"player1": "username"}}
+     * )
+     * @ParamConverter(
+     *     "player2",
+     *     class="AppBundle:User",
+     *     options={"mapping": {"player2": "username"}}
+     * )
      */
-    public function versusAction($player1, $player2)
+    public function versus($player1, $player2)
     {
-        return $this->render(
-            'player/versus.html.twig',
-            [
-                'player1' => $player1,
-                'player2' => $player2,
-                'gamesByResult' => $this
-                    ->getDoctrine()
-                    ->getRepository(Game::class)
-                    ->findByPlayerVsPlayerGroupByResult($player1, $player2),
-            ]
+        return new Response(
+            $this->twig->render(
+                'player/versus.html.twig',
+                [
+                    'player1' => $player1,
+                    'player2' => $player2,
+                    'gamesByResult' => $this
+                        ->gameRepository
+                        ->findByPlayerVsPlayerGroupByResult($player1, $player2),
+                ]
+            )
         );
     }
 }

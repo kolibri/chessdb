@@ -67,7 +67,7 @@ class UserController extends Controller
                 'gamesByResult' => $this
                     ->getDoctrine()
                     ->getRepository(Game::class)
-                    ->findByPlayerGroupByResult($user->getUsername()),
+                    ->findByPlayerGroupByResult($user),
             ]
         );
     }

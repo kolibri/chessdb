@@ -1,20 +1,39 @@
 # At first, not localized routes
 app_index:
-    path: /
-    defaults:
-        _controller: AppBundle:Default:index
-    methods: GET
+  path: /
+  defaults:
+    _controller: AppBundle:Default:index
+  methods: GET
 
 app_login_check:
-    path: /login_check
-    methods: POST
+  path: /login_check
+  methods: POST
 
 app_logout:
-    path: /logout
-    methods: GET
+  path: /logout
+  methods: GET
 
 # Then all localiced routes
 app:
-    resource: "@AppBundle/Controller/"
-    type:     annotation
-    prefix: "/{_locale}"
+  resource: "@AppBundle/Controller/"
+  type:   annotation
+  prefix: "/{_locale}"
+
+
+app_player_list:
+  path: /{_locale}/player
+  defaults:
+    _controller: app.controller.player:list
+  methods: GET
+
+app_player_show:
+  path: /{_locale}/player/{player}
+  defaults:
+    _controller: app.controller.player:show
+  methods: GET
+
+app_player_versus:
+  path: /{_locale}/{player1}/vs/{player2}
+  defaults:
+    _controller: app.controller.player:versus
+  methods: GET

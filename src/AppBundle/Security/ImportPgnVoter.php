@@ -22,7 +22,7 @@ class ImportPgnVoter extends Voter
 
     protected function supports($attribute, $subject): bool
     {
-        if (!in_array($attribute, [self::IMPORT, self::DELETE])) {
+        if (!in_array($attribute, [self::IMPORT, self::DELETE], true)) {
             return false;
         }
 
