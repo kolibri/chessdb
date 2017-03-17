@@ -1,11 +1,11 @@
 services:
-  app.adapter.chess_adapter:
-    class: AppBundle\Adapter\ChessAdapter
+  app.pgn_parser.ryanhs_chess_adapter:
+    class: AppBundle\PgnParser\RyanhsChessPgnParser
     arguments: ['@chessphp.chess']
 
   app.import.pgn_string_importer:
     class: AppBundle\Factory\GameFactory
-    arguments: ['@app.adapter.chess_adapter']
+    arguments: ['@app.pgn_parser.ryanhs_chess_adapter']
 
   app.entity_repository.user_repository:
     class: AppBundle\Entity\Repository\UserRepository
@@ -62,7 +62,7 @@ services:
 
   app.validator_constraints.pgn_validator:
     class: AppBundle\Validator\Constraints\PgnValidator
-    arguments: ['@app.adapter.chess_adapter']
+    arguments: ['@app.pgn_parser.ryanhs_chess_adapter']
     tags:
       - { name: validator.constraint_validator }
 

@@ -2,7 +2,7 @@
 
 namespace AppBundle\Validator\Constraints;
 
-use AppBundle\Adapter\ChessAdapter;
+use AppBundle\PgnParser\RyanhsChessPgnParser;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
@@ -10,7 +10,7 @@ class PgnValidator extends ConstraintValidator
 {
     private $chess;
 
-    public function __construct(ChessAdapter $chess)
+    public function __construct(RyanhsChessPgnParser $chess)
     {
         $this->chess = $chess;
     }

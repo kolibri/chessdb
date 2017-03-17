@@ -46,7 +46,7 @@ class UserController
         $this->twig = $twig;
     }
 
-    public function login()
+    public function login(): Response
     {
         return new Response(
             $this->twig->render(
@@ -63,7 +63,7 @@ class UserController
         );
     }
 
-    public function myProfile(Request $request)
+    public function myProfile(Request $request): Response
     {
         $user = $this->tokenStorage->getToken()->getUser();
 
@@ -112,7 +112,7 @@ class UserController
         );
     }
 
-    public function register(Request $request)
+    public function register(Request $request): Response
     {
         $form = $this->formFactory->create(UserProfileType::class);
         $form->handleRequest($request);

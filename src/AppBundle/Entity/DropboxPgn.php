@@ -6,7 +6,6 @@ use Ramsey\Uuid\Uuid;
 
 class DropboxPgn
 {
-    /** @var Uuid */
     private $uuid;
     private $path;
     private $importPgn;

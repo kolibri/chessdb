@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Repository\GameRepository;
 use AppBundle\Entity\Repository\UserRepository;
+use AppBundle\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -23,7 +24,7 @@ class PlayerController
         $this->twig = $twig;
     }
 
-    public function list()
+    public function list(): Response
     {
         return new Response(
             $this->twig->render(
@@ -44,7 +45,7 @@ class PlayerController
      *     options={"mapping": {"player": "username"}}
      * )
      */
-    public function show($player)
+    public function show(User $player): Response
     {
         return new Response(
             $this->twig->render(
@@ -74,7 +75,7 @@ class PlayerController
      *     options={"mapping": {"player2": "username"}}
      * )
      */
-    public function versus($player1, $player2)
+    public function versus(User $player1, User $player2): Response
     {
         return new Response(
             $this->twig->render(

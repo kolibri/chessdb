@@ -39,8 +39,7 @@ class AdminController
         $this->twig = $twig;
     }
 
-
-    public function users(Request $request)
+    public function users(Request $request): Response
     {
         $users = [
             'inActive' => $this->userRepository->findByIsEnabled(false),

@@ -20,7 +20,6 @@ class GameRepository extends EntityRepository
     }
 
     /**
-     * @param ImportPgn $importPgn
      * @return Game|null
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
@@ -35,7 +34,6 @@ class GameRepository extends EntityRepository
     }
 
     /**
-     * @param string $player
      * @return Game[]|null
      */
     public function findByPlayer(User $player): array
@@ -49,7 +47,7 @@ class GameRepository extends EntityRepository
             ->execute();
     }
 
-    public function findByPlayerGroupByResult(User $player)
+    public function findByPlayerGroupByResult(User $player): array
     {
         return [
             'won' => $this->findWonByPlayer($player),
@@ -59,7 +57,7 @@ class GameRepository extends EntityRepository
         ];
     }
 
-    public function findByPlayerVsPlayerGroupByResult(User $player1, User $player2)
+    public function findByPlayerVsPlayerGroupByResult(User $player1, User $player2): array
     {
         return [
             'won' => $this->findWonPlayerVsPlayer($player1, $player2),
@@ -110,9 +108,6 @@ class GameRepository extends EntityRepository
     }
 
     /**
-     * @param $player1
-     * @param $player2
-     * @param $result
      * @return Game[]|null
      */
     public function findPlayerVsPlayerByResult(User $player1, User $player2, string $result)
@@ -129,11 +124,7 @@ class GameRepository extends EntityRepository
     }
 
     /**
-     * @param $player1
-     * @param $player2
-     * @param bool $whiteWon
-     *
-*@return Game[]|null
+     * @return Game[]|null
      */
     public function findWonOrLostByPlayerVsPlayer(User $player1, User $player2, bool $whiteWon = true)
     {
@@ -150,8 +141,6 @@ class GameRepository extends EntityRepository
     }
 
     /**
-     * @param $player
-     * @param string $result
      * @return Game[]|null
      */
     public function findByPlayerAndResult(User $player, string $result)
@@ -167,11 +156,9 @@ class GameRepository extends EntityRepository
     }
 
     /**
-     * @param $player
-     * @param bool $won
      * @return Game[]|null
      */
-    public function findWonOrLostByPlayer(User $player, $won = true)
+    public function findWonOrLostByPlayer(User $player, bool $won = true)
     {
         return $this
             ->createQueryBuilder('g')
