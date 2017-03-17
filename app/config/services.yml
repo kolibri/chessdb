@@ -148,6 +148,15 @@ services:
       - '@security.token_storage'
       - '@twig'
 
+  app.controller.admin:
+    class: AppBundle\Controller\AdminController
+    arguments:
+      - '@app.repository.user'
+      - '@form.factory'
+      - '@router'
+      - '@doctrine.orm.entity_manager'
+      - '@twig'
+
   app.repository.user:
     class: AppBundle\Entity\Repository\UserRepository
     factory: ['@doctrine', getRepository]

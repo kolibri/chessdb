@@ -58,7 +58,6 @@ app_leaderboard_show:
     sortAsc: false
   methods: GET
 
-
 app_user_login:
   path: /{_locale}/login
   defaults:
@@ -103,9 +102,11 @@ app_dropbox_authfinish:
     _controller: app.controller.dropbox:authFinish
   methods: GET
 
-
-
-
+app_admin_users:
+  path: /{_locale}/admin/users
+  defaults:
+    _controller: app.controller.admin:users
+  methods: [GET, POST]
 
 # Then all localiced routes
 app:
