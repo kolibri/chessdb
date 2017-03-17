@@ -1,0 +1,6 @@
+---
+mysql_user_name: 'chessdb'
+mysql_user_password: 'chessdb'
+mysql_user_host: '%'
+mysql_user_priv: '*.*:ALL'
+mysql_database_name: 'chessdb'

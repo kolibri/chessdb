@@ -22,3 +22,16 @@
     value: 0.0.0.0
     mode: 0644
   notify: restart mysql
+
+- name: ensure mysql user
+  mysql_user:
+    name: "{{ mysql_user_name }}"
+    password: "{{ mysql_user_password }}"
+    host: "{{ mysql_user_host }}"
+    priv: "{{ mysql_user_priv }}"
+    state: present
+
+- name: ensure databases
+  mysql_db:
+    name: "{{ mysql_database_name }}"
+    state: present

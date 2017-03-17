@@ -1,7 +1,7 @@
 REPORT_DIR=reports
 ENV=dev
 COMPOSER_CMD=composer
-YARN_CMD=yarn
+NPM_CMD=npm
 GULP_CMD=gulp
 PHPUNIT_CMD=phpunit
 SYMFONY_CMD=php bin/console
@@ -12,12 +12,12 @@ PHPMD_CMD=phpmd
 PHPCPD_CMD=phpcpd
 
 # build targets
-build: composer-install yarn-install gulp-build
+build: composer-install npm-install gulp-build
 dev-init: build reset-database
 composer-install:
 	$(COMPOSER_CMD) install
-yarn-install:
-	$(YARN_CMD) install
+npm-install:
+	$(NPM_CMD) install
 gulp-build:
 	$(GULP_CMD) build
 reset-database:
