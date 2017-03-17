@@ -2,108 +2,142 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\Game;
+use AppBundle\Entity\Repository\GameRepository;
+use AppBundle\Entity\Repository\UserRepository;
 use AppBundle\Entity\User;
 use AppBundle\Form\Type\UserProfileType;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use AppBundle\Helper\RegistrationHelper;
+use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
-class UserController extends Controller
+class UserController
 {
-    /**
-     * @Route("/login")
-     * @Method({"GET"})
-     */
-    public function loginAction()
-    {
-        $authenticationUtils = $this->get('security.authentication_utils');
+    private $gameRepository;
+    private $userRepository;
+    private $registrationHelper;
+    private $authUtils;
+    private $router;
+    private $formFactory;
+    private $tokenStorage;
+    private $twig;
 
-        return $this->render(
-            'user/login.html.twig',
-            [
-                'last_username' => $authenticationUtils->getLastUsername(),
-                'error' => $authenticationUtils->getLastAuthenticationError(),
-            ]
+    public function __construct(
+        GameRepository $gameRepository,
+        UserRepository $userRepository,
+        RegistrationHelper $registrationHelper,
+        AuthenticationUtils $authUtils,
+        UrlGeneratorInterface $router,
+        FormFactoryInterface $formFactory,
+        TokenStorageInterface $tokenStorage,
+        \Twig_Environment $twig
+    ) {
+        $this->gameRepository = $gameRepository;
+        $this->userRepository = $userRepository;
+        $this->registrationHelper = $registrationHelper;
+        $this->authUtils = $authUtils;
+        $this->router = $router;
+        $this->formFactory = $formFactory;
+        $this->tokenStorage = $tokenStorage;
+        $this->twig = $twig;
+    }
+
+    public function login()
+    {
+        return new Response(
+            $this->twig->render(
+                'user/login.html.twig',
+                [
+                    'last_username' => $this
+                        ->authUtils
+                        ->getLastUsername(),
+                    'error' => $this
+                        ->authUtils
+                        ->getLastAuthenticationError(),
+                ]
+            )
         );
     }
 
-    /**
-     * @Route("/my-profile")
-     * @Method({"GET", "POST"})
-     */
-    public function myProfileAction(Request $request)
+    public function myProfile(Request $request)
     {
-        $user = $this->getUser();
+        $user = $this->tokenStorage->getToken()->getUser();
+
 
         if (!$user instanceof User) {
-            return $this->redirectToRoute('app_user_login');
+            return new RedirectResponse($this->router->generate('app_user_login'));
         }
 
-        $form = $this->createForm(UserProfileType::class, $user, ['validation_groups' => ["profile"]]);
+        $form = $this->formFactory->create(
+            UserProfileType::class,
+            $user,
+            ['validation_groups' => ["profile"]]
+        );
         $form->handleRequest($request);
 
         if ($form->isValid()) {
             if (null !== $user->getRawPassword()) {
                 $user = $this
-                    ->get('app.helper.registration_helper')
+                    ->registrationHelper
                     ->encodePassword($user);
             }
 
             $this
-                ->getDoctrine()
-                ->getRepository(User::class)
-                ->save($user)
-            ;
+                ->userRepository
+                ->save($user);
 
-            return $this->redirectToRoute('app_user_myprofile');
+            return new RedirectResponse(
+                $this
+                    ->router
+                    ->generate('app_user_myprofile')
+            );
         }
 
-        return $this->render(
-            'user/my-profile.html.twig',
-            [
-                'form' => $form->createView(),
-                'gamesByResult' => $this
-                    ->getDoctrine()
-                    ->getRepository(Game::class)
-                    ->findByPlayerGroupByResult($user),
-            ]
+        return new Response(
+            $this
+                ->twig
+                ->render(
+                    'user/my-profile.html.twig',
+                    [
+                        'form' => $form->createView(),
+                        'gamesByResult' => $this
+                            ->gameRepository
+                            ->findByPlayerGroupByResult($user),
+                    ]
+                )
         );
     }
 
-    /**
-     * @Route("/register")
-     * @Method({"GET", "POST"})
-     */
-    public function registerAction(Request $request)
+    public function register(Request $request)
     {
-        $form = $this->createForm(UserProfileType::class);
+        $form = $this->formFactory->create(UserProfileType::class);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
             /** @var User $user */
             $user = $form->getData();
             $this
-                ->get('app.helper.registration_helper')
+                ->registrationHelper
                 ->encodePasswordAndSave($user);
 
-            $message = new \Swift_Message();
-            $message->setTo($this->getParameter('admin_mail'));
-            $message->setFrom($this->getParameter('admin_mail'));
-            $message->setSubject('New user in chessdb');
-            $message->setBody($this->renderView('user/register_mail.txt.twig', ['user' => $user]));
-
-            $this
-                ->get('mailer')
-                ->send($message);
-
-            return $this->redirectToRoute('app_user_login');
+            return new RedirectResponse(
+                $this
+                    ->router
+                    ->generate('app_user_login')
+            );
         }
 
-        return $this->render(
-            'user/register.html.twig',
-            ['form' => $form->createView()]
+        return new Response(
+            $this
+                ->twig
+                ->render(
+                    'user/register.html.twig',
+                    ['form' => $form->createView()]
+                )
         );
     }
 }

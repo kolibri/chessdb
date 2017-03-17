@@ -83,7 +83,7 @@ class User implements AdvancedUserInterface
         $this->emailAddress = $emailAddress;
     }
 
-    public function getRawPassword(): string
+    public function getRawPassword()
     {
         return $this->rawPassword;
     }

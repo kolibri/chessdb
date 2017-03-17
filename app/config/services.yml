@@ -126,6 +126,18 @@ services:
       - '@app.repository.game'
       - '@twig'
 
+  app.controller.user:
+    class: AppBundle\Controller\UserController
+    arguments:
+      - '@app.repository.game'
+      - '@app.repository.user'
+      - '@app.helper.registration_helper'
+      - '@security.authentication_utils'
+      - '@router'
+      - '@form.factory'
+      - '@security.token_storage'
+      - '@twig'
+
   app.repository.user:
     class: AppBundle\Entity\Repository\UserRepository
     factory: ['@doctrine', getRepository]

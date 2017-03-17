@@ -57,3 +57,22 @@ app_leaderboard_show:
     sortBy: won
     sortAsc: false
   methods: GET
+
+
+app_user_login:
+  path: /{_locale}/login
+  defaults:
+    _controller: app.controller.user:login
+  methods: GET
+
+app_user_myprofile:
+  path: /{_locale}/my-profile
+  defaults:
+    _controller: app.controller.user:myProfile
+  methods: [GET, POST]
+
+app_user_register:
+  path: /{_locale}/register
+  defaults:
+    _controller: app.controller.user:register
+  methods: [GET, POST]
