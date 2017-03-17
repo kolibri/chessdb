@@ -18,14 +18,18 @@ class User implements AdvancedUserInterface
     private $isEnabled;
     private $rawPassword;
 
-    public static function register(string $username, string $emailAddress, string $rawPassword, array $playerAliases = null)
-    {
+    public static function register(
+        string $username,
+        string $emailAddress,
+        string $rawPassword,
+        array $playerAliases = []
+    ) {
         $user = new self();
         $user->setUsername($username);
         $user->setEmailAddress($emailAddress);
         $user->setRawPassword($rawPassword);
         $user->setRoles(['ROLE_PLAYER']);
-        $user->setPlayerAliases(is_array($playerAliases) ? $playerAliases : [$username]);
+        $user->setPlayerAliases(array_merge($playerAliases, [$username]));
         $user->setIsEnabled(false);
 
         return $user;
