@@ -31,7 +31,7 @@ class GameType extends AbstractType
             [
                 'data_class' => Game::class,
                 'empty_data' => function (FormInterface $form) {
-                    return new Game(
+                    return Game::create(
                         $form->get('event')->getData(),
                         $form->get('site')->getData(),
                         $form->get('date')->getData(),

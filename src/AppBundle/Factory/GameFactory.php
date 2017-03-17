@@ -26,7 +26,7 @@ class GameFactory
 
         $info = $this->chess->parsePgn($pgn);
 
-        return new Game(
+        return Game::create(
             $info['header']['Event'],
             $info['header']['Site'],
             PgnDate::fromString($info['header']['Date']),

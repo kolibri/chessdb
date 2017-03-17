@@ -110,7 +110,7 @@ class ImportController
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $importPgn->setImported(true);
+            $importPgn->markAsImported();
             $this
                 ->importPgnRepository
                 ->save($importPgn, false);
