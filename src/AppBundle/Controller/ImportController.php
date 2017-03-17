@@ -13,6 +13,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @Route("/import")
@@ -24,7 +25,7 @@ class ImportController extends Controller
      * @Route("/pgn")
      * @Method({"GET", "POST"})
      */
-    public function pgnAction(Request $request)
+    public function pgnAction(Request $request): Response
     {
         $form = $this->createForm(ImportPgnType::class);
         $form->handleRequest($request);
@@ -47,7 +48,7 @@ class ImportController extends Controller
      * @Route("/game/{uuid}")
      * @Method({"GET", "POST"})
      */
-    public function gameAction(Request $request, ImportPgn $importPgn)
+    public function gameAction(Request $request, ImportPgn $importPgn): Response
     {
         $this->denyAccessUnlessGranted('import', $importPgn);
 
@@ -100,7 +101,7 @@ class ImportController extends Controller
      * @Route("/delete/pgn/{uuid}")
      * @Method({"POST"})
      */
-    public function deletePgnAction(ImportPgn $importPgn)
+    public function deletePgnAction(ImportPgn $importPgn): Response
     {
         $this->denyAccessUnlessGranted('delete', $importPgn);
         $this->importedPgnRepository()->remove($importPgn);
@@ -112,7 +113,7 @@ class ImportController extends Controller
      * @Route("/list")
      * @Method({"GET"})
      */
-    public function listAction()
+    public function listAction(): Response
     {
         return $this->render(
             'import/list.html.twig',
@@ -123,20 +124,14 @@ class ImportController extends Controller
         );
     }
 
-    /**
-     * @return ImportPgnRepository
-     */
-    private function importedPgnRepository()
+    private function importedPgnRepository(): ImportPgnRepository
     {
         return $this
             ->getDoctrine()
             ->getRepository(ImportPgn::class);
     }
 
-    /**
-     * @return GameRepository
-     */
-    private function gameRepository()
+    private function gameRepository(): GameRepository
     {
         return $this
             ->getDoctrine()

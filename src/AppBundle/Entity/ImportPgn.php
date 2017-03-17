@@ -6,9 +6,7 @@ use Ramsey\Uuid\Uuid;
 
 class ImportPgn
 {
-    /** @var Uuid */
     private $uuid;
-
     private $pgnString;
     private $imported;
     private $user;

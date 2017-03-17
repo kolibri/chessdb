@@ -19,7 +19,7 @@ class GameController
         $this->twig = $twig;
     }
 
-    public function list()
+    public function list(): Response
     {
         return new Response(
             $this
@@ -35,7 +35,7 @@ class GameController
         );
     }
 
-    public function show(Game $game)
+    public function show(Game $game): Response
     {
         return new Response(
             $this

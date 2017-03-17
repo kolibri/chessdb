@@ -20,8 +20,7 @@ class DropboxPgnRepository extends EntityRepository
     }
 
     /**
-     * @param User $user
-     * @return DropboxPgn[]
+     * @return DropboxPgn[]|null
      */
     public function findByUser(User $user): array
     {
@@ -34,6 +33,9 @@ class DropboxPgnRepository extends EntityRepository
     }
 
     // @todo dertimine result type
+    /**
+     * @return DropboxPgn[]|null
+     */
     public function getByImportPgn(ImportPgn $importPgn)
     {
         return $this

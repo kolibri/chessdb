@@ -7,9 +7,7 @@ use Ramsey\Uuid\Uuid;
 
 class User implements AdvancedUserInterface
 {
-    /** @var Uuid */
     private $uuid;
-
     private $username;
     private $password;
     private $roles = [];

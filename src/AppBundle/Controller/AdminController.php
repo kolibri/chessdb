@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @Route("/admin")
@@ -21,7 +22,7 @@ class AdminController extends Controller
      * @Route("/users")
      * @Method({"GET","POST"})
      */
-    public function usersAction(Request $request)
+    public function usersAction(Request $request): Response
     {
         $userRepository = $this->getDoctrine()
             ->getRepository(User::class);
