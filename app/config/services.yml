@@ -113,6 +113,12 @@ services:
       - '@app.repository.game'
       - '@twig'
 
+  app.controller.game:
+    class: AppBundle\Controller\GameController
+    arguments:
+      - '@app.repository.game'
+      - '@twig'
+
   app.repository.user:
     class: AppBundle\Entity\Repository\UserRepository
     factory: ['@doctrine', getRepository]

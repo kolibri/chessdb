@@ -3,36 +3,47 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Game;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use AppBundle\Entity\Repository\GameRepository;
+use Symfony\Component\HttpFoundation\Response;
 
-/**
- * @Route("/game")
- */
-class GameController extends Controller
+class GameController
 {
-    /**
-     * @Route("/list")
-     * @Method({"GET"})
-     */
-    public function listAction()
+    private $gameRepository;
+    private $twig;
+
+    public function __construct(
+        GameRepository $gameRepository,
+        \Twig_Environment $twig
+    ) {
+        $this->gameRepository = $gameRepository;
+        $this->twig = $twig;
+    }
+
+    public function list()
     {
-        return $this->render(
-            'game/list.html.twig',
-            ['games' => $this->getDoctrine()->getRepository(Game::class)->findAll()]
+        return new Response(
+            $this
+                ->twig
+                ->render(
+                    'game/list.html.twig',
+                    [
+                        'games' => $this
+                            ->gameRepository
+                            ->findAll(),
+                    ]
+                )
         );
     }
 
-    /**
-     * @Route("/show/{uuid}")
-     * @Method({"GET"})
-     */
-    public function showAction(Game $game)
+    public function show(Game $game)
     {
-        return $this->render(
-            'game/show.html.twig',
-            ['game' => $game]
+        return new Response(
+            $this
+                ->twig
+                ->render(
+                    'game/show.html.twig',
+                    ['game' => $game]
+                )
         );
     }
 }

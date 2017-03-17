@@ -37,3 +37,15 @@ app_player_versus:
   defaults:
     _controller: app.controller.player:versus
   methods: GET
+
+app_game_list:
+  path: /{_locale}/game/list
+  defaults:
+    _controller: app.controller.game:list
+  methods: GET
+
+app_game_show:
+  path: /{_locale}/game/show/{uuid}
+  defaults:
+    _controller: app.controller.game:show
+  methods: GET
