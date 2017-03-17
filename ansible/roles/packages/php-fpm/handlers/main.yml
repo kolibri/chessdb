@@ -1,0 +1,5 @@
+---
+- name: restart fpm
+  service:
+    name: php7.0-fpm
+    enabled: true

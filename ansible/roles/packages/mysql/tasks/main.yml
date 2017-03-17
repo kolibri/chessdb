@@ -1,0 +1,24 @@
+---
+- name: ensure mysql packages installed
+  apt:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - mysql-server
+    - mysql-client
+    - python-mysqldb
+
+- name: ensure mysql started and enabled
+  service:
+    name: mysql
+    state: started
+    enabled: true
+
+- name: ensure bind-address is set
+  ini_file:
+    dest: /etc/my.cnf
+    section: mysqld
+    option: bind-address
+    value: 0.0.0.0
+    mode: 0644
+  notify: restart mysql

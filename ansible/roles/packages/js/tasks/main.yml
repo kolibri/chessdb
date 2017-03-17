@@ -1,0 +1,29 @@
+---
+#- name: ensure yarn repo key exists
+#  apt_key:
+#    url: "https://dl.yarnpkg.com/debian/pubkey.gpg"
+#    state: present
+#
+#- name: ensure yarn repository exists
+#  apt_repository:
+#    repo: deb https://dl.yarnpkg.com/debian/ stable main
+#    state: present
+
+- name: ensure packages installed
+  apt:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - nodejs
+    - npm
+
+- name: link nodejs to node
+  file:
+    src: /usr/bin/nodejs
+    dest: /usr/bin/node
+    state: link
+
+- name: install npm packages
+  npm:
+    name: gulp-cli
+    global: true

@@ -1,0 +1,20 @@
+---
+- name: ensure xdebug installed
+  apt:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - php-xdebug
+
+- name: copy xdebug script
+  copy:
+    src: xdebug.sh
+    dest: /usr/local/bin/xdebug
+    mode: 0755
+
+- name: ensure php.ini cli settings for xdebug.
+  lineinfile:
+    dest: "/etc/php/7.0/cli/php.ini"
+    line: "{{ item.key }}='{{ item.value }}'"
+    regexp: "^{{ item.key }}.*$"
+  with_dict: "{{ php_xdebug_php_ini }}"
