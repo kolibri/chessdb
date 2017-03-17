@@ -57,8 +57,8 @@ class Game
         string $black,
         string $result,
         array $moves,
-        ImportPgn $originalPgn = null)
-    {
+        ImportPgn $originalPgn = null
+    ) {
         return new self($event, $site, $date, $round, $white, $black, $result, $moves, $originalPgn);
     }
 
