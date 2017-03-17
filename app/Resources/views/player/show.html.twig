@@ -11,7 +11,7 @@
 {% block content %}
     <section class="vs">
         {% for player2 in players if player2 != player %}
-            <a href="{{ path('app_player_versus', {'player1': player.username, 'player2': player2.username, '_locale': 'x'}) }}">
+            <a href="{{ path('app_player_versus', {'player1': player.username, 'player2': player2.username}) }}">
                 {{ player2.username }}
             </a>
         {% endfor %}
