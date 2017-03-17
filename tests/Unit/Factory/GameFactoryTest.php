@@ -2,18 +2,18 @@
 
 namespace Tests\AppBundle\Factory;
 
-use AppBundle\Adapter\ChessAdapter;
+use AppBundle\PgnParser\PgnParser;
 use AppBundle\Entity\Game;
 use AppBundle\Entity\ImportPgn;
-use AppBundle\Entity\User;
 use AppBundle\Factory\GameFactory;
+use PHPUnit\Framework\TestCase;
 
-class GameFactoryTest extends \PHPUnit_Framework_TestCase
+class GameFactoryTest extends TestCase
 {
     public function testCreateFromImportedPgn()
     {
-        /** @var ChessAdapter|\PHPUnit_Framework_MockObject_MockObject $chessMock */
-        $chessMock = $this->createMock(ChessAdapter::class);
+        /** @var PgnParser|\PHPUnit_Framework_MockObject_MockObject $chessMock */
+        $chessMock = $this->createMock(PgnParser::class);
         $chessMock->expects($this->once())
             ->method('validatePgn')
             ->willReturn(true);
