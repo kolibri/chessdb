@@ -10,7 +10,7 @@ use Doctrine\ORM\EntityRepository;
 
 class ImportPgnRepository extends EntityRepository
 {
-    public function save(ImportPgn $importedPgn, $flush = true)
+    public function save(ImportPgn $importedPgn, bool $flush = true)
     {
         $entityManager = $this->getEntityManager();
         $entityManager->persist($importedPgn);
@@ -20,6 +20,9 @@ class ImportPgnRepository extends EntityRepository
         }
     }
 
+    /**
+     * @return ImportPgn[]|null
+     */
     public function findUnimportedByUser(User $user)
     {
         return $this
@@ -32,7 +35,7 @@ class ImportPgnRepository extends EntityRepository
             ->execute();
     }
 
-    public function remove(ImportPgn $importPgn, $flush = true)
+    public function remove(ImportPgn $importPgn, bool $flush = true)
     {
         $mananger = $this->getEntityManager();
 

@@ -23,7 +23,7 @@ class LeaderboardController
         $this->twig = $twig;
     }
 
-    public function show($sortBy = 'won', $sortAsc = false)
+    public function show(string $sortBy = 'won', bool $sortAsc = false): Response
     {
         /** @var User[] $users */
         $users = $this

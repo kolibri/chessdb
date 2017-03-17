@@ -48,7 +48,7 @@ class DropboxController
         $this->twig = $twig;
     }
 
-    public function list()
+    public function list(): Response
     {
         if (null === $this->dropBoxAccessTokenStorage->get()) {
             return new RedirectResponse($this->router->generate('app_dropbox_authstart'));
@@ -92,7 +92,7 @@ class DropboxController
         );
     }
 
-    public function import(Request $request, $path)
+    public function import(Request $request, string $path): Response
     {
         $client = $this->getClient();
 
@@ -136,7 +136,7 @@ class DropboxController
         );
     }
 
-    public function authStart()
+    public function authStart(): Response
     {
         return new RedirectResponse(
             $this
@@ -145,7 +145,7 @@ class DropboxController
         );
     }
 
-    public function authFinish(Request $request)
+    public function authFinish(Request $request): Response
     {
         $this
             ->dropBoxAuthHelper
@@ -158,7 +158,7 @@ class DropboxController
         );
     }
 
-    private function getClient()
+    private function getClient(): \AppBundle\Dropbox\Client
     {
         $dropboxClient = new Client(
             $this->dropBoxAccessTokenStorage->get(),

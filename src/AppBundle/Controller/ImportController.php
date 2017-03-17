@@ -24,6 +24,7 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
  */
 class ImportController
 {
+
     private $gameRepository;
     private $importPgnRepository;
     private $gameFactory;
@@ -56,7 +57,7 @@ class ImportController
         $this->twig = $twig;
     }
 
-    public function pgn(Request $request)
+    public function pgn(Request $request): Response
     {
         $form = $this->formFactory->create(ImportPgnType::class);
         $form->handleRequest($request);
@@ -82,7 +83,8 @@ class ImportController
         );
     }
 
-    public function game(Request $request, ImportPgn $importPgn)
+
+    public function game(Request $request, ImportPgn $importPgn): Response
     {
         if (!$this->authorionChecker->isGranted('import', $importPgn)) {
             throw new AccessDeniedException();
@@ -139,7 +141,7 @@ class ImportController
         );
     }
 
-    public function deletePgn(ImportPgn $importPgn)
+    public function deletePgn(ImportPgn $importPgn): Response
     {
         if (!$this->authorionChecker->isGranted('delete', $importPgn)) {
             throw new AccessDeniedException();
@@ -151,7 +153,7 @@ class ImportController
         );
     }
 
-    public function list()
+    public function list(): Response
     {
         return new Response(
             $this->twig->render(

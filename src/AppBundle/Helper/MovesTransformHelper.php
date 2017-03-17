@@ -21,7 +21,7 @@ class MovesTransformHelper
         return trim($movesString);
     }
 
-    public static function moveStringToArray($moves): array
+    public static function moveStringToArray(string $moves): array
     {
         // Maybe it's better to build a dummy pgn, and throw it through chess.php...
         $movesArray = explode(' ', $moves);

@@ -18,6 +18,9 @@ class UserRepository extends EntityRepository
         }
     }
 
+    /**
+     * @return User
+     */
     public function findByName(string $username)
     {
         return $this
@@ -28,6 +31,9 @@ class UserRepository extends EntityRepository
             ->execute();
     }
 
+    /**
+     * @return User
+     */
     public function findByIsEnabled(bool $isEnabled = true)
     {
         return $this

@@ -6,7 +6,6 @@ namespace AppBundle\Entity;
 use AppBundle\Domain\PgnDate;
 use AppBundle\Helper\MovesTransformHelper;
 use Ramsey\Uuid\Uuid;
-use Symfony\Component\EventDispatcher\Event;
 
 class Game
 {
@@ -15,9 +14,7 @@ class Game
     const RESULT_DRAW = '1/2-1/2';
     const RESULT_UNFINISHED = '*';
 
-    /**@var Uuid */
     private $uuid;
-
     private $event;
     private $site;
     private $date;
@@ -135,7 +132,7 @@ class Game
         $this->moves = $moves;
     }
 
-    public function getOriginalPgn(): ImportPgn
+    public function getOriginalPgn()
     {
         return $this->originalPgn;
     }

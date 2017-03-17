@@ -4,30 +4,18 @@ namespace AppBundle\Domain;
 
 class PgnDate
 {
-    /** @var integer */
     private $year;
-
-    /** @var integer */
     private $month;
-
-    /** @var integer */
     private $day;
 
-    /**
-     * PgnDate constructor.
-     *
-     * @param int $year
-     * @param int $month
-     * @param int $day
-     */
-    private function __construct($year, $month, $day)
+    private function __construct(int $year, int $month, int $day)
     {
         $this->setYear($year);
         $this->setMonth($month);
         $this->setDay($day);
     }
 
-    public static function fromString($dateString)
+    public static function fromString(string $dateString): self
     {
         $regex = '/([\d\?]{4})\.([\d\?]{2})\.([\d\?]{2})/';
 
@@ -42,17 +30,11 @@ class PgnDate
         );
     }
 
-    /**
-     * @return int
-     */
-    public function getYear()
+    public function getYear(): int
     {
         return $this->year;
     }
 
-    /**
-     * @param int $year
-     */
     public function setYear($year)
     {
         if ('????' === $year) {
@@ -61,17 +43,11 @@ class PgnDate
         $this->year = (int) $year;
     }
 
-    /**
-     * @return int
-     */
-    public function getMonth()
+    public function getMonth(): int
     {
         return $this->month;
     }
 
-    /**
-     * @param int $month
-     */
     public function setMonth($month)
     {
         if ('??' === $month) {
@@ -85,17 +61,11 @@ class PgnDate
         $this->month = (int) $month;
     }
 
-    /**
-     * @return int
-     */
-    public function getDay()
+    public function getDay(): int
     {
         return $this->day;
     }
 
-    /**
-     * @param int $day
-     */
     public function setDay($day)
     {
         if ('??' === $day) {
@@ -108,7 +78,7 @@ class PgnDate
         $this->day = (int) $day;
     }
 
-    public function toString()
+    public function toString(): string
     {
         return sprintf(
             '%s.%s.%s',
