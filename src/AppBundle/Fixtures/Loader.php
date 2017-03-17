@@ -28,7 +28,6 @@ class Loader
             ->getAllMetadata();
 
         if (empty($metadata)) {
-
             return 1;
         }
         $tool = new SchemaTool($manager);
