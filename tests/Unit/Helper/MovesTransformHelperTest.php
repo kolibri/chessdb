@@ -3,8 +3,9 @@
 namespace Tests\AppBundle\Helper;
 
 use AppBundle\Helper\MovesTransformHelper;
+use PHPUnit\Framework\TestCase;
 
-class MovesTransformHelperTest extends \PHPUnit_Framework_TestCase
+class MovesTransformHelperTest extends TestCase
 {
     /** @dataProvider  moveStringArrayProvider */
     public function testTransformArrayToString(array $asArray, string $asString)

@@ -58,7 +58,6 @@ app_leaderboard_show:
     sortAsc: false
   methods: GET
 
-
 app_user_login:
   path: /{_locale}/login
   defaults:
@@ -103,7 +102,35 @@ app_dropbox_authfinish:
     _controller: app.controller.dropbox:authFinish
   methods: GET
 
+app_admin_users:
+  path: /{_locale}/admin/users
+  defaults:
+    _controller: app.controller.admin:users
+  methods: [GET, POST]
 
+app_import_pgn:
+  path: /{_locale}/import/pgn
+  defaults:
+    _controller: app.controller.import:pgn
+  methods: [GET, POST]
+
+app_import_game:
+  path: /{_locale}/import/game/{uuid}
+  defaults:
+    _controller: app.controller.import:game
+  methods: [GET, POST]
+
+app_import_deletepgn:
+  path: /{_locale}/import/delete/pgn/{uuid}
+  defaults:
+    _controller: app.controller.import:deletePgn
+  methods: POST
+
+app_import_list:
+  path: /{_locale}/import/list
+  defaults:
+    _controller: app.controller.import:list
+  methods: GET
 
 
 

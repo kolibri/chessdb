@@ -2,139 +2,173 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\Game;
 use AppBundle\Entity\ImportPgn;
 use AppBundle\Entity\Repository\GameRepository;
 use AppBundle\Entity\Repository\ImportPgnRepository;
+use AppBundle\Factory\GameFactory;
 use AppBundle\Form\Type\GameType;
 use AppBundle\Form\Type\ImportPgnType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\Finder\Exception\AccessDeniedException;
+use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 /**
- * @Route("/import")
  * @Security("has_role('ROLE_PLAYER')")
  */
-class ImportController extends Controller
+class ImportController
 {
-    /**
-     * @Route("/pgn")
-     * @Method({"GET", "POST"})
-     */
-    public function pgnAction(Request $request): Response
+
+    private $gameRepository;
+    private $importPgnRepository;
+    private $gameFactory;
+    private $tokenStorage;
+    private $objectMananger;
+    private $formFactory;
+    private $authorionChecker;
+    private $router;
+    private $twig;
+
+    public function __construct(
+        GameRepository $gameRepository,
+        ImportPgnRepository $importPgnRepository,
+        GameFactory $gameFactory,
+        TokenStorageInterface $tokenStorage,
+        ObjectManager $objectMananger,
+        FormFactoryInterface $formFactory,
+        AuthorizationCheckerInterface $authorionChecker,
+        UrlGeneratorInterface $router,
+        \Twig_Environment $twig
+    ) {
+        $this->gameRepository = $gameRepository;
+        $this->importPgnRepository = $importPgnRepository;
+        $this->gameFactory = $gameFactory;
+        $this->tokenStorage = $tokenStorage;
+        $this->objectMananger = $objectMananger;
+        $this->formFactory = $formFactory;
+        $this->authorionChecker = $authorionChecker;
+        $this->router = $router;
+        $this->twig = $twig;
+    }
+
+    public function pgn(Request $request): Response
     {
-        $form = $this->createForm(ImportPgnType::class);
+        $form = $this->formFactory->create(ImportPgnType::class);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
             /** @var ImportPgn $importPgn */
             $importPgn = $form->getData();
-            $this->importedPgnRepository()->save($importPgn);
+            $this->importPgnRepository->save($importPgn);
 
-            return $this->redirectToRoute('app_import_game', ['uuid' => $importPgn->getUuid()]);
+            return new RedirectResponse(
+                $this->router->generate(
+                    'app_import_game',
+                    ['uuid' => $importPgn->getUuid()]
+                )
+            );
         }
 
-        return $this->render(
-            'import/pgn.html.twig',
-            ['form' => $form->createView()]
+        return new Response(
+            $this->twig->render(
+                'import/pgn.html.twig',
+                ['form' => $form->createView()]
+            )
         );
     }
 
-    /**
-     * @Route("/game/{uuid}")
-     * @Method({"GET", "POST"})
-     */
-    public function gameAction(Request $request, ImportPgn $importPgn): Response
+
+    public function game(Request $request, ImportPgn $importPgn): Response
     {
-        $this->denyAccessUnlessGranted('import', $importPgn);
+        if (!$this->authorionChecker->isGranted('import', $importPgn)) {
+            throw new AccessDeniedException();
+        }
 
         if ($importPgn->isImported()) {
-            return $this->render(
-                'import/game_already_imported.html.twig',
-                ['game' => $this
-                    ->gameRepository()
-                    ->findOneByImportPgn($importPgn)
-                ]
+            return new Response(
+                $this->twig->render(
+                    'import/game_already_imported.html.twig',
+                    [
+                        'game' => $this
+                            ->gameRepository
+                            ->findOneByImportPgn($importPgn),
+                    ]
+                )
             );
         }
 
         $game = $this
-            ->get('app.import.pgn_string_importer')
+            ->gameFactory
             ->createFromImportPgn($importPgn);
-        $form = $this->createForm(GameType::class, $game);
+        $form = $this->formFactory->create(GameType::class, $game);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
             $importPgn->setImported(true);
             $this
-                ->importedPgnRepository()
+                ->importPgnRepository
                 ->save($importPgn, false);
             $this
-                ->gameRepository()
+                ->gameRepository
                 ->save($game, false);
 
             $this
-                ->getDoctrine()
-                ->getManager()
+                ->objectMananger
                 ->flush();
 
-            return $this->redirectToRoute(
-                'app_game_show',
-                ['uuid' => $game->getUuid()]
+            return new RedirectResponse(
+                $this->router->generate(
+                    'app_game_show',
+                    ['uuid' => $game->getUuid()]
+                )
             );
         }
 
-        return $this->render(
-            'import/game.html.twig',
-            [
-                'form' => $form->createView(),
-                'importedPgn' => $importPgn,
-            ]
+        return new Response(
+            $this->twig->render(
+                'import/game.html.twig',
+                [
+                    'form' => $form->createView(),
+                    'importedPgn' => $importPgn,
+                ]
+            )
         );
     }
 
-    /**
-     * @Route("/delete/pgn/{uuid}")
-     * @Method({"POST"})
-     */
-    public function deletePgnAction(ImportPgn $importPgn): Response
+    public function deletePgn(ImportPgn $importPgn): Response
     {
-        $this->denyAccessUnlessGranted('delete', $importPgn);
-        $this->importedPgnRepository()->remove($importPgn);
+        if (!$this->authorionChecker->isGranted('delete', $importPgn)) {
+            throw new AccessDeniedException();
+        }
+        $this->importPgnRepository->remove($importPgn);
 
-        return $this->redirectToRoute('app_import_list');
-    }
-
-    /**
-     * @Route("/list")
-     * @Method({"GET"})
-     */
-    public function listAction(): Response
-    {
-        return $this->render(
-            'import/list.html.twig',
-            ['games' => $this
-                ->importedPgnRepository()
-                ->findUnimportedByUser($this->getUser())
-            ]
+        return new RedirectResponse(
+            $this->router->generate('app_import_list')
         );
     }
 
-    private function importedPgnRepository(): ImportPgnRepository
+    public function list(): Response
     {
-        return $this
-            ->getDoctrine()
-            ->getRepository(ImportPgn::class);
-    }
-
-    private function gameRepository(): GameRepository
-    {
-        return $this
-            ->getDoctrine()
-            ->getRepository(Game::class);
+        return new Response(
+            $this->twig->render(
+                'import/list.html.twig',
+                [
+                    'games' => $this
+                        ->importPgnRepository
+                        ->findUnimportedByUser(
+                            $this
+                                ->tokenStorage
+                                ->getToken()
+                                ->getUser()
+                        ),
+                ]
+            )
+        );
     }
 }
