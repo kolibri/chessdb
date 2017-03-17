@@ -3,8 +3,9 @@
 namespace Tests\AppBundle\Domain\PgnDate;
 
 use AppBundle\Domain\PgnDate;
+use PHPUnit\Framework\TestCase;
 
-class PgnDateTest extends \PHPUnit_Framework_TestCase
+class PgnDateTest extends TestCase
 {
 
     /**
