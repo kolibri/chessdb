@@ -1,0 +1,5 @@
+---
+- name: ensure databases
+  mysql_db:
+    name: "{{ item }}"
+    state: present

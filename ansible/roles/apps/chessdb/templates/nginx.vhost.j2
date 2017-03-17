@@ -1,10 +1,10 @@
 server {
-    server_name {{ hostname }} www.{{ hostname }};
-    root {{ doc_root }};
+    server_name {{ chessdb_hostname }} www.{{ chessdb_hostname }};
+    root {{ chessdb_doc_root }};
 
     location / {
-        # try to serve file directly, fallback to default front controller ({{ front_controller }})
-        try_files $uri /{{ front_controller }}$is_args$args;
+        # try to serve file directly, fallback to default front controller ({{ chessdb_front_controller }})
+        try_files $uri /{{ chessdb_front_controller }}$is_args$args;
     }
     location ~ ^/(app_dev|config)\.php(/|$) {
         fastcgi_pass unix:/run/php/php7.0-fpm.sock;
@@ -38,12 +38,12 @@ server {
     ssl_certificate      /var/ssl/server.crt;
     ssl_certificate_key  /var/ssl/server.key;
 
-    server_name {{ hostname }} www.{{ hostname }};
-    root {{ doc_root }};
+    server_name {{ chessdb_hostname }} www.{{ chessdb_hostname }};
+    root {{ chessdb_doc_root }};
 
     location / {
-        # try to serve file directly, fallback to default front controller ({{ front_controller }})
-        try_files $uri /{{ front_controller }}$is_args$args;
+        # try to serve file directly, fallback to default front controller ({{ chessdb_front_controller }})
+        try_files $uri /{{ chessdb_front_controller }}$is_args$args;
     }
     location ~ ^/(app_dev|config)\.php(/|$) {
         fastcgi_pass unix:/run/php/php7.0-fpm.sock;

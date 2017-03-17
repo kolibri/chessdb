@@ -1,0 +1,48 @@
+---
+- name: ensure var dir exists
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ chessdb_var_dir }}"
+    - "{{ chessdb_var_dir }}/sessions"
+
+- name: ensure var dir is writable
+  acl:
+    path: "{{ chessdb_var_dir }}"
+    entity: "{{ item[0] }}"
+    etype: user
+    permissions: "rwx"
+    state: present
+    recursive: true
+    default: "{{ item[1] }}"
+  with_nested:
+    - ["{{ ansible_user_id }}", "www-data"]
+    - [false, true]
+
+- name: ensure vhost exists
+  template:
+    src: "nginx.vhost.j2"
+    dest: /etc/nginx/sites-available/default
+  notify:
+    - restart nginx
+    - restart fpm
+
+- name: ensure mysql user exists
+  include_role:
+    name: packages/mysql
+    tasks_from: users
+  with_items:
+    -
+      name: chessdb
+      password: "{{ lookup('env','APP_MYSQL_PASSWORD')|default('chessdb') }}"
+      host: '%'
+      priv: '*.*:ALL'
+
+- name: ensure mysql databases exists
+  include_role:
+    name: packages/mysql
+    tasks_from: databases
+  with_items:
+    - chessdb
+    - chessdb_test

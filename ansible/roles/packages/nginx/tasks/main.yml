@@ -1,0 +1,14 @@
+---
+- name: ensure nginx installed
+  apt:
+    name: "{{ item }}"
+    state: latest
+    update_cache: yes
+  with_items:
+    - nginx
+
+- name: ensure nginx is enabled
+  service:
+    name: nginx
+    enabled: true
+  notify: restart nginx

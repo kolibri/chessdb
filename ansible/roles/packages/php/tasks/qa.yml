@@ -1,0 +1,16 @@
+---
+- name: install php phar qa tools
+  get_url:
+    url: "{{ item.value }}"
+    dest: "/usr/local/bin/{{ item.key }}"
+    mode: 0755
+    force: true
+  with_dict:
+    behat: https://github.com/Behat/Behat/releases/download/v3.2.1/behat.phar
+    phpcbf: https://squizlabs.github.io/PHP_CodeSniffer/phpcbf.phar
+    phpcpd: https://phar.phpunit.de/phpcpd.phar
+    phpcs: https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar
+    phpmd: http://static.phpmd.org/php/latest/phpmd.phar
+    security-checker: http://get.sensiolabs.org/security-checker.phar
+    phpunit: https://phar.phpunit.de/phpunit.phar
+    symfony: https://symfony.com/installer

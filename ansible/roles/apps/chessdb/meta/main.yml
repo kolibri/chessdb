@@ -1,0 +1,8 @@
+---
+dependencies:
+  - packages/nginx
+  - packages/php
+  - packages/php-fpm
+  - packages/js
+  - packages/ssl
+  - packages/mysql

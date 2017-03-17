@@ -1,0 +1,15 @@
+---
+php_ini:
+  "error_reporting":            "E_ALL|E_STRICT"
+  "display_errors":             "On"
+  "date.timezone":              "{{ php_timezone|default('Europe/Berlin') }}"
+
+php_xdebug_install: false
+php_xdebug_php_ini:
+  "xdebug.idekey":              "PHPSTORM"
+  "xdebug.max_nesting_level":   "256"
+  "xdebug.remote_connect_back": "1"
+  "xdebug.remote_enable":       "1"
+  "xdebug.remote_port":         "9000"
+  "xdebug.scream":              "0"
+  "xdebug.show_local_vars":     "1"

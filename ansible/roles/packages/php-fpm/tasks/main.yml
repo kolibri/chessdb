@@ -1,0 +1,29 @@
+---
+- name: ensure fpm installed
+  apt:
+    name: php7.0-fpm
+    state: present
+
+- name: ensure php.ini settings
+  lineinfile:
+    dest: /etc/php/7.0/fpm/php.ini
+    line: '{{ item.key }}="{{ item.value }}"'
+    regexp: '^{{ item.key }}.*$'
+  with_dict: "{{ php_ini }}"
+  notify:
+    - restart fpm
+
+- name: ensure php.ini fpm settings for xdebug.
+  lineinfile:
+    dest: '/etc/php/7.0/fpm/php.ini'
+    line: '{{ item.key }}="{{ item.value }}"'
+    regexp: '^{{ item.key }}.*$'
+  with_dict: '{{ php_xdebug_php_ini }}'
+  notify: restart php-fpm
+  when: php_xdebug_install
+
+- name: ensure php fpm enabled
+  service:
+    name: php7.0-fpm
+    enabled: true
+  notify: restart fpm

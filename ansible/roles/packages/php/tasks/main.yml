@@ -1,0 +1,46 @@
+---
+- name: ensure dotdeb key exists
+  apt_key:
+    url: "http://www.dotdeb.org/dotdeb.gpg"
+    state: present
+
+- name: ensure dotdeb repo exists
+  apt_repository:
+    repo: deb http://packages.dotdeb.org jessie all
+    state: present
+
+- name: ensure php packages installed
+  apt:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - php7.0
+    - php7.0-cli
+    - php7.0-curl
+    - php7.0-gd
+    - php7.0-intl
+    - php7.0-xml
+    - php7.0-zip
+    - php7.0-mbstring
+    - php7.0-sqlite3
+    - php7.0-mysql
+
+- name: php.ini settings
+  lineinfile:
+    dest: /etc/php/7.0/cli/php.ini
+    line: "{{ item.key }}='{{ item.value }}'"
+    regexp: "^{{ item.key }}.*$"
+  with_dict: "{{ php_ini }}"
+
+- name: check if composer is installed
+  stat:
+    path: /usr/local/bin/composer
+  register: composer_state
+
+- include: composer.yml
+  when: composer_state.stat.exists == false
+
+- include: xdebug.yml
+  when: php_xdebug_install
+
+- include: qa.yml
