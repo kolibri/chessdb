@@ -28,7 +28,7 @@ class PgnDateTest extends TestCase
     {
         $this->expectException(\InvalidArgumentException::class);
 
-        $pgnDate = PgnDate::fromString($invalidDateString);
+        PgnDate::fromString($invalidDateString);
     }
 
     public function pgnDateProvider()

@@ -24,9 +24,9 @@ class PgnDate
         }
 
         return new self(
-            $matches[1],
-            $matches[2],
-            $matches[3]
+            (int) $matches[1],
+            (int) $matches[2],
+            (int) $matches[3]
         );
     }
 
