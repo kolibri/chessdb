@@ -105,7 +105,6 @@ services:
 #    class: AppBundle\Dropbox\Client
 #    factory: ['@app.dropbox.client_creator', createClient]
 
-
   app.controller.player:
     class: AppBundle\Controller\PlayerController
     arguments:
@@ -138,6 +137,17 @@ services:
       - '@security.token_storage'
       - '@twig'
 
+  app.controller.dropbox:
+    class: AppBundle\Controller\DropboxController
+    arguments:
+      - '@app.repository.dropbox_pgn'
+      - '@app.dropbox.access_token_store'
+      - '@app.dropbox.auth_helper'
+      - '@form.factory'
+      - '@router'
+      - '@security.token_storage'
+      - '@twig'
+
   app.repository.user:
     class: AppBundle\Entity\Repository\UserRepository
     factory: ['@doctrine', getRepository]
@@ -147,3 +157,8 @@ services:
     class: AppBundle\Entity\Repository\GameRepository
     factory: ['@doctrine', getRepository]
     arguments: ['AppBundle:Game']
+
+  app.repository.dropbox_pgn:
+    class: AppBundle\Entity\Repository\DropboxPgnRepository
+    factory: ['@doctrine', getRepository]
+    arguments: ['AppBundle:DropboxPgn']

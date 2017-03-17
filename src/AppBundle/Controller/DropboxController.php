@@ -2,35 +2,56 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Dropbox\AccessTokenStore;
 use AppBundle\Dropbox\AuthHelper;
 use AppBundle\Entity\DropboxPgn;
 use AppBundle\Entity\ImportPgn;
 use AppBundle\Entity\Repository\DropboxPgnRepository;
 use AppBundle\Form\Type\DropboxPgnType;
-use AppBundle\Form\Type\ImportPgnType;
 use Dropbox\Client;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
- * @Route("/dropbox")
  * @Security("has_role('ROLE_PLAYER')")
  */
-class DropboxController extends Controller
+class DropboxController
 {
-    /**
-     * @Route("/")
-     * @Method({"GET"})
-     */
-    public function listAction()
-    {
-        $tokenStorage = $this->get('app.dropbox.access_token_store');
+    private $dropboxPgnRepository;
+    private $dropBoxAccessTokenStorage;
+    private $dropBoxAuthHelper;
+    private $formFactory;
+    private $router;
+    private $tokenStorage;
+    private $twig;
 
-        if (null === $tokenStorage->get()) {
-            return $this->redirectToRoute('app_dropbox_authstart');
+    public function __construct(
+        DropboxPgnRepository $dropboxPgnRepository,
+        AccessTokenStore $dropBoxAccessTokenStorage,
+        AuthHelper $dropBoxAuthHelper,
+        FormFactoryInterface $formFactory,
+        UrlGeneratorInterface $router,
+        TokenStorageInterface $tokenStorage,
+        \Twig_Environment $twig
+    ) {
+        $this->dropboxPgnRepository = $dropboxPgnRepository;
+        $this->dropBoxAccessTokenStorage = $dropBoxAccessTokenStorage;
+        $this->dropBoxAuthHelper = $dropBoxAuthHelper;
+        $this->formFactory = $formFactory;
+        $this->router = $router;
+        $this->tokenStorage = $tokenStorage;
+        $this->twig = $twig;
+    }
+
+    public function list()
+    {
+        if (null === $this->dropBoxAccessTokenStorage->get()) {
+            return new RedirectResponse($this->router->generate('app_dropbox_authstart'));
         }
 
         $client = $this->getClient();
@@ -40,14 +61,14 @@ class DropboxController extends Controller
 
         /** @var DropboxPgn[] $importedGames */
         $importedGames = [];
-        foreach ($this->dropboxPgnRepository()->findByUser($this->getUser()) as $importedGame) {
+        foreach ($this->dropboxPgnRepository->findByUser($this->tokenStorage->getToken()->getUser()) as $importedGame) {
             $importedGames[$importedGame->getPath()] = $importedGame;
         }
 
         $pathsToImport = [];
         $imported = [];
         foreach ($files as $path) {
-            if (key_exists($path, $importedGames)) {
+            if (array_key_exists($path, $importedGames)) {
                 $imported[] = [
                     'path' => $path,
                     'dropboxPgn' => $importedGames[$path],
@@ -60,30 +81,28 @@ class DropboxController extends Controller
             }
         }
 
-        return $this->render(
-            'dropbox/list.html.twig',
-            [
-                'pathsToImport' => $pathsToImport,
-                'imported' => $imported,
-            ]
+        return new Response(
+            $this->twig->render(
+                'dropbox/list.html.twig',
+                [
+                    'pathsToImport' => $pathsToImport,
+                    'imported' => $imported,
+                ]
+            )
         );
     }
 
-    /**
-     * @Route("/import/{path}", requirements={"path"=".+"})
-     * @Method({"GET", "POST"})
-     */
-    public function importAction(Request $request, $path)
+    public function import(Request $request, $path)
     {
         $client = $this->getClient();
 
-        $form = $this->createForm(
+        $form = $this->formFactory->create(
             DropboxPgnType::class,
             new DropboxPgn(
                 $path,
                 new ImportPgn(
                     $client->getFileContent($path),
-                    $this->getUser()
+                    $this->tokenStorage->getToken()->getUser()
                 )
             )
         );
@@ -94,70 +113,58 @@ class DropboxController extends Controller
             /** @var DropboxPgn $dropboxPgn */
             $dropboxPgn = $form->getData();
             $this
-                ->dropboxPgnRepository()
+                ->dropboxPgnRepository
                 ->save($dropboxPgn);
 
-            return $this->redirectToRoute(
-                'app_import_game',
-                [
-                    'uuid' => $dropboxPgn
-                        ->getImportPgn()
-                        ->getUuid(),
-                ]
+            return new RedirectResponse(
+                $this->router->generate(
+                    'app_import_game',
+                    [
+                        'uuid' => $dropboxPgn
+                            ->getImportPgn()
+                            ->getUuid(),
+                    ]
+                )
             );
         }
 
-        return $this->render(
-            'dropbox/import.html.twig',
-            ['form' => $form->createView()]
+        return new Response(
+            $this->twig->render(
+                'dropbox/import.html.twig',
+                ['form' => $form->createView()]
+            )
         );
     }
 
-    /**
-     * @Route("/auth-start")
-     * @Method({"GET"})
-     */
-    public function authStartAction(Request $request)
+    public function authStart()
     {
-        $authUrl = $this->getAuthHelper()->getStartUrl();
-
-        return $this->redirect($authUrl);
+        return new RedirectResponse(
+            $this
+                ->dropBoxAuthHelper
+                ->getStartUrl()
+        );
     }
 
-    /**
-     * @Route("/auth-finish")
-     * @Method({"GET"})
-     */
-    public function authFinishAction(Request $request)
+    public function authFinish(Request $request)
     {
-        $this->getAuthHelper()->finish($request);
+        $this
+            ->dropBoxAuthHelper
+            ->finish($request);
 
-        return $this->redirectToRoute('app_dropbox_list');
-    }
-
-    /**
-     * @return AuthHelper
-     */
-    private function getAuthHelper()
-    {
-        return $this->get('app.dropbox.auth_helper');
+        return new RedirectResponse(
+            $this
+                ->router
+                ->generate('app_dropbox_list')
+        );
     }
 
     private function getClient()
     {
         $dropboxClient = new Client(
-            $this->get('app.dropbox.access_token_store')->get(),
+            $this->dropBoxAccessTokenStorage->get(),
             'chessdb'
         );
 
         return new \AppBundle\Dropbox\Client($dropboxClient);
-    }
-
-    /**
-     * @return DropboxPgnRepository
-     */
-    private function dropboxPgnRepository()
-    {
-        return $this->getDoctrine()->getRepository(DropboxPgn::class);
     }
 }

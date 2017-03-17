@@ -15,7 +15,7 @@ class AccessTokenStore
         $this->session = $session;
     }
 
-    public function get(): string
+    public function get()
     {
         return $this->session->get(self::TOKEN_NAME);
     }

@@ -2,7 +2,8 @@
 app_index:
   path: /
   defaults:
-    _controller: AppBundle:Default:index
+    _controller: FrameworkBundle:Redirect:redirect
+    route: app_homepage
   methods: GET
 
 app_login_check:
@@ -13,12 +14,11 @@ app_logout:
   path: /logout
   methods: GET
 
-# Then all localiced routes
-app:
-  resource: "@AppBundle/Controller/"
-  type:   annotation
-  prefix: "/{_locale}"
-
+app_homepage:
+  path: /{_locale}/
+  defaults:
+    _controller: FrameworkBundle:Template:template
+    template: default/homepage.html.twig
 
 app_player_list:
   path: /{_locale}/player
@@ -76,3 +76,41 @@ app_user_register:
   defaults:
     _controller: app.controller.user:register
   methods: [GET, POST]
+
+app_dropbox_list:
+  path: /{_locale}/dropbox
+  defaults:
+    _controller: app.controller.dropbox:list
+  methods: GET
+
+app_dropbox_import:
+  path: /{_locale}/dropbox/import/{path}
+  defaults:
+    _controller: app.controller.dropbox:import
+  requirements:
+    path: '.+'
+  methods: [GET, POST]
+
+app_dropbox_authstart:
+  path: /{_locale}/dropbox/auth-start
+  defaults:
+    _controller: app.controller.dropbox:authStart
+  methods: GET
+
+app_dropbox_authfinish:
+  path: /{_locale}/dropbox/auth-finish
+  defaults:
+    _controller: app.controller.dropbox:authFinish
+  methods: GET
+
+
+
+
+
+# Then all localiced routes
+app:
+  resource: "@AppBundle/Controller/"
+  type:   annotation
+  prefix: "/{_locale}"
+
+

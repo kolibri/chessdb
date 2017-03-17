@@ -16,12 +16,12 @@ class AuthTokenStore implements ValueStore
         $this->session = $session;
     }
 
-    public function get(): string
+    public function get()
     {
         return $this->session->get(self::TOKEN_NAME);
     }
 
-    public function set(string $value)
+    public function set($value)
     {
         $this->session->set(self::TOKEN_NAME, $value);
     }
