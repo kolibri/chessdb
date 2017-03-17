@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\AppBundle\Factory;
 
@@ -34,9 +34,9 @@ class GameFactoryTest extends \PHPUnit_Framework_TestCase
 
         $gameFactory = new GameFactory($chessMock);
 
-        $game = $gameFactory->createFromImportPgn(
-            new ImportPgn($this->getSamplePgn(), new User())
-        );
+        $pgnMock = $this->createMock(ImportPgn::class);
+
+        $game = $gameFactory->createFromImportPgn($pgnMock);
 
         $this->assertInstanceOf(Game::class, $game);
         $this->assertEquals('event', $game->getEvent());

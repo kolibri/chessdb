@@ -1,5 +1,4 @@
-<?php
-
+<?php declare(strict_types = 1);
 
 namespace AppBundle\Validator\Constraints;
 
@@ -9,13 +8,8 @@ use Symfony\Component\Validator\ConstraintValidator;
 
 class PgnValidator extends ConstraintValidator
 {
-    /** @var ChessAdapter */
     private $chess;
 
-    /**
-     * PgnValidator constructor.
-     * @param ChessAdapter $chess
-     */
     public function __construct(ChessAdapter $chess)
     {
         $this->chess = $chess;

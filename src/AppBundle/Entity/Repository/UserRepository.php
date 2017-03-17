@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 
 namespace AppBundle\Entity\Repository;
@@ -18,11 +18,17 @@ class UserRepository extends EntityRepository
         }
     }
 
-    /**
-     * @param bool $isEnabled
-     * @return User[]|null
-     */
-    public function findByIsEnabled($isEnabled = true)
+    public function findByName(string $username)
+    {
+        return $this
+            ->createQueryBuilder('u')
+            ->where('u.username = :username')
+            ->setParameter('username', $username)
+            ->getQuery()
+            ->execute();
+    }
+
+    public function findByIsEnabled(bool $isEnabled = true)
     {
         return $this
             ->createQueryBuilder('u')

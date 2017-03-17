@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\AppBundle\Domain\PgnDate;
 
@@ -8,14 +8,9 @@ class PgnDateTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
-     * @param $dateString
-     * @param $year
-     * @param $month
-     * @param $day
-     *
      * @dataProvider pgnDateProvider
      */
-    public function testCreateNewPgnDate($dateString, $year, $month, $day)
+    public function testCreateNewPgnDate($dateString, int $year, int $month, int $day)
     {
         $pgnDate = PgnDate::fromString($dateString);
 
@@ -26,11 +21,9 @@ class PgnDateTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param $invalidDateString
-     *
      * @dataProvider invalidPgnDateProvider
      */
-    public function testInvalidDateFormats($invalidDateString)
+    public function testInvalidDateFormats(string $invalidDateString)
     {
         $this->expectException(\InvalidArgumentException::class);
 

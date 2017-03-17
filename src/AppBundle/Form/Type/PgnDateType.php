@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace AppBundle\Form\Type;
 
@@ -14,7 +14,7 @@ class PgnDateType extends AbstractType
         $builder->addModelTransformer(new PgnDateTransformer());
     }
 
-    public function getParent()
+    public function getParent(): string
     {
         return TextType::class;
     }

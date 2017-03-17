@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\AppBundle\Helper;
 
@@ -7,7 +7,7 @@ use AppBundle\Helper\MovesTransformHelper;
 class MovesTransformHelperTest extends \PHPUnit_Framework_TestCase
 {
     /** @dataProvider  moveStringArrayProvider */
-    public function testTransformArrayToString($asArray, $asString)
+    public function testTransformArrayToString(array $asArray, string $asString)
     {
         $transformHelper = new MovesTransformHelper();
 
@@ -17,12 +17,8 @@ class MovesTransformHelperTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * @dataProvider  moveStringArrayProvider
-     * @param $asArray
-     * @param $asString
-     */
-    public function testTransformStringToArray($asArray, $asString)
+    /** @dataProvider  moveStringArrayProvider */
+    public function testTransformStringToArray(array $asArray, string $asString)
     {
         $transformHelper = new MovesTransformHelper();
 

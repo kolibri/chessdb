@@ -1,66 +1,68 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\Game;
+use AppBundle\Entity\Repository\GameRepository;
+use AppBundle\Entity\Repository\UserRepository;
 use AppBundle\Entity\User;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\HttpFoundation\Response;
 
-/**
- * @Route("/leaderboard")
- */
-class LeaderboardController extends Controller
+class LeaderboardController
 {
-    /**
-     * @Route("/{sortBy}/{sortAsc}",
-     *      defaults={
-     *          "sortBy": "won",
-     *          "sortAsc": false
-     * }
-     * )
-     * @Method({"GET"})
-     */
-    public function showAction($sortBy = 'won', $sortAsc = false)
+    private $userRepository;
+    private $gameRepository;
+    private $twig;
+
+    public function __construct(
+        UserRepository $userRepository,
+        GameRepository $gameRepository,
+        \Twig_Environment $twig
+    ) {
+        $this->userRepository = $userRepository;
+        $this->gameRepository = $gameRepository;
+        $this->twig = $twig;
+    }
+
+    public function show($sortBy = 'won', $sortAsc = false)
     {
-        $users = $this->getDoctrine()->getRepository(User::class)->findAll();
-        $gameRepository = $this
-            ->getDoctrine()
-            ->getRepository(Game::class);
+        /** @var User[] $users */
+        $users = $this
+            ->userRepository
+            ->findAll();
 
         $leaderboard = [];
         foreach ($users as $user) {
             $leaderboard[] = [
                 'player' => $user->getUsername(),
-                'games' => count($gameRepository->findByPlayer($user->getUsername())),
-                'won' => count($gameRepository->findWonByPlayer($user->getUsername())),
-                'lost' => count($gameRepository->findLostByPlayer($user->getUsername())),
-                'draw' => count($gameRepository->findDrawByPlayer($user->getUsername()))
+                'games' => count($this->gameRepository->findByPlayer($user)),
+                'won' => count($this->gameRepository->findWonByPlayer($user)),
+                'lost' => count($this->gameRepository->findLostByPlayer($user)),
+                'draw' => count($this->gameRepository->findDrawByPlayer($user)),
             ];
         }
 
-        if (!in_array($sortBy, array_keys($leaderboard))) {
-            throw new \InvalidArgumentException(sprintf('Cannot sort by "%s" as no such key exists', $sortBy));
-        }
+        uasort(
+            $leaderboard,
+            function ($a, $b) use ($sortBy, $sortAsc) {
+                if ($a[$sortBy] == $b[$sortBy]) {
+                    return 0;
+                }
 
-        uasort($leaderboard, function ($a, $b) use ($sortBy, $sortAsc) {
-            if ($a[$sortBy] == $b[$sortBy]) {
-                return 0;
+                return $a[$sortBy] < $b[$sortBy] ?
+                    ($sortAsc ? -1 : 1) :
+                    ($sortAsc ? 1 : -1);
             }
+        );
 
-            return $a[$sortBy] < $b[$sortBy] ?
-                ($sortAsc ? -1 : 1) :
-                ($sortAsc ? 1 : -1);
-        });
-
-        return $this->render(
-            'leaderboard/show.html.twig',
-            [
-                'leaderboard' => $leaderboard,
-                'sortBy' => $sortBy,
-                'sortAsc' => $sortAsc,
-            ]
+        return new Response(
+            $this->twig->render(
+                'leaderboard/show.html.twig',
+                [
+                    'leaderboard' => $leaderboard,
+                    'sortBy' => $sortBy,
+                    'sortAsc' => $sortAsc,
+                ]
+            )
         );
     }
 }

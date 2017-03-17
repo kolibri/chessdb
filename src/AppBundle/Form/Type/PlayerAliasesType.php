@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace AppBundle\Form\Type;
 
@@ -14,7 +14,7 @@ class PlayerAliasesType extends AbstractType
         $builder->addModelTransformer(new PlayerAliasesTransformer());
     }
 
-    public function getParent()
+    public function getParent(): string
     {
         return TextType::class;
     }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace AppBundle\Controller;
 
@@ -67,7 +67,7 @@ class UserController extends Controller
                 'gamesByResult' => $this
                     ->getDoctrine()
                     ->getRepository(Game::class)
-                    ->findByPlayerGroupByResult($user->getUsername()),
+                    ->findByPlayerGroupByResult($user),
             ]
         );
     }

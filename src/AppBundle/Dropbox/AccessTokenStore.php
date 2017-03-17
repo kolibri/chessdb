@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace AppBundle\Dropbox;
 
@@ -8,24 +8,19 @@ class AccessTokenStore
 {
     const TOKEN_NAME = 'dropbox-access-token';
 
-    /** @var SessionInterface */
     private $session;
 
-    /**
-     * DropboxValueStore constructor.
-     * @param $session
-     */
-    public function __construct($session)
+    public function __construct(SessionInterface $session)
     {
         $this->session = $session;
     }
 
-    public function get()
+    public function get(): string
     {
         return $this->session->get(self::TOKEN_NAME);
     }
 
-    public function set($value)
+    public function set(string $value)
     {
         $this->session->set(self::TOKEN_NAME, $value);
     }

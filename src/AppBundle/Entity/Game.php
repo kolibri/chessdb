@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 
 namespace AppBundle\Entity;
@@ -6,6 +6,7 @@ namespace AppBundle\Entity;
 use AppBundle\Domain\PgnDate;
 use AppBundle\Helper\MovesTransformHelper;
 use Ramsey\Uuid\Uuid;
+use Symfony\Component\EventDispatcher\Event;
 
 class Game
 {
@@ -17,41 +18,24 @@ class Game
     /**@var Uuid */
     private $uuid;
 
-    /** @var string */
     private $event;
-
-    /** @var string */
     private $site;
-
-    /** @var PgnDate */
     private $date;
-
-    /** @var string */
     private $round;
-
-    /** @var string */
     private $white;
-
-    /** @var string */
     private $black;
-
-    /** @var string */
     private $result;
-
-    /** @var array */
     private $moves;
-
-    /** @var ImportPgn */
     private $originalPgn;
 
     public function __construct(
-        $event,
-        $site,
+        string $event,
+        string $site,
         PgnDate $date,
-        $round,
-        $white,
-        $black,
-        $result,
+        string $round,
+        string $white,
+        string $black,
+        string $result,
         array $moves,
         ImportPgn $originalPgn = null
     ) {
@@ -66,159 +50,102 @@ class Game
         $this->originalPgn = $originalPgn;
     }
 
-    /**
-     * @return Uuid
-     */
-    public function getUuid()
+    public function getUuid(): Uuid
     {
         return $this->uuid;
     }
 
-    /**
-     * @return string
-     */
-    public function getEvent()
+    public function getEvent(): string
     {
         return $this->event;
     }
 
-    /**
-     * @param string $event
-     */
-    public function setEvent($event)
+    public function setEvent(string $event)
     {
         $this->event = $event;
     }
 
-    /**
-     * @return string
-     */
-    public function getSite()
+    public function getSite(): string
     {
         return $this->site;
     }
 
-    /**
-     * @param string $site
-     */
-    public function setSite($site)
+    public function setSite(string $site)
     {
         $this->site = $site;
     }
 
-    /**
-     * @return PgnDate
-     */
-    public function getDate()
+    public function getDate(): PgnDate
     {
         return $this->date;
     }
 
-    /**
-     * @param PgnDate $date
-     */
     public function setDate(PgnDate $date)
     {
         $this->date = $date;
     }
 
-    /**
-     * @return string
-     */
-    public function getRound()
+    public function getRound(): string
     {
         return $this->round;
     }
 
-    /**
-     * @param string $round
-     */
-    public function setRound($round)
+    public function setRound(string $round)
     {
         $this->round = $round;
     }
 
-    /**
-     * @return string
-     */
-    public function getWhite()
+    public function getWhite(): string
     {
         return $this->white;
     }
 
-    /**
-     * @param string $white
-     */
-    public function setWhite($white)
+    public function setWhite(string $white)
     {
         $this->white = $white;
     }
 
-    /**
-     * @return string
-     */
-    public function getBlack()
+    public function getBlack(): string
     {
         return $this->black;
     }
 
-    /**
-     * @param string $black
-     */
-    public function setBlack($black)
+    public function setBlack(string $black)
     {
         $this->black = $black;
     }
 
-    /**
-     * @return string
-     */
-    public function getResult()
+    public function getResult(): string
     {
         return $this->result;
     }
 
-    /**
-     * @param string $result
-     */
-    public function setResult($result)
+    public function setResult(string $result)
     {
         $this->result = $result;
     }
 
-    /**
-     * @return array
-     */
-    public function getMoves()
+    public function getMoves(): array
     {
         return $this->moves;
     }
 
-    /**
-     * @param array $moves
-     */
     public function setMoves(array $moves)
     {
         $this->moves = $moves;
     }
 
-    /**
-     * @return ImportPgn
-     */
-    public function getOriginalPgn()
+    public function getOriginalPgn(): ImportPgn
     {
         return $this->originalPgn;
     }
 
-    /**
-     * @param ImportPgn $originalPgn
-     */
-    public function setOriginalPgn($originalPgn)
+    public function setOriginalPgn(ImportPgn $originalPgn)
     {
         $this->originalPgn = $originalPgn;
     }
 
-    public function getPgn()
+    public function getPgn(): string
     {
         $format = <<<EOF
 [Event "%s"]

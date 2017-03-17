@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace AppBundle\Security;
 
@@ -13,7 +13,6 @@ class ImportPgnVoter extends Voter
     const IMPORT = 'import';
     const DELETE = 'delete';
 
-    /** @var AccessDecisionManagerInterface */
     private $decisionMaker;
 
     public function __construct(AccessDecisionManagerInterface $decisionMaker)
@@ -21,9 +20,9 @@ class ImportPgnVoter extends Voter
         $this->decisionMaker = $decisionMaker;
     }
 
-    protected function supports($attribute, $subject)
+    protected function supports($attribute, $subject): bool
     {
-        if (!in_array($attribute, [self::IMPORT, self::DELETE])) {
+        if (!in_array($attribute, [self::IMPORT, self::DELETE], true)) {
             return false;
         }
 
@@ -55,12 +54,12 @@ class ImportPgnVoter extends Voter
         throw new \LogicException('Voting ImportPgn failed. This should not happen!');
     }
 
-    private function canImport(ImportPgn $importPgn, User $user)
+    private function canImport(ImportPgn $importPgn, User $user): bool
     {
         return $user->getUuid() === $importPgn->getUser()->getUuid();
     }
 
-    private function canDelete(ImportPgn $importPgn, User $user)
+    private function canDelete(ImportPgn $importPgn, User $user): bool
     {
         return $this->canImport($importPgn, $user) and $importPgn->isImported() === false;
     }

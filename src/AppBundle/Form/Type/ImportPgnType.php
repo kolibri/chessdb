@@ -1,5 +1,4 @@
-<?php
-
+<?php declare(strict_types = 1);
 
 namespace AppBundle\Form\Type;
 
@@ -14,7 +13,6 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 class ImportPgnType extends AbstractType
 {
-    /** @var TokenStorage */
     private $securityTokenStorage;
 
     public function __construct(TokenStorage $securityTokenStorage)

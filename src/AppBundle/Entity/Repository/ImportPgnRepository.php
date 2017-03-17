@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 
 namespace AppBundle\Entity\Repository;
@@ -35,7 +35,7 @@ class ImportPgnRepository extends EntityRepository
     public function remove(ImportPgn $importPgn, $flush = true)
     {
         $mananger = $this->getEntityManager();
-        
+
         $dropboxPgns = $this
             ->getEntityManager()
             ->getRepository(DropboxPgn::class)
@@ -44,7 +44,7 @@ class ImportPgnRepository extends EntityRepository
         foreach ($dropboxPgns as $dropboxPgn) {
             $mananger->remove($dropboxPgn);
         }
-        
+
         $mananger->remove($importPgn);
         if ($flush) {
             $mananger->flush();

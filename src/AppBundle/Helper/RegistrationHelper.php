@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace AppBundle\Helper;
 
@@ -8,25 +8,16 @@ use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 
 class RegistrationHelper
 {
-    /** @var EncoderFactoryInterface */
     private $encoderFactory;
-
-    /** @var UserRepository */
     private $repository;
 
-    /**
-     * RegistrationHandler constructor.
-     *
-     * @param EncoderFactoryInterface $encoderFactory
-     * @param UserRepository $repository
-     */
     public function __construct(EncoderFactoryInterface $encoderFactory, UserRepository $repository)
     {
         $this->encoderFactory = $encoderFactory;
         $this->repository = $repository;
     }
 
-    public function encodePassword(User $user)
+    public function encodePassword(User $user): User
     {
         $encoder = $this
             ->encoderFactory

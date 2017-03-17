@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace AppBundle\Entity;
 
@@ -8,55 +8,36 @@ class DropboxPgn
 {
     /** @var Uuid */
     private $uuid;
-
-    /** @var string */
     private $path;
-
-    /** @var ImportPgn */
     private $importPgn;
 
-    public function __construct($path, ImportPgn $importPgn)
+    public function __construct(string $path, ImportPgn $importPgn)
     {
         $this->path = $path;
         $this->importPgn = $importPgn;
     }
 
-    /**
-     * @return Uuid
-     */
-    public function getUuid()
+    public function getUuid(): Uuid
     {
         return $this->uuid;
     }
 
-    /**
-     * @return string
-     */
-    public function getPath()
+    public function getPath(): string
     {
         return $this->path;
     }
 
-    /**
-     * @param string $path
-     */
-    public function setPath($path)
+    public function setPath(string $path)
     {
         $this->path = $path;
     }
 
-    /**
-     * @return ImportPgn
-     */
-    public function getImportPgn()
+    public function getImportPgn(): ImportPgn
     {
         return $this->importPgn;
     }
 
-    /**
-     * @param ImportPgn $importPgn
-     */
-    public function setImportPgn($importPgn)
+    public function setImportPgn(ImportPgn $importPgn)
     {
         $this->importPgn = $importPgn;
     }
