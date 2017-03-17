@@ -33,7 +33,7 @@ app_player_show:
   methods: GET
 
 app_player_versus:
-  path: /{_locale}/{player1}/vs/{player2}
+  path: /{_locale}/player/{player1}/vs/{player2}
   defaults:
     _controller: app.controller.player:versus
   methods: GET
