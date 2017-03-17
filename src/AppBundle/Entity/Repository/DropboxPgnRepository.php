@@ -32,7 +32,6 @@ class DropboxPgnRepository extends EntityRepository
             ->execute();
     }
 
-    // @todo dertimine result type
     /**
      * @return DropboxPgn[]|null
      */

@@ -2,7 +2,7 @@
 
 namespace Tests\AppBundle\Factory;
 
-use AppBundle\PgnParser\PgnParser;
+use AppBundle\PgnParser\PgnParserInterface;
 use AppBundle\Entity\Game;
 use AppBundle\Entity\ImportPgn;
 use AppBundle\Factory\GameFactory;
@@ -12,8 +12,8 @@ class GameFactoryTest extends TestCase
 {
     public function testCreateFromImportedPgn()
     {
-        /** @var PgnParser|\PHPUnit_Framework_MockObject_MockObject $chessMock */
-        $chessMock = $this->createMock(PgnParser::class);
+        /** @var PgnParserInterface|\PHPUnit_Framework_MockObject_MockObject $chessMock */
+        $chessMock = $this->createMock(PgnParserInterface::class);
         $chessMock->expects($this->once())
             ->method('validatePgn')
             ->willReturn(true);

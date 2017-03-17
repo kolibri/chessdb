@@ -1,6 +1,6 @@
 services:
   app.pgn_parser.ryanhs_chess_adapter:
-    class: AppBundle\PgnParser\RyanhsChessPgnParser
+    class: AppBundle\PgnParserInterface\RyanhsChessPgnParserInterface
     arguments: ['@chessphp.chess']
 
   app.import.pgn_string_importer:

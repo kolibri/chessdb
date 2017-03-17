@@ -2,7 +2,7 @@
 
 namespace AppBundle\PgnParser;
 
-interface PgnParser
+interface PgnParserInterface
 {
     /**
      * @param string $pgn

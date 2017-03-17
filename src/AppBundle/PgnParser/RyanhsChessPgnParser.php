@@ -4,7 +4,7 @@ namespace AppBundle\PgnParser;
 
 use Ryanhs\Chess\Chess;
 
-class RyanhsChessPgnParser implements PgnParser
+class RyanhsChessPgnParserInterface implements PgnParserInterface
 {
     /**
      * @param string $pgn

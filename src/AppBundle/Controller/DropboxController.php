@@ -57,7 +57,6 @@ class DropboxController
         $client = $this->getClient();
 
         $files = $client->getFilePaths('/pgn', '/.*\.pgn/');
-        $games = [];
 
         /** @var DropboxPgn[] $importedGames */
         $importedGames = [];

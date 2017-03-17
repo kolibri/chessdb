@@ -2,7 +2,7 @@
 
 namespace AppBundle\Factory;
 
-use AppBundle\PgnParser\PgnParser;
+use AppBundle\PgnParser\PgnParserInterface;
 use AppBundle\Domain\PgnDate;
 use AppBundle\Entity\Game;
 use AppBundle\Entity\ImportPgn;
@@ -11,7 +11,7 @@ class GameFactory
 {
     private $chess;
 
-    public function __construct(PgnParser $chess)
+    public function __construct(PgnParserInterface $chess)
     {
         $this->chess = $chess;
     }

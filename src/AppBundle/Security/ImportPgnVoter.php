@@ -61,6 +61,6 @@ class ImportPgnVoter extends Voter
 
     private function canDelete(ImportPgn $importPgn, User $user): bool
     {
-        return $this->canImport($importPgn, $user) and $importPgn->isImported() === false;
+        return $this->canImport($importPgn, $user) && $importPgn->isImported() === false;
     }
 }
