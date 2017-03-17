@@ -113,6 +113,13 @@ services:
       - '@app.repository.game'
       - '@twig'
 
+  app.controller.leaderboard:
+    class: AppBundle\Controller\LeaderboardController
+    arguments:
+      - '@app.repository.user'
+      - '@app.repository.game'
+      - '@twig'
+
   app.controller.game:
     class: AppBundle\Controller\GameController
     arguments:

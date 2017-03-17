@@ -49,3 +49,11 @@ app_game_show:
   defaults:
     _controller: app.controller.game:show
   methods: GET
+
+app_leaderboard_show:
+  path: /{_locale}/leaderboard/{sortBy}/{sortAsc}
+  defaults:
+    _controller: app.controller.leaderboard:show
+    sortBy: won
+    sortAsc: false
+  methods: GET
