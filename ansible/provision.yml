@@ -191,5 +191,6 @@
           phpcs: https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar
           phpmd: http://static.phpmd.org/php/latest/phpmd.phar
           security-checker: http://get.sensiolabs.org/security-checker.phar
+          phpunit: https://phar.phpunit.de/phpunit.phar
           symfony: https://symfony.com/installer
   become: true
