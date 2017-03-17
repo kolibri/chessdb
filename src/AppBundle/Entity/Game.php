@@ -1,12 +1,10 @@
 <?php declare(strict_types = 1);
 
-
 namespace AppBundle\Entity;
 
 use AppBundle\Domain\PgnDate;
 use AppBundle\Helper\MovesTransformHelper;
 use Ramsey\Uuid\Uuid;
-use Symfony\Component\EventDispatcher\Event;
 
 class Game
 {
@@ -28,7 +26,7 @@ class Game
     private $moves;
     private $originalPgn;
 
-    public function __construct(
+    private function __construct(
         string $event,
         string $site,
         PgnDate $date,
@@ -48,6 +46,20 @@ class Game
         $this->result = $result;
         $this->moves = $moves;
         $this->originalPgn = $originalPgn;
+    }
+
+    public static function create(
+        string $event,
+        string $site,
+        PgnDate $date,
+        string $round,
+        string $white,
+        string $black,
+        string $result,
+        array $moves,
+        ImportPgn $originalPgn = null)
+    {
+        return new self($event, $site, $date, $round, $white, $black, $result, $moves, $originalPgn);
     }
 
     public function getUuid(): Uuid

@@ -40,9 +40,9 @@ class ImportPgn
         return $this->imported;
     }
 
-    public function setImported(bool $imported)
+    public function markAsImported()
     {
-        $this->imported = $imported;
+        $this->imported = true;
     }
 
     public function getUser(): User

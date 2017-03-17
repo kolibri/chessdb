@@ -2,8 +2,8 @@
 
 namespace AppBundle\Entity;
 
-use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Ramsey\Uuid\Uuid;
+use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 
 class User implements AdvancedUserInterface
 {
@@ -18,21 +18,27 @@ class User implements AdvancedUserInterface
     private $isEnabled;
     private $rawPassword;
 
-    public static function register(
+    private function __construct(
         string $username,
         string $emailAddress,
         string $rawPassword,
         array $playerAliases = []
     ) {
-        $user = new self();
-        $user->setUsername($username);
-        $user->setEmailAddress($emailAddress);
-        $user->setRawPassword($rawPassword);
-        $user->setRoles(['ROLE_PLAYER']);
-        $user->setPlayerAliases(array_merge($playerAliases, [$username]));
-        $user->setIsEnabled(false);
+        $this->username = $username;
+        $this->emailAddress = $emailAddress;
+        $this->rawPassword = $rawPassword;
+        $this->roles = ['ROLE_PLAYER'];
+        $this->playerAliases = array_merge($playerAliases, [$username]);
+        $this->isEnabled = false;
+    }
 
-        return $user;
+    public static function register(
+        string $username,
+        string $emailAddress,
+        string $rawPassword,
+        array $playerAliases = []
+    ): self {
+        return new self($username, $emailAddress, $rawPassword, $playerAliases);
     }
 
     public function getUuid(): Uuid
@@ -112,9 +118,14 @@ class User implements AdvancedUserInterface
         return $this->isEnabled;
     }
 
-    public function setIsEnabled(bool $isEnabled)
+    public function enable()
     {
-        $this->isEnabled = $isEnabled;
+        $this->isEnabled = true;
+    }
+
+    public function disable()
+    {
+        $this->isEnabled = false;
     }
 
     public function getSalt()

@@ -68,7 +68,7 @@ class ImportController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $importPgn->setImported(true);
+            $importPgn->markAsImported();
             $this
                 ->importedPgnRepository()
                 ->save($importPgn, false);
