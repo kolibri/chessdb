@@ -66,7 +66,7 @@ class AdminController
         if ($form->isValid()) {
             foreach ($users as $userList) {
                 foreach ($userList as $user) {
-                    $userRepository->save($user, false);
+                    $this->userRepository->save($user, false);
                 }
             }
 
