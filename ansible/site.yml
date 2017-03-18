@@ -3,6 +3,18 @@
   tasks:
     - debug: var=hostvars
 
+- hosts: app
+  pre_tasks:
+    - name: ensure apt-transport-https
+      become: true
+      apt:
+        name: apt-transport-https
+        update_cache: true
+        state: present
+  roles:
+    - role: apps/chessdb
+      become: true
+
 - hosts: devbox
   pre_tasks:
     - name: ensure apt-transport-https

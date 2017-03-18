@@ -1,18 +1,25 @@
 ---
-language: php
-php:
-  - '7.0'
+sudo: required
 
-before_script:
-  - composer global require sensiolabs/security-checker
-  - composer global require squizlabs/php_codesniffer
-  - cp app/config/parameters.yml.dist app/config/parameters.yml
-  - make composer-install
-  - make reset-database
+addons:
+  apt:
+    packages:
+    - python-apt
+
+language: python
+python: '2.7'
+
+install:
+  - pip install ansible
+
+matrix:
+  fast_finish: true
 
 script:
-  - make SECURITY_CHECKER_CMD=~/.composer/vendor/bin/security-checker test
-  - make PHPCS_CMD=~/.composer/vendor/bin/phpcs phpcs
+  - ansible-playbook -i "localhost," -c local ansible/site.yml
+  - make dev-init
+  - make test
+  - make qa
 
 notifications:
   email:
