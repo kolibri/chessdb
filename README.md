@@ -47,7 +47,7 @@ pi ansible_ssh_host=<IP to rbpi>
 
 ```
 $ ansible-playbook \
-    --inventory inventory/hosts \
+    --inventory inventory/pi \
     --limit pi \
     --user pi \
     site.yml \
@@ -58,7 +58,7 @@ $ ansible-playbook \
 
 ## Shortcut
 
-`ansible-playbook -i inventory/hosts -l pi -u pi site.yml`
+`ansible-playbook -i inventory/pi -l pi -u pi site.yml`
 
 ## Post provision
 
