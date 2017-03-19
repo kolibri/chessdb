@@ -16,7 +16,7 @@ class ChessExtension extends \Twig_Extension
         $this->translator = $translator;
     }
 
-    public function getFunctions(): array
+    public function getFunctions()
     {
         return [
             new \Twig_SimpleFunction('pgn', [$this, 'renderPgn'], ['is_safe' => ['html']]),
@@ -50,7 +50,7 @@ class ChessExtension extends \Twig_Extension
         return array_merge($defaultOptions, $options);
     }
 
-    public function getName(): string
+    public function getName()
     {
         return 'app_chess';
     }

@@ -14,7 +14,7 @@ class FixturesCommand extends ContainerAwareCommand
         $this
             ->setName('app:fixtures')
             ->setDescription('load fixtures')
-            ->addArgument('fixture', InputArgument::REQUIRED, 'fixture path', 'dev');
+            ->addArgument('fixture', InputArgument::OPTIONAL, 'fixture path', 'dev');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
