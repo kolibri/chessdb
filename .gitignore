@@ -19,3 +19,5 @@ node_modules/
 .rules/
 reports/
 app/tests.db3
+ansible/inventory/pi
+ansible/inventory/group_vars/pi.yml

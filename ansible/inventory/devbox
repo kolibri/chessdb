@@ -1,0 +1,7 @@
+[devbox]
+devbox ansible_ssh_host=192.168.31.95
+
+[devbox:vars]
+ansible_connection=local
+ansible_ssh_pass=vagrant
+ansible_user=vagrant

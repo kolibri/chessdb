@@ -18,8 +18,6 @@
 
 - hosts: pi
   roles:
-#    - role: apps/chessdb
-#      become: true
     - role: packages/pi
       become: true
     - role: apps/chessdb

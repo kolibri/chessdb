@@ -14,7 +14,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         ansible.version           = '2.2.1'
         ansible.provisioning_path = '/srv/share/ansible'
         ansible.playbook          = 'site.yml'
-        ansible.inventory_path    = 'inventory/hosts'
+        ansible.inventory_path    = 'inventory/devbox'
         ansible.limit             = 'devbox'
     end
 end
