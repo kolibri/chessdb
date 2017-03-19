@@ -13,15 +13,7 @@
 <body>
 <header>
     <nav class="language-select">
-        {% set route = app.request.attributes.get('_route') %}
-        {% set route_params = app.request.attributes.get('_route_params') %}
-        {% set params = route_params|merge(app.request.query.all) %}
-
-        {% for locale in locales %}
-                <a href="{{ path(route, params|merge({ _locale: locale })) }}">
-                    {{ locale }}
-                </a>
-        {% endfor %}
+        {{ language_selector(app.request) }}
     </nav>
     <nav class="main">
         {% if is_granted('IS_AUTHENTICATED_FULLY') %}

@@ -189,3 +189,9 @@ services:
     class: AppBundle\Entity\Repository\DropboxPgnRepository
     factory: ['@doctrine', getRepository]
     arguments: ['AppBundle:DropboxPgn']
+
+  app.twig.language_extension:
+    class: AppBundle\Twig\LanguageExtension
+    arguments: ['@router', '%locales%']
+    tags:
+      - { name: twig.extension }
