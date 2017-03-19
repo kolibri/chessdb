@@ -56,7 +56,17 @@ $ ansible-playbook \
     --extra-var="pi_authorized_key_file: /path/to/home/.ssh/id_rsa.pub"
 ```
 
-## Shortcut:
+## Shortcut
 
 `ansible-playbook -i inventory/hosts -l pi -u pi site.yml`
 
+## Post provision
+
+```
+ssh pi@<IP to rbpi>
+cd /var/www/chessdb/
+make build
+./bin/console doctrine:database:create
+./bin/console doctrine:schema:create
+./bin/console app:fixtures prod_init
+```
