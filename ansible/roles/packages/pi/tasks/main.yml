@@ -1,0 +1,76 @@
+---
+- name: update apt
+  apt: update_cache=yes
+  when: ansible_pkg_mgr == "apt"
+
+
+- name: add authorized key of controll machine 
+  authorized_key:
+    user: pi
+    key: "{{ lookup('file', pi_authorized_key_file) }}"
+  when: ansible_connection != "local" and 
+        pi_authorized_key_file|default(false)
+
+- name: setup pi users
+  user:
+    name: pi
+    generate_ssh_key: yes
+    password: ''
+  register: pi_user_info
+
+- name: disable root login
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    line: PermitRootLogin no
+    regexp: "^PermitRootLogin.*$"
+  notify:
+    - restart ssh
+
+- name: ensure ssh is running (and enabled)
+  service:
+    name: ssh
+    enabled: yes
+  notify:
+    - restart ssh
+
+- name: install packages
+  package:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - git
+
+- name: place publickey at github
+  github_key:
+    name: "SSH Key for {{ ansible_nodename }} (added via ansible)"
+    pubkey: "{{ pi_user_info.ssh_public_key }}"
+    token: "{{ pi_github_access_token }}"
+  when: pi_github_access_token|default(false)
+
+- name: ensure project dir exists
+  file:
+    dest:  "{{ pi_project_path }}"
+    state: directory
+    owner: pi
+    group: pi
+
+- name: ensure project dir acls
+  acl:
+    path: "{{ pi_project_path }}"
+    entity: "{{ item[0] }}"
+    etype: user
+    permissions: "rwx"
+    state: present
+    recursive: true
+    default: "{{ item[1] }}"
+  with_nested:
+    - ["pi", "www-data"]
+    - [false, true]
+
+- name: ensure project repository
+  become: false
+  git:
+    repo: "{{ pi_repo_url }}"
+    dest: "{{ pi_project_path }}"
+    update: true
+    accept_hostkey: yes

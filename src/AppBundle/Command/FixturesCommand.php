@@ -3,6 +3,7 @@
 namespace AppBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -12,15 +13,20 @@ class FixturesCommand extends ContainerAwareCommand
     {
         $this
             ->setName('app:fixtures')
-            ->setDescription('load fixtures');
+            ->setDescription('load fixtures')
+            ->addArgument('fixture', InputArgument::REQUIRED, 'fixture path', 'dev');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $fixturePath = $this
-                ->getContainer()
-                ->getParameter('kernel.root_dir').'/Resources/fixtures/dev.yml';
-
-        $this->getContainer()->get('app.fixtures.loader')->loadFixtures($fixturePath);
+        $this->getContainer()->get('app.fixtures.loader')->loadFixtures(
+            sprintf(
+                '%s/Resources/fixtures/%s.yml',
+                $this
+                    ->getContainer()
+                    ->getParameter('kernel.root_dir'),
+                $input->getArgument('fixture')
+            )
+        );
     }
 }

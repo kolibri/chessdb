@@ -8,7 +8,8 @@
   },
   "dependencies": {
     "chessboard": "*",
-    "milligram": "^1.1.0"
+    "milligram": "^1.1.0",
+    "chess.js": "^0.10.2"
   },
   "devDependencies": {
     "gulp": "^3.9.1",
