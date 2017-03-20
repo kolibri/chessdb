@@ -1,9 +1,10 @@
 parameters:
     database_host:     127.0.0.1
     database_port:     ~
-    database_name:     chessdb
-    database_user:     travis
+    database_name:     symfony
+    database_user:     root
     database_password: ~
+
     mailer_transport:  smtp
     mailer_host:       127.0.0.1
     mailer_user:       ~
@@ -16,3 +17,5 @@ parameters:
     dropbox_api_key: <dropbox_api_key>
     dropbox_api_secret: <dropbox_api_secret>
     dropbox_app_name: chessdb
+
+    admin_mail: chessdb@chessdb.dev
