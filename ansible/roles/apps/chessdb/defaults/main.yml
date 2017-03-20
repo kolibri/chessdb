@@ -1,5 +1,6 @@
 ---
 chessdb_hostname: "{{ ansible_hostname }}"
-chessdb_doc_root: /var/www/chessdb/web
+chessdb_project_path: /var/www/chessdb
+chessdb_doc_root: "{{ chessdb_project_path }}/web"
 chessdb_front_controller: app.php
 chessdb_var_dir: /dev/shm/var

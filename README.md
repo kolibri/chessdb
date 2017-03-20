@@ -25,3 +25,48 @@ make dev-init
 ```
 
 [Open the project in your browser](http://192.168.31.95/)
+
+
+## Install on raspbian
+
+# Prepare SD card
+
+Download image from (https://www.raspberrypi.org/downloads/raspbian/) and run `./prepare_raspbian.sh`. Follow instructions.
+
+# Provision
+
+## Place inventory file
+
+```
+# ansible/inventory/pi
+[pi]
+pi ansible_ssh_host=<IP to rbpi>
+```
+
+## Initial run
+
+```
+$ ansible-playbook \
+    --inventory inventory/pi \
+    --limit pi \
+    --user pi \
+    site.yml \
+    --ask-pass \ # this and follogin only on first run! Then never again.
+    --extra-var="pi_github_access_token: placeTokenHere"
+    --extra-var="pi_authorized_key_file: /path/to/home/.ssh/id_rsa.pub"
+```
+
+## Shortcut
+
+`ansible-playbook -i inventory/pi -l pi -u pi site.yml`
+
+## Post provision
+
+```
+ssh pi@<IP to rbpi>
+cd /var/www/chessdb/
+make build
+./bin/console doctrine:database:create
+./bin/console doctrine:schema:create
+./bin/console app:fixtures prod_init
+```

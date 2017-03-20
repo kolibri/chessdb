@@ -47,10 +47,10 @@ class LeaderboardController
                 if ($a[$sortBy] == $b[$sortBy]) {
                     return 0;
                 }
-
-                return $a[$sortBy] < $b[$sortBy] ?
-                    ($sortAsc ? -1 : 1) :
-                    ($sortAsc ? 1 : -1);
+                return $a[$sortBy] < $b[$sortBy] === $sortAsc ? -1 : 1;
+                //return $a[$sortBy] < $b[$sortBy] ?
+                //    ($sortAsc ? -1 : 1) :
+                //    ($sortAsc ? 1 : -1);
             }
         );
 

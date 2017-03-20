@@ -10,10 +10,12 @@ PHPCS_CMD=phpcs
 PHPCBF_CMD=phpcbf
 PHPMD_CMD=phpmd
 PHPCPD_CMD=phpcpd
+APP_FIXTURES=dev
 
 # build targets
 build: composer-install npm-install gulp-build
 dev-init: build reset-database
+prod-init: build reset-database
 composer-install:
 	$(COMPOSER_CMD) install
 npm-install:
@@ -24,7 +26,7 @@ reset-database:
 	-$(SYMFONY_CMD) doctrine:database:drop --force
 	$(SYMFONY_CMD) doctrine:database:create
 	$(SYMFONY_CMD) doctrine:schema:create
-	$(SYMFONY_CMD) app:fixtures
+	$(SYMFONY_CMD) app:fixtures $(APP_FIXTURES)
 tarball:
 	tar -czf ../chessdb.tar.gz . --exclude ./reports --exclude ./node_modules --exclude ./var
 

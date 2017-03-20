@@ -46,6 +46,35 @@ class UserController
         $this->twig = $twig;
     }
 
+    public function register(Request $request): Response
+    {
+        $form = $this->formFactory->create(UserProfileType::class);
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            /** @var User $user */
+            $user = $form->getData();
+            $this
+                ->registrationHelper
+                ->encodePasswordAndSave($user);
+
+            return new RedirectResponse(
+                $this
+                    ->router
+                    ->generate('app_user_login')
+            );
+        }
+
+        return new Response(
+            $this
+                ->twig
+                ->render(
+                    'user/register.html.twig',
+                    ['form' => $form->createView()]
+                )
+        );
+    }
+
     public function login(): Response
     {
         return new Response(
@@ -108,35 +137,6 @@ class UserController
                             ->gameRepository
                             ->findByPlayerGroupByResult($user),
                     ]
-                )
-        );
-    }
-
-    public function register(Request $request): Response
-    {
-        $form = $this->formFactory->create(UserProfileType::class);
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            /** @var User $user */
-            $user = $form->getData();
-            $this
-                ->registrationHelper
-                ->encodePasswordAndSave($user);
-
-            return new RedirectResponse(
-                $this
-                    ->router
-                    ->generate('app_user_login')
-            );
-        }
-
-        return new Response(
-            $this
-                ->twig
-                ->render(
-                    'user/register.html.twig',
-                    ['form' => $form->createView()]
                 )
         );
     }

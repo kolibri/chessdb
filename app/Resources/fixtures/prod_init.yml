@@ -1,0 +1,6 @@
+AppBundle\Entity\User:
+  user_chessdb:
+    __construct: { register: ['chessdb', 'chessdb@chessdb.foo', 'chessdb']}
+    playerAliases: ['chessdb', 'admin']
+    roles: ['ROLE_ADMIN', 'ROLE_PLAYER']
+    isEnabled: true
