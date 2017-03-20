@@ -2,7 +2,6 @@
 
 namespace AppBundle\Twig;
 
-
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
