@@ -4,21 +4,29 @@
     - debug: var=hostvars
       when: debug|default(false)
 
+
 - hosts: devbox
   pre_tasks:
+    - name: update apt
+      become: true
+      apt: update_cache=yes
+      when: ansible_pkg_mgr == "apt"
+
     - name: ensure apt-transport-https
       become: true
       apt:
         name: apt-transport-https
         update_cache: true
         state: present
+      when: ansible_pkg_mgr == "apt"
+
   roles:
-    - role: apps/chessdb
+    - role: packages/system
       become: true
 
-- hosts: pi
-  roles:
-    - role: packages/pi
-      become: true
-    - role: apps/chessdb
-      become: true
+#- hosts: pi
+#  roles:
+#    - role: packages/pi
+#      become: true
+#    - role: apps/chessdb
+#      become: true

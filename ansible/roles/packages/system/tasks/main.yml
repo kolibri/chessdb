@@ -1,0 +1,75 @@
+---
+- name: update apt
+  apt: update_cache=yes
+  when: ansible_pkg_mgr == "apt"
+
+- name: setup system user
+  user:
+    name: "{{ system_user_name }}"
+    generate_ssh_key: yes
+    password: ''
+  register: system_user_info
+
+- name: add authorized key of controll machine
+  authorized_key:
+    user: "{{ system_user_name }}"
+    key: "{{ lookup('file', system_authorized_key_file) }}"
+  when: ansible_connection != "local" and
+        system_authorized_key_file|default(false)
+
+- name: disable root login
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    line: PermitRootLogin no
+    regexp: "^PermitRootLogin.*$"
+  notify:
+    - restart ssh
+
+- name: ensure root privileges for system user
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    regexp: "^{{ system_user_name }} ALL"
+    line: "{{ system_user_name }} ALL=(ALL) NOPASSWD:ALL"
+    validate: "visudo -cf %s"
+
+- name: ensure ssh is running (and enabled)
+  service:
+    name: ssh
+    enabled: yes
+  notify:
+    - restart ssh
+
+- name: install docker key
+  apt_key:
+    url: "https://download.docker.com/linux/debian/gpg"
+
+- name: install docker repository
+  apt_repository:
+    repo: "deb https://download.docker.com/linux/debian jessie stable"
+
+- name: install packages
+  package:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - git
+    - apt-transport-https
+    - ca-certificates
+    - curl
+    - gnupg2
+    - software-properties-common
+    - docker-ce
+
+- name: install docker py
+  pip:
+    name: docker-py
+
+
+#- name: place publickey at github
+#  github_key:
+#    name: "SSH Key for {{ ansible_nodename }} (added via ansible)"
+#    pubkey: "{{ system_user_info.ssh_public_key }}"
+#    token: "{{ system_github_access_token }}"
+#  when: system_github_access_token|default(false)
+#

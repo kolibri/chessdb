@@ -1,4 +1,0 @@
-pi_github_access_token: ~
-pi_authorized_key_file: ~
-pi_repo_url:  'git@github.com:kolibri/chessdb.git'
-pi_project_path: '/var/www/chessdb'

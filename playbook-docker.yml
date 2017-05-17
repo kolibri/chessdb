@@ -1,0 +1,58 @@
+---
+- hosts: localhost
+  tasks:
+    - name: create php image
+      become: true
+      docker_image:
+        name: chessdb/php
+        state: build
+        path: ./docker/php
+
+
+    - name: start mysql container
+      become: true
+      docker_container:
+        name: mysql
+        image: mysql
+        restart: true
+        volumes:
+          - ./mysql-data:/var/lib/mysql
+        ports:
+          - 3306
+        env:
+          MYSQL_ROOT_PASSWORD: root
+      register: docker_mysql_info
+
+    - debug: var=docker_mysql_info
+
+
+
+    - name: start php container
+      become: true
+      docker_container:
+        name: php
+        image: chessdb/php
+        restart: true
+        volumes:
+          - "./:/code"
+        links:
+          - mysql
+      register: docker_php_info
+    - debug: var=docker_php_info
+
+
+    - name: start nginx container
+      become: true
+      docker_container:
+        name: nginx
+        image: nginx:1.13
+        restart: true
+        ports: '8080:80'
+        volumes:
+          - './docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf'
+          - './:/code'
+        links:
+          - php
+      register: docker_nginx_info
+
+    - debug: var=docker_nginx_info

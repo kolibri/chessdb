@@ -1,3 +1,8 @@
 ---
-chessdb_doc_root: /srv/share/web
-chessdb_front_controller: app_dev.php
+#chessdb_doc_root: /srv/share/web
+#chessdb_front_controller: app_dev.php
+
+
+
+system_github_access_token: 35f8e4320fe4b4a6feb7b6e75b12f3a73e6c9fde
+system_authorized_key_file: /Users/lukassadzik/.ssh/id_rsa.pub
