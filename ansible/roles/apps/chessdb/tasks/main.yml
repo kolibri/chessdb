@@ -1,4 +1,12 @@
 ---
+- name: install needed packages
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - acl
+
+
 - name: ensure var dir exists
   file:
     path: "{{ item }}"

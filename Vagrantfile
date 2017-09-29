@@ -3,7 +3,7 @@
 
 VAGRANTFILE_API_VERSION = '2'
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-    config.vm.box = 'debian/jessie64'
+    config.vm.box = 'debian/stretch64'
     config.vm.network 'private_network', ip: '192.168.31.95'
     config.vm.host_name = 'chess-db.dev'
     

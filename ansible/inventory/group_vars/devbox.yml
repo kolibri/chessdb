@@ -1,3 +1,4 @@
 ---
 chessdb_doc_root: /srv/share/web
 chessdb_front_controller: app_dev.php
+php_xdebug_install: true

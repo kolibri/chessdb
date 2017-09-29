@@ -19,7 +19,7 @@
     line: '{{ item.key }}="{{ item.value }}"'
     regexp: '^{{ item.key }}.*$'
   with_dict: '{{ php_xdebug_php_ini }}'
-  notify: restart php-fpm
+  notify: restart fpm
   when: php_xdebug_install
 
 - name: ensure php fpm enabled

@@ -1,16 +1,4 @@
 ---
-#- name: ensure dotdeb key exists
-#  apt_key:
-#    url: "http://www.dotdeb.org/dotdeb.gpg"
-#    state: present
-
-- name: ensure ondrej ppa exists
-  apt_repository:
-    repo: deb http://mirrordirector.raspbian.org/raspbian/ stretch main contrib non-free rpi #"ppa:ondrej/php"
-
-#deb http://mirrordirector.raspbian.org/raspbian/ stretch main contrib non-free rpi
-
-
 - name: ensure php packages installed
   apt:
     name: "{{ item }}"

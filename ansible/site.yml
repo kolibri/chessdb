@@ -15,10 +15,3 @@
   roles:
     - role: apps/chessdb
       become: true
-
-- hosts: pi
-  roles:
-    - role: packages/pi
-      become: true
-    - role: apps/chessdb
-      become: true
