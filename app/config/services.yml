@@ -1,6 +1,6 @@
 services:
   app.pgn_parser.ryanhs_chess_adapter:
-    class: AppBundle\PgnParserInterface\RyanhsChessPgnParserInterface
+    class: AppBundle\PgnParser\RyanhsChessPgnParser
     arguments: ['@chessphp.chess']
 
   app.import.pgn_string_importer:
@@ -69,31 +69,31 @@ services:
   chessphp.chess:
     class: Ryanhs\Chess\Chess
 
-  dropbox.app.info:
-    class: Dropbox\AppInfo
-    arguments:
-      - '%dropbox_api_key%'
-      - '%dropbox_api_secret%'
+#  dropbox.app.info:
+#    class: Dropbox\AppInfo
+#    arguments:
+#      - '%dropbox_api_key%'
+#      - '%dropbox_api_secret%'
+#
+#  app.dropbox.auth_token_store:
+#    class: AppBundle\Dropbox\AuthTokenStore
+#    arguments:
+#      - '@session'
 
-  app.dropbox.auth_token_store:
-    class: AppBundle\Dropbox\AuthTokenStore
-    arguments:
-      - '@session'
+#  app.dropbox.auth_helper:
+#    class: AppBundle\Dropbox\AuthHelper
+#    arguments:
+#      - '@router'
+#      - '@dropbox.app.info'
+#      - '@app.dropbox.auth_token_store'
+#      - '%dropbox_app_name%'
+#      - 'app_dropbox_authfinish'
+#      - '@app.dropbox.access_token_store'
 
-  app.dropbox.auth_helper:
-    class: AppBundle\Dropbox\AuthHelper
-    arguments:
-      - '@router'
-      - '@dropbox.app.info'
-      - '@app.dropbox.auth_token_store'
-      - '%dropbox_app_name%'
-      - 'app_dropbox_authfinish'
-      - '@app.dropbox.access_token_store'
-
-  app.dropbox.access_token_store:
-    class: AppBundle\Dropbox\AccessTokenStore
-    arguments:
-      - '@session'
+#  app.dropbox.access_token_store:
+#    class: AppBundle\Dropbox\AccessTokenStore
+#    arguments:
+#      - '@session'
 
 #  app.dropbox.client_creator:
 #    class: AppBundle\Dropbox\ClientCreator
@@ -137,16 +137,16 @@ services:
       - '@security.token_storage'
       - '@twig'
 
-  app.controller.dropbox:
-    class: AppBundle\Controller\DropboxController
-    arguments:
-      - '@app.repository.dropbox_pgn'
-      - '@app.dropbox.access_token_store'
-      - '@app.dropbox.auth_helper'
-      - '@form.factory'
-      - '@router'
-      - '@security.token_storage'
-      - '@twig'
+#  app.controller.dropbox:
+#    class: AppBundle\Controller\DropboxController
+#    arguments:
+#      - '@app.repository.dropbox_pgn'
+#      - '@app.dropbox.access_token_store'
+#      - '@app.dropbox.auth_helper'
+#      - '@form.factory'
+#      - '@router'
+#      - '@security.token_storage'
+#      - '@twig'
 
   app.controller.admin:
     class: AppBundle\Controller\AdminController
@@ -185,10 +185,10 @@ services:
     factory: ['@doctrine', getRepository]
     arguments: ['AppBundle:ImportPgn']
 
-  app.repository.dropbox_pgn:
-    class: AppBundle\Entity\Repository\DropboxPgnRepository
-    factory: ['@doctrine', getRepository]
-    arguments: ['AppBundle:DropboxPgn']
+#  app.repository.dropbox_pgn:
+#    class: AppBundle\Entity\Repository\DropboxPgnRepository
+#    factory: ['@doctrine', getRepository]
+#    arguments: ['AppBundle:DropboxPgn']
 
   app.twig.language_extension:
     class: AppBundle\Twig\LanguageExtension

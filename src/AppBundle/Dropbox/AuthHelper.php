@@ -33,7 +33,7 @@ class AuthHelper
         $this->accessTokenStore = $accessTokenStore;
     }
 
-    public function getStartUrl(): array
+    public function getStartUrl(): string
     {
         return $this->getWebAuth()->start();
     }

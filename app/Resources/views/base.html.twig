@@ -26,7 +26,7 @@
 
         {% if is_granted('ROLE_PLAYER') %}
             <a href="{{ path('app_import_pgn') }}">{{ 'nav.import_pgn'|trans }}</a>
-            <a href="{{ path('app_dropbox_list') }}">{{ 'nav.import_dropbox'|trans }}</a>
+            {#<a href="{{ path('app_dropbox_list') }}">{{ 'nav.import_dropbox'|trans }}</a>#}
             <a href="{{ path('app_import_list') }}">{{ 'nav.import_list'|trans }}</a>
         {% endif %}
 
