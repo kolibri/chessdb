@@ -31,7 +31,7 @@ tarball:
 	tar -czf ../chessdb.tar.gz . --exclude ./reports --exclude ./node_modules --exclude ./var
 
 # test targets
-test: lint phpunit security-checker
+test: lint phpunit #security-checker
 lint: lint-php lint-twig lint-yaml
 lint-yaml:
 	$(SYMFONY_CMD) lint:yaml app
