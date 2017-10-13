@@ -1,0 +1,23 @@
+FROM resin/rpi-raspbian:jessie
+
+RUN set -x; \
+	gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-key CCD91D6111A06851 \
+	&& gpg -a --export CCD91D6111A06851 | apt-key add - \
+	&& echo "deb http://repozytorium.mati75.eu/raspbian jessie-backports main contrib non-free" > /etc/apt/sources.list.d/mati75.list
+
+RUN set -x; \
+	apt-get update && apt-get upgrade; \
+	apt-get install nginx-full; \
+	rm -rf /var/lib/apt/lists/*
+
+# Using www-data user
+# RUN sed -i 's/user  nginx/user  www-data/g' /etc/nginx/nginx.conf
+
+# Below extracted from nginx Dockerfile
+# forward request and error logs to docker log collector
+#RUN ln -sf /dev/stdout /var/log/nginx/access.log \
+#	&& ln -sf /dev/stderr /var/log/nginx/error.log
+
+EXPOSE 80 443
+
+CMD ["nginx", "-g", "daemon off;"]

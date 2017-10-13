@@ -1,0 +1,4 @@
+---
+nginx_docker_build_dir: /tmp/docker_build_chessdb/nginx
+
+nginx_image_name: chessdb/nginx

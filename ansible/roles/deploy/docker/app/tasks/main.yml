@@ -1,0 +1,43 @@
+---
+
+- name: ensure environemt directories
+  file:
+    dest: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ app_environment_path }}"
+    - "{{ app_app_path }}"
+    - "{{ app_conf_path }}"
+
+
+- name: copy files for configuration
+  copy:
+    src: "{{ item.key }}"
+    dest: "{{ item.value }}"
+  with_dict:
+    symfony.vhost: "{{ app_conf_path }}/nginx/vhost/"
+    # this is temporary, until we have complete application ;)
+    app.php: "{{ app_app_path }}/web/"
+
+
+
+
+- name: start fpm container
+  docker_container:
+    name: "{{ app_fpm_container_name }}"
+    image: "{{ fpm_image_name }}"
+    volumes:
+      - "{{ app_app_path }}:/var/www/symfony/"
+
+- name: start nginx container
+  docker_container:
+    name: "{{ app_nginx_container_name }}"
+    image: "{{ nginx_image_name }}"
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - "{{ app_conf_path }}/nginx/vhost/symfony.vhost:/etc/nginx/sites-enabled/default"
+      - "{{ app_app_path }}:/var/www/symfony/"
+    links:
+      - "{{ app_fpm_container_name }}:fpm"

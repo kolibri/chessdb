@@ -1,0 +1,13 @@
+---
+- hosts: all
+  tasks:
+    - debug: var=hostvars
+      when: debug|default(false)
+
+  roles:
+    - role: deploy/docker/nginx
+      become: true
+    - role: deploy/docker/fpm
+      become: true
+    - role: deploy/docker/app
+      become: true

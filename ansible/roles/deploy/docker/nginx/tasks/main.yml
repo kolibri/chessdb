@@ -1,0 +1,4 @@
+---
+- include_vars: "architecture_{{ ansible_architecture }}.yml"
+
+- import_tasks: build_image.yml

@@ -1,0 +1,4 @@
+---
+dependencies:
+  - deploy/docker/fpm
+  - deploy/docker/nginx

@@ -1,0 +1,22 @@
+---
+- name: remove and recreate old build dir
+  file:
+    path: "{{ fpm_docker_build_dir }}/"
+    state: "{{ item }}"
+  with_items:
+    - absent
+    - directory
+
+- name: copy files for image creation
+  copy:
+    src: "{{ item.key }}"
+    dest: "{{ item.value }}"
+  with_dict:
+    "{{ fpm_dockerfile }}": "{{ fpm_docker_build_dir }}/Dockerfile"
+    fpm.conf: "{{ fpm_docker_build_dir }}/fpm.conf"
+
+- name: build docker image
+  docker_image:
+    force: true
+    name: "{{ fpm_image_name }}"
+    path: "{{ fpm_docker_build_dir }}"

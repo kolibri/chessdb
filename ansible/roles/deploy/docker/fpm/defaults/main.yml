@@ -1,0 +1,4 @@
+---
+fpm_docker_build_dir: /tmp/docker_build_chessdb/fpm
+
+fpm_image_name: chessdb/fpm

@@ -1,0 +1,6 @@
+---
+app_nginx_container_name: chessdb-nginx
+app_fpm_container_name: chessdb-fpm
+app_environment_path: /opt/chessdb
+app_app_path: "{{ app_environment_path }}/app"
+app_conf_path: "{{ app_environment_path }}/conf"

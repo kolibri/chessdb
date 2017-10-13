@@ -1,0 +1,22 @@
+---
+- name: remove and recreate old build dir
+  file:
+    path: "{{ nginx_docker_build_dir }}/"
+    state: "{{ item }}"
+  with_items:
+    - absent
+    - directory
+
+- name: copy files for image creation
+  copy:
+    src: "{{ item.key }}"
+    dest: "{{ item.value }}"
+  with_dict:
+    "{{ nginx_dockerfile }}": "{{ nginx_docker_build_dir }}/Dockerfile"
+
+- name: build docker image
+  docker_image:
+#    force: true
+    name: "{{ nginx_image_name }}"
+    path: "{{ nginx_docker_build_dir }}"
+
